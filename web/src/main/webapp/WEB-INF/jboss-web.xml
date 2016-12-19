@@ -1,0 +1,3 @@
+<jboss-web>
+    <context-root>veilarbveilederapi</context-root>
+</jboss-web>

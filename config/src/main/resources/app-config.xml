@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://appconfig.aura.nav.no" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://appconfig.aura.nav.no http://maven.adeo.no/xsd/appconfig.xsd">
+
+    <name>veilarbveilederapi</name>
+
+    <selftest>
+        <path>veilarbveilederapi/internal/selftest.json</path>
+        <humanReadablePath>veilarbveilederapi/internal/selftest</humanReadablePath>
+    </selftest>
+
+    <artifacts>
+        <ear groupId="no.nav.fo" artifactId="veilarbveilederapi-jee"/>
+    </artifacts>
+
+    <resources>
+        <ldap alias="ldap" />
+        <!--<datasource alias="" jndi="java:/jboss/datasources/veilarbportefolje">
+            <pool maxPoolSize="300" minPoolSize="1"/>
+        </datasource>-->
+    </resources>
+
+    <loadBalancer isAlive="/veilarbveilederapi/internal/isAlive" />
+    <security>
+        <logins/>
+    </security>
+</application>
