@@ -1,6 +1,17 @@
 package no.nav.fo.config;
 
+import no.nav.sbl.dialogarena.common.integrasjon.utils.SQL;
+import no.nav.sbl.dialogarena.types.Pingable;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jndi.JndiTemplate;
+import no.nav.sbl.dialogarena.common.integrasjon.utils.RowMapper;
+
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.sql.SQLException;
 
 @Configuration
 public class DatabaseConfig {

@@ -17,7 +17,7 @@ import java.sql.SQLException;
 public class MockDatabaseConfig {
     @Bean
     public DataSource hsqldbDataSource() throws IOException {
-        SingleConnectionDataSource dataSource = new SingleConnectionDataSource("jdbc:hsqldb:mem:veilarbveilederapi;sql.syntax_ora=true", "sa", "", true);
+        SingleConnectionDataSource dataSource = new SingleConnectionDataSource("jdbc:hsqldb:mem:veilarbportefolje;sql.syntax_ora=true", "sa", "", true);
 //        createTables(dataSource);
         return dataSource;
     }
@@ -31,12 +31,12 @@ public class MockDatabaseConfig {
     public Pingable dbPinger(final DataSource ds) {
         return new Pingable() {
             @Override
-            public Ping ping() {
+            public Pingable.Ping ping() {
                 try {
                     SQL.query(ds, new RowMapper.IntMapper(), "select count(1) from dual");
                     return Ping.lyktes("DATABASE");
                 } catch (Exception e) {
-                    return Ping.feilet("DATABASE", e);
+                    return Pingable.Ping.feilet("DATABASE", e);
                 }
             }
         };

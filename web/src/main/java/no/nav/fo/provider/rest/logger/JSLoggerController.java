@@ -1,4 +1,3 @@
-
 package no.nav.fo.provider.rest.logger;
 
 import org.slf4j.Logger;
