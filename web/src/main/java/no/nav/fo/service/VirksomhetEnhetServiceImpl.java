@@ -29,15 +29,15 @@ public class VirksomhetEnhetServiceImpl {
         } catch (HentEnhetListeUgyldigInput e) {
             String feil = String.format("Kunne ikke hente ansattopplysnigner for %s", ident);
             logger.error(feil, e);
-            throw new Exception(feil ,e);
+            throw e;
         } catch (HentEnhetListeRessursIkkeFunnet e) {
             String feil = String.format("Kunne ikke hente ansattopplysnigner for %s", ident);
             logger.error(feil,e);
-            throw new Exception(e);
+            throw e;
         } catch (java.lang.Exception e) {
             String feil = String.format("Kunne ikke hente ansattopplysnigner for %s: Ukjent Feil", ident);
             logger.error(feil, e);
-            throw new Exception(e);
+            throw e;
         }
     }
 }
