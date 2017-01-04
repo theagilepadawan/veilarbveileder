@@ -14,10 +14,12 @@
     </artifacts>
 
     <resources>
+        <credential alias="***REMOVED***api" mapToProperty="systembruker"/>
+        <webservice mapToProperty="norg.virksomhet_enhet.url" alias="virksomhet:Enhet_v1"/>
     </resources>
 
     <loadBalancer isAlive="/veilarbveilederapi/internal/isAlive" />
-    <security>
+    <security serviceUserResourceAlias="***REMOVED***api">
         <logins/>
     </security>
 </application>

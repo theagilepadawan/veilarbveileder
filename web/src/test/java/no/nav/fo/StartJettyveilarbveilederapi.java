@@ -14,15 +14,15 @@ import static no.nav.modig.lang.collections.RunnableUtils.first;
 import static no.nav.modig.lang.collections.RunnableUtils.waitFor;
 import static no.nav.modig.testcertificates.TestCertificates.setupKeyAndTrustStore;
 
-public class StartJettyVeilArbPortefolje {
+public class StartJettyveilarbveilederapi {
 
     public static void main(String[] args) {
-        SystemProperties.setFrom("jetty-VeilArbPortefolje.properties");
+        SystemProperties.setFrom("jetty-veilarbveilederapi.properties");
         setupKeyAndTrustStore();
 
         //Må ha https for csrf-token
         final Jetty jetty = Jetty.usingWar(WEBAPP_SOURCE)
-                .at("portefolje")
+                .at("veilarbveilederapi")
                 .sslPort(9590)
                 .port(9591)
                 .overrideWebXml(new File(TEST_RESOURCES,"override-web.xml" ))
