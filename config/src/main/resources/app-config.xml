@@ -2,24 +2,24 @@
 <application xmlns="http://appconfig.aura.nav.no" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://appconfig.aura.nav.no http://maven.adeo.no/xsd/appconfig.xsd">
 
-    <name>veilarbveilederapi</name>
+    <name>veilarbveileder</name>
 
     <selftest>
-        <path>veilarbveilederapi/internal/selftest.json</path>
-        <humanReadablePath>veilarbveilederapi/internal/selftest</humanReadablePath>
+        <path>veilarbveileder/internal/selftest.json</path>
+        <humanReadablePath>veilarbveileder/internal/selftest</humanReadablePath>
     </selftest>
 
     <artifacts>
-        <ear groupId="no.nav.fo" artifactId="veilarbveilederapi-jee"/>
+        <ear groupId="no.nav.fo" artifactId="veilarbveileder-jee"/>
     </artifacts>
 
     <resources>
         <webservice mapToProperty="norg.virksomhet_enhet" alias="virksomhet:Enhet_v1"/>
-        <applicationCertificate alias="***REMOVED***api"/>
+        <applicationCertificate alias="***REMOVED***"/>
     </resources>
 
-    <loadBalancer isAlive="/veilarbveilederapi/internal/isAlive" />
-    <security serviceUserResourceAlias="***REMOVED***api">
+    <loadBalancer isAlive="/veilarbveileder/internal/isAlive" />
+    <security serviceUserResourceAlias="***REMOVED***">
         <logins/>
     </security>
 </application>

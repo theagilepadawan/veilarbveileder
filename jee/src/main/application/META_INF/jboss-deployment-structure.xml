@@ -9,7 +9,7 @@
             <module name="org.slf4j.impl" />
         </exclusions>
     </deployment>
-    <sub-deployment name="veilarbveilederapi-web.war">
+    <sub-deployment name="veilarbveileder-web.war">
         <exclusions>
             <module name="org.slf4j" />
             <module name="org.slf4j.impl" />

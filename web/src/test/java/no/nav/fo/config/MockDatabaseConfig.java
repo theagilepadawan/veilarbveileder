@@ -17,7 +17,7 @@ import java.sql.SQLException;
 public class MockDatabaseConfig {
     @Bean
     public DataSource hsqldbDataSource() throws IOException {
-        SingleConnectionDataSource dataSource = new SingleConnectionDataSource("jdbc:hsqldb:mem:veilarbveilederapi;sql.syntax_ora=true", "sa", "", true);
+        SingleConnectionDataSource dataSource = new SingleConnectionDataSource("jdbc:hsqldb:mem:veilarbveileder;sql.syntax_ora=true", "sa", "", true);
 //        createTables(dataSource);
         return dataSource;
     }

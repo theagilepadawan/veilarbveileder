@@ -1,3 +1,3 @@
 <jboss-web>
-    <context-root>veilarbveilederapi</context-root>
+    <context-root>veilarbveileder</context-root>
 </jboss-web>
