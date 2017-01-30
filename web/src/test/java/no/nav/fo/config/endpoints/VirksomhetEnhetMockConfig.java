@@ -1,7 +1,7 @@
 package no.nav.fo.config.endpoints;
 
 import no.nav.fo.service.VirksomhetEnhetServiceImpl;
-import no.nav.virksomhet.tjenester.enhet.v1.binding.Enhet;
+import no.nav.virksomhet.tjenester.enhet.v1.Enhet;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

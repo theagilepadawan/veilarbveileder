@@ -1,10 +1,11 @@
 package no.nav.fo.service;
 
-import no.nav.virksomhet.tjenester.enhet.meldinger.v1.HentEnhetListeRequest;
-import no.nav.virksomhet.tjenester.enhet.meldinger.v1.HentEnhetListeResponse;
-import no.nav.virksomhet.tjenester.enhet.v1.binding.Enhet;
-import no.nav.virksomhet.tjenester.enhet.v1.binding.HentEnhetListeRessursIkkeFunnet;
-import no.nav.virksomhet.tjenester.enhet.v1.binding.HentEnhetListeUgyldigInput;
+
+import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeRequest;
+import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
+import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeRequest;
+import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeResponse;
+import no.nav.virksomhet.tjenester.enhet.v1.*;
 import org.slf4j.Logger;
 import java.lang.Exception;
 
@@ -19,12 +20,12 @@ public class VirksomhetEnhetServiceImpl {
     @Inject
     private Enhet virksomhetEnhet;
 
-    public HentEnhetListeResponse hentEnhetListe(String ident) throws Exception{
+    public WSHentEnhetListeResponse hentEnhetListe(String ident) throws Exception{
 
         try {
-            HentEnhetListeRequest request = new HentEnhetListeRequest();
+            WSHentEnhetListeRequest request = new WSHentEnhetListeRequest();
             request.setRessursId(ident);
-            HentEnhetListeResponse response = virksomhetEnhet.hentEnhetListe(request);
+            WSHentEnhetListeResponse response = virksomhetEnhet.hentEnhetListe(request);
             return response;
         } catch (HentEnhetListeUgyldigInput e) {
             String feil = String.format("Kunne ikke hente ansattopplysnigner for %s", ident);
@@ -36,6 +37,28 @@ public class VirksomhetEnhetServiceImpl {
             throw e;
         } catch (java.lang.Exception e) {
             String feil = String.format("Kunne ikke hente ansattopplysnigner for %s: Ukjent Feil", ident);
+            logger.error(feil, e);
+            throw e;
+        }
+    }
+
+    public WSHentRessursListeResponse hentRessursListe(String enhetId) throws Exception {
+
+        try {
+            WSHentRessursListeRequest request = new WSHentRessursListeRequest();
+            request.setEnhetId(enhetId);
+            WSHentRessursListeResponse response = virksomhetEnhet.hentRessursListe(request);
+            return response;
+        } catch (HentRessursListeUgyldigInput e) {
+            String feil = String.format("Kunne ikke hente ressursliste for %s", enhetId);
+            logger.error(feil, e);
+            throw e;
+        } catch (HentRessursListeEnhetikkefunnet e) {
+            String feil = String.format("Kunne ikke hente ressursliste for %S", enhetId);
+            logger.error(feil, e);
+            throw e;
+        } catch (Exception e) {
+            String feil = String.format("Kunne ikke hente ressursliste for %s, ukjent feil", enhetId);
             logger.error(feil, e);
             throw e;
         }
