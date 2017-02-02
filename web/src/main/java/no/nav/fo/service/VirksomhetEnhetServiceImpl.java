@@ -9,6 +9,8 @@ import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeResponse;
 import no.nav.virksomhet.tjenester.enhet.v1.*;
 import org.slf4j.Logger;
+import org.springframework.cache.annotation.Cacheable;
+
 import java.lang.Exception;
 import java.util.stream.Collectors;
 
@@ -45,6 +47,7 @@ public class VirksomhetEnhetServiceImpl {
         }
     }
 
+    @Cacheable("ressursEnhetCache")
     public VeilederListeResponse hentRessursListe(String enhetId) throws Exception {
 
         try {
