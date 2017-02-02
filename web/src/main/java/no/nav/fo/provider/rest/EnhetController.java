@@ -1,8 +1,8 @@
 package no.nav.fo.provider.rest;
 
 
+import no.nav.fo.domene.VeilederListeResponse;
 import no.nav.fo.service.VirksomhetEnhetServiceImpl;
-import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeResponse;
 import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeEnhetikkefunnet;
 import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeUgyldigInput;
 
@@ -29,7 +29,7 @@ public class EnhetController {
     @Path("/{enhetId}/veiledere")
     public Response hentRessurser(@PathParam("enhetId") String enhetId) {
 
-        WSHentRessursListeResponse response = null;
+        VeilederListeResponse response = null;
 
         try {
             response = virksomhetEnhetService.hentRessursListe(enhetId);

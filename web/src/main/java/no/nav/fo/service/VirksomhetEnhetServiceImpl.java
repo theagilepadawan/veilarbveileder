@@ -1,6 +1,8 @@
 package no.nav.fo.service;
 
 
+import no.nav.fo.domene.Veileder;
+import no.nav.fo.domene.VeilederListeResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeRequest;
@@ -8,6 +10,7 @@ import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeResponse
 import no.nav.virksomhet.tjenester.enhet.v1.*;
 import org.slf4j.Logger;
 import java.lang.Exception;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -42,13 +45,13 @@ public class VirksomhetEnhetServiceImpl {
         }
     }
 
-    public WSHentRessursListeResponse hentRessursListe(String enhetId) throws Exception {
+    public VeilederListeResponse hentRessursListe(String enhetId) throws Exception {
 
         try {
             WSHentRessursListeRequest request = new WSHentRessursListeRequest();
             request.setEnhetId(enhetId);
-            WSHentRessursListeResponse response = virksomhetEnhet.hentRessursListe(request);
-            return response;
+            WSHentRessursListeResponse originalResponse = virksomhetEnhet.hentRessursListe(request);
+            return mapRessursResponseTilVeilederResponse(originalResponse);
         } catch (HentRessursListeUgyldigInput e) {
             String feil = String.format("Kunne ikke hente ressursliste for %s", enhetId);
             logger.error(feil, e);
@@ -62,5 +65,18 @@ public class VirksomhetEnhetServiceImpl {
             logger.error(feil, e);
             throw e;
         }
+    }
+
+    private VeilederListeResponse mapRessursResponseTilVeilederResponse(WSHentRessursListeResponse originalResponse) {
+        return new VeilederListeResponse()
+                .withEnhet(originalResponse.getEnhet())
+                .withVeilederListe(originalResponse.getRessursListe().stream().map(ressurs ->
+                        new Veileder()
+                                .withIdent(ressurs.getRessursId())
+                                .withNavn(ressurs.getNavn())
+                                .withFornavn(ressurs.getFornavn())
+                                .withEtternavn(ressurs.getEtternavn()))
+                        .collect(Collectors.toList())
+                );
     }
 }
