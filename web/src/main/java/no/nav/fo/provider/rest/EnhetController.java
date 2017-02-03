@@ -7,10 +7,7 @@ import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeEnhetikkefunnet;
 import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeUgyldigInput;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -27,12 +24,15 @@ public class EnhetController {
 
     @GET
     @Path("/{enhetId}/veiledere")
-    public Response hentRessurser(@PathParam("enhetId") String enhetId) {
+    public Response hentRessurser(
+            @PathParam("enhetId") String enhetId,
+            @QueryParam("fra") int fra,
+            @QueryParam("antall") int antall) {
 
         VeiledereResponse response = null;
 
         try {
-            response = virksomhetEnhetService.hentRessursListe(enhetId);
+            response = virksomhetEnhetService.hentRessursListe(enhetId, fra, antall);
         } catch (HentRessursListeUgyldigInput e) {
             return Response.status(BAD_REQUEST).build();
         } catch (HentRessursListeEnhetikkefunnet e) {

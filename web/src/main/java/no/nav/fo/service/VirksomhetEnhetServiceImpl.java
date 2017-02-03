@@ -54,7 +54,10 @@ public class VirksomhetEnhetServiceImpl {
             WSHentRessursListeRequest request = new WSHentRessursListeRequest();
             request.setEnhetId(enhetId);
             WSHentRessursListeResponse originalResponse = virksomhetEnhet.hentRessursListe(request);
-            return mapRessursResponseTilVeilederResponse(originalResponse);
+
+            VeiledereResponse veiledereResponse = mapRessursResponseTilVeilederResponse(originalResponse);
+
+            return hentSubsetTilSide(veiledereResponse, fra, antall);
         } catch (HentRessursListeUgyldigInput e) {
             String feil = String.format("Kunne ikke hente ressursliste for %s", enhetId);
             logger.error(feil, e);
@@ -81,5 +84,11 @@ public class VirksomhetEnhetServiceImpl {
                                 .withEtternavn(ressurs.getEtternavn()))
                         .collect(Collectors.toList())
                 );
+    }
+
+    private VeiledereResponse hentSubsetTilSide(VeiledereResponse veiledereResponse, int fra, int antall) {
+        return new VeiledereResponse()
+                .withEnhet(veiledereResponse.getEnhet())
+                .withVeilederListe(veiledereResponse.getVeilederListe().subList(fra, fra + antall));
     }
 }
