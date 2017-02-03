@@ -2,7 +2,7 @@ package no.nav.fo.service;
 
 
 import no.nav.fo.domene.Veileder;
-import no.nav.fo.domene.VeilederListeResponse;
+import no.nav.fo.domene.VeiledereResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeRequest;
@@ -48,7 +48,7 @@ public class VirksomhetEnhetServiceImpl {
     }
 
     @Cacheable("ressursEnhetCache")
-    public VeilederListeResponse hentRessursListe(String enhetId) throws Exception {
+    public VeiledereResponse hentRessursListe(String enhetId, int fra, int antall) throws Exception {
 
         try {
             WSHentRessursListeRequest request = new WSHentRessursListeRequest();
@@ -70,8 +70,8 @@ public class VirksomhetEnhetServiceImpl {
         }
     }
 
-    private VeilederListeResponse mapRessursResponseTilVeilederResponse(WSHentRessursListeResponse originalResponse) {
-        return new VeilederListeResponse()
+    private VeiledereResponse mapRessursResponseTilVeilederResponse(WSHentRessursListeResponse originalResponse) {
+        return new VeiledereResponse()
                 .withEnhet(originalResponse.getEnhet())
                 .withVeilederListe(originalResponse.getRessursListe().stream().map(ressurs ->
                         new Veileder()

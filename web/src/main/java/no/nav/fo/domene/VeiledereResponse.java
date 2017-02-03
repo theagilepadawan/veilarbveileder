@@ -4,7 +4,7 @@ import no.nav.virksomhet.organisering.enhetogressurs.v1.Enhet;
 
 import java.util.List;
 
-public class VeilederListeResponse {
+public class VeiledereResponse {
     private List<Veileder> veilederListe;
     private Enhet enhet;
 
@@ -12,7 +12,7 @@ public class VeilederListeResponse {
         return veilederListe;
     }
 
-    public VeilederListeResponse withVeilederListe(List<Veileder> veilederListe) {
+    public VeiledereResponse withVeilederListe(List<Veileder> veilederListe) {
         this.veilederListe = veilederListe;
         return this;
     }
@@ -21,7 +21,7 @@ public class VeilederListeResponse {
         return enhet;
     }
 
-    public VeilederListeResponse withEnhet(Enhet enhet) {
+    public VeiledereResponse withEnhet(Enhet enhet) {
         this.enhet = enhet;
         return this;
     }
