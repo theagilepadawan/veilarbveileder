@@ -7,6 +7,7 @@ import no.nav.virksomhet.tjenester.enhet.v1.Enhet;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
 @Configuration
 public class VirksomhetEnhetEndpointConfig {
 
@@ -14,7 +15,7 @@ public class VirksomhetEnhetEndpointConfig {
     public Enhet virksomhetEnhet() {
         return new CXFClient<>(Enhet.class)
                 .address(System.getProperty("norg.virksomhet_enhet.url"))
-                .withOutInterceptor(new SystemSAMLOutInterceptor())
+                .configureStsForOnBehalfOfWithJWT()
                 .build();
     }
 
