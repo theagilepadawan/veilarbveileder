@@ -90,5 +90,7 @@ public class VirksomhetEnhetServiceImpl {
         return new VeiledereResponse()
                 .withEnhet(veiledereResponse.getEnhet())
                 .withVeilederListe(veiledereResponse.getVeilederListe().subList(fra, fra + antall));
+                .withSublistFraIndex(fra)
+                .withTotaltAntallVeiledere(veiledereResponse.getVeilederListe().size());
     }
 }
