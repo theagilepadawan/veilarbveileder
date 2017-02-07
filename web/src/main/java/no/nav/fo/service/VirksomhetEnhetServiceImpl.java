@@ -89,8 +89,12 @@ public class VirksomhetEnhetServiceImpl {
     private VeiledereResponse hentSubsetTilSide(VeiledereResponse veiledereResponse, int fra, int antall) {
         return new VeiledereResponse()
                 .withEnhet(veiledereResponse.getEnhet())
-                .withVeilederListe(veiledereResponse.getVeilederListe().subList(fra, fra + antall));
+                .withVeilederListe(veiledereResponse.getVeilederListe().subList(fra, til(veiledereResponse.getVeilederListe().size(), fra, antall)))
                 .withSublistFraIndex(fra)
                 .withTotaltAntallVeiledere(veiledereResponse.getVeilederListe().size());
+    }
+
+    private int til(int listeSize, int fra, int antall) {
+        return fra + antall <= listeSize ? fra + antall : listeSize;
     }
 }
