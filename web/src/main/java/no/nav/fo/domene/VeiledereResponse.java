@@ -37,4 +37,12 @@ public class VeiledereResponse {
         this.sublistFraIndex = sublistFraIndex;
         return this;
     }
+
+    public int getTotaltAntallVeiledere() {
+        return totaltAntallVeiledere;
+    }
+
+    public int getSublistFraIndex() {
+        return sublistFraIndex;
+    }
 }
