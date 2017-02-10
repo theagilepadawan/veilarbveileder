@@ -75,26 +75,22 @@ public class VirksomhetEnhetServiceImpl {
 
     private VeiledereResponse mapRessursResponseTilVeilederResponse(WSHentRessursListeResponse originalResponse) {
         return new VeiledereResponse()
-                .withEnhet(originalResponse.getEnhet())
-                .withVeilederListe(originalResponse.getRessursListe().stream().map(ressurs ->
-                        new Veileder()
-                                .withIdent(ressurs.getRessursId())
-                                .withNavn(ressurs.getNavn())
-                                .withFornavn(ressurs.getFornavn())
-                                .withEtternavn(ressurs.getEtternavn()))
-                        .collect(Collectors.toList())
-                );
+                .setEnhet(originalResponse.getEnhet())
+                .setVeilederListe(originalResponse.getRessursListe().stream().map(ressurs ->
+                    new Veileder()
+                        .setIdent(ressurs.getRessursId())
+                        .setNavn(ressurs.getNavn())
+                        .setFornavn(ressurs.getFornavn())
+                        .setEtternavn(ressurs.getEtternavn()))
+                    .collect(Collectors.toList())
+        );
     }
 
     private VeiledereResponse hentSubsetTilSide(VeiledereResponse veiledereResponse, int fra, int antall) {
         return new VeiledereResponse()
-                .withEnhet(veiledereResponse.getEnhet())
-                .withVeilederListe(veiledereResponse.getVeilederListe().subList(fra, til(veiledereResponse.getVeilederListe().size(), fra, antall)))
-                .withSublistFraIndex(fra)
-                .withTotaltAntallVeiledere(veiledereResponse.getVeilederListe().size());
-    }
-
-    private int til(int listeSize, int fra, int antall) {
-        return fra + antall <= listeSize ? fra + antall : listeSize;
+                .setEnhet(veiledereResponse.getEnhet())
+                .setVeilederListe(veiledereResponse.getVeilederListe().stream().skip(fra).limit(antall).collect(Collectors.toList()))
+                .setSublistFraIndex(fra)
+                .setTotaltAntallVeiledere(veiledereResponse.getVeilederListe().size());
     }
 }

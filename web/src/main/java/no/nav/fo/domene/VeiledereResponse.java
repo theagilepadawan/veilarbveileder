@@ -1,48 +1,16 @@
 package no.nav.fo.domene;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
 import no.nav.virksomhet.organisering.enhetogressurs.v1.Enhet;
 
 import java.util.List;
 
+@Data
+@Accessors(chain = true)
 public class VeiledereResponse {
-    private List<Veileder> veilederListe;
-    private Enhet enhet;
-    private int totaltAntallVeiledere;
-    private int sublistFraIndex;
-
-    public List<Veileder> getVeilederListe() {
-        return veilederListe;
-    }
-
-    public VeiledereResponse withVeilederListe(List<Veileder> veilederListe) {
-        this.veilederListe = veilederListe;
-        return this;
-    }
-
-    public Enhet getEnhet() {
-        return enhet;
-    }
-
-    public VeiledereResponse withEnhet(Enhet enhet) {
-        this.enhet = enhet;
-        return this;
-    }
-
-    public VeiledereResponse withTotaltAntallVeiledere(int totaltAntallVeiledere) {
-        this.totaltAntallVeiledere = totaltAntallVeiledere;
-        return this;
-    }
-
-    public VeiledereResponse withSublistFraIndex(int sublistFraIndex) {
-        this.sublistFraIndex = sublistFraIndex;
-        return this;
-    }
-
-    public int getTotaltAntallVeiledere() {
-        return totaltAntallVeiledere;
-    }
-
-    public int getSublistFraIndex() {
-        return sublistFraIndex;
-    }
+    List<Veileder> veilederListe;
+    Enhet enhet;
+    int totaltAntallVeiledere;
+    int sublistFraIndex;
 }
