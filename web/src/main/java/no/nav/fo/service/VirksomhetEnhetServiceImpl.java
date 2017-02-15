@@ -48,16 +48,15 @@ public class VirksomhetEnhetServiceImpl {
     }
 
     @Cacheable("ressursEnhetCache")
-    public VeiledereResponse hentRessursListe(String enhetId, int fra, int antall) throws Exception {
+    public VeiledereResponse hentRessursListe(String enhetId) throws Exception {
 
         try {
             WSHentRessursListeRequest request = new WSHentRessursListeRequest();
             request.setEnhetId(enhetId);
             WSHentRessursListeResponse originalResponse = virksomhetEnhet.hentRessursListe(request);
 
-            VeiledereResponse veiledereResponse = mapRessursResponseTilVeilederResponse(originalResponse);
+            return mapRessursResponseTilVeilederResponse(originalResponse);
 
-            return hentSubsetTilSide(veiledereResponse, fra, antall);
         } catch (HentRessursListeUgyldigInput e) {
             String feil = String.format("Kunne ikke hente ressursliste for %s", enhetId);
             logger.error(feil, e);
@@ -84,13 +83,5 @@ public class VirksomhetEnhetServiceImpl {
                         .setEtternavn(ressurs.getEtternavn()))
                     .collect(Collectors.toList())
         );
-    }
-
-    private VeiledereResponse hentSubsetTilSide(VeiledereResponse veiledereResponse, int fra, int antall) {
-        return new VeiledereResponse()
-                .setEnhet(veiledereResponse.getEnhet())
-                .setVeilederListe(veiledereResponse.getVeilederListe().stream().skip(fra).limit(antall).collect(Collectors.toList()))
-                .setSublistFraIndex(fra)
-                .setTotaltAntallVeiledere(veiledereResponse.getVeilederListe().size());
     }
 }

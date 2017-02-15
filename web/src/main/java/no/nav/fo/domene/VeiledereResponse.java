@@ -11,6 +11,4 @@ import java.util.List;
 public class VeiledereResponse {
     List<Veileder> veilederListe;
     Enhet enhet;
-    int totaltAntallVeiledere;
-    int sublistFraIndex;
 }

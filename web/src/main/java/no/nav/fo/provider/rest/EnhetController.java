@@ -28,15 +28,12 @@ public class EnhetController {
 
     @GET
     @Path("/{enhetId}/veiledere")
-    public Response hentRessurser(
-            @PathParam("enhetId") String enhetId,
-            @QueryParam("fra") int fra,
-            @QueryParam("antall") int antall) {
+    public Response hentRessurser(@PathParam("enhetId") String enhetId) {
 
         VeiledereResponse response = null;
 
         try {
-            response = virksomhetEnhetService.hentRessursListe(enhetId, fra, antall);
+            response = virksomhetEnhetService.hentRessursListe(enhetId);
         } catch (HentRessursListeUgyldigInput e) {
             return Response.status(BAD_REQUEST).build();
         } catch (HentRessursListeEnhetikkefunnet e) {
