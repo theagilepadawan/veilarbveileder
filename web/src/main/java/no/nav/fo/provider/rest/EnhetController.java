@@ -4,7 +4,7 @@ package no.nav.fo.provider.rest;
 import no.nav.fo.domene.VeiledereResponse;
 import no.nav.fo.security.jwt.filter.JWTInAuthorizationHeaderJAAS;
 import no.nav.fo.security.jwt.filter.SessionTerminator;
-import no.nav.fo.service.VirksomhetEnhetServiceImpl;
+import no.nav.fo.service.VirksomhetEnhetService;
 import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeEnhetikkefunnet;
 import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeUgyldigInput;
 
@@ -24,7 +24,7 @@ import static javax.ws.rs.core.Response.Status.NO_CONTENT;
 public class EnhetController {
 
     @Inject
-    VirksomhetEnhetServiceImpl virksomhetEnhetService;
+    VirksomhetEnhetService virksomhetEnhetService;
 
     @GET
     @Path("/{enhetId}/veiledere")

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 public class ServiceConfig {
 
     @Bean
-    public VirksomhetEnhetServiceImpl virksomhetEnhetServiceImpl() {
-        return new VirksomhetEnhetServiceImpl();
+    public VirksomhetEnhetService virksomhetEnhetServiceImpl() {
+        return new VirksomhetEnhetService();
     }
 }
