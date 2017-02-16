@@ -9,7 +9,7 @@ import static org.mockito.Mockito.mock;
 
 
 @Configuration
-public class VirksomhetEnhetMockConfig {
+public class MockApplicationConfig {
 
     @Bean
     public VirksomhetEnhetService virksomhetEnhetService() { return new VirksomhetEnhetService(); }
