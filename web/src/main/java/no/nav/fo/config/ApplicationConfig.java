@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import({
         Pingables.class,
-        DatabaseConfig.class,
         VirksomhetEnhetEndpointConfig.class,
         ServiceConfig.class,
         CacheConfig.class
