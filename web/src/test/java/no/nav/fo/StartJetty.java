@@ -13,7 +13,7 @@ import static no.nav.modig.testcertificates.TestCertificates.setupKeyAndTrustSto
 
 
 
-public class StartJettyveilarbveileder {
+public class StartJetty {
 
     public static void main(String[] args) {
         SystemProperties.setFrom("jetty-veilarbveileder.properties");
