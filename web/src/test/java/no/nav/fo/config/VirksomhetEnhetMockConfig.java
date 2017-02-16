@@ -12,7 +12,7 @@ import static org.mockito.Mockito.mock;
 public class VirksomhetEnhetMockConfig {
 
     @Bean
-    public VirksomhetEnhetService virksomhetEnhetServiceImpl() { return new VirksomhetEnhetService(); }
+    public VirksomhetEnhetService virksomhetEnhetService() { return new VirksomhetEnhetService(); }
 
     @Bean
     public Enhet virksomhetEnhet() { return mock(Enhet.class);}
