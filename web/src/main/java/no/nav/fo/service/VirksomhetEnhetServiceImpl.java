@@ -72,7 +72,7 @@ public class VirksomhetEnhetServiceImpl {
         }
     }
 
-    private VeiledereResponse mapRessursResponseTilVeilederResponse(WSHentRessursListeResponse originalResponse) {
+    VeiledereResponse mapRessursResponseTilVeilederResponse(WSHentRessursListeResponse originalResponse) {
         return new VeiledereResponse()
                 .setEnhet(originalResponse.getEnhet())
                 .setVeilederListe(originalResponse.getRessursListe().stream().map(ressurs ->
