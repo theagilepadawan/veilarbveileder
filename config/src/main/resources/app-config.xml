@@ -17,7 +17,7 @@
         <webservice mapToProperty="norg.virksomhet_enhet" alias="virksomhet:Enhet_v1"/>
         <applicationCertificate alias="***REMOVED***"/>
 
-        <baseUrl alias="certificateService" mapToProperty="certificateService" />
+        <baseUrl alias="openAMHost" mapToProperty="issoHost" />
     </resources>
 
     <loadBalancer isAlive="/veilarbveileder/internal/isAlive" />
