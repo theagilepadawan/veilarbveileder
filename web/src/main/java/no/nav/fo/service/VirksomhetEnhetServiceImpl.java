@@ -1,6 +1,7 @@
 package no.nav.fo.service;
 
 
+import no.nav.fo.domain.Saksbehandler;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeRequest;
@@ -22,7 +23,7 @@ public class VirksomhetEnhetServiceImpl {
     @Inject
     private Enhet virksomhetEnhet;
 
-    public WSHentEnhetListeResponse hentEnhetListe(String ident) throws Exception{
+    public WSHentEnhetListeResponse hentEnhetListe(String ident) throws HentEnhetListeUgyldigInput, HentEnhetListeRessursIkkeFunnet {
 
         try {
             WSHentEnhetListeRequest request = new WSHentEnhetListeRequest();
@@ -42,6 +43,13 @@ public class VirksomhetEnhetServiceImpl {
             logger.error(feil, e);
             throw e;
         }
+    }
+
+    public Saksbehandler hentSaksbehandlerInfo(String ident) throws HentEnhetListeUgyldigInput, HentEnhetListeRessursIkkeFunnet {
+        WSHentEnhetListeResponse wsResponse = hentEnhetListe(ident);
+        Saksbehandler saksbehandler = new Saksbehandler()
+                .withIdent(ident);
+        return saksbehandler;
     }
 
     @Cacheable("ressursEnhetCache")
