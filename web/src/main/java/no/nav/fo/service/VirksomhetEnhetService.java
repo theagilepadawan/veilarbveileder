@@ -1,6 +1,8 @@
 package no.nav.fo.service;
 
 
+import no.nav.fo.domene.Veileder;
+import no.nav.fo.domene.VeiledereResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeRequest;
@@ -10,14 +12,15 @@ import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.lang.Exception;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class VirksomhetEnhetServiceImpl {
+public class VirksomhetEnhetService {
 
-    private static final Logger logger = getLogger(VirksomhetEnhetServiceImpl.class);
+    private static final Logger logger = getLogger(VirksomhetEnhetService.class);
 
     @Inject
     private Enhet virksomhetEnhet;
@@ -45,13 +48,15 @@ public class VirksomhetEnhetServiceImpl {
     }
 
     @Cacheable("ressursEnhetCache")
-    public WSHentRessursListeResponse hentRessursListe(String enhetId) throws Exception {
+    public VeiledereResponse hentRessursListe(String enhetId) throws Exception {
 
         try {
             WSHentRessursListeRequest request = new WSHentRessursListeRequest();
             request.setEnhetId(enhetId);
-            WSHentRessursListeResponse response = virksomhetEnhet.hentRessursListe(request);
-            return response;
+            WSHentRessursListeResponse originalResponse = virksomhetEnhet.hentRessursListe(request);
+
+            return mapRessursResponseTilVeilederResponse(originalResponse);
+
         } catch (HentRessursListeUgyldigInput e) {
             String feil = String.format("Kunne ikke hente ressursliste for %s", enhetId);
             logger.error(feil, e);
@@ -65,5 +70,18 @@ public class VirksomhetEnhetServiceImpl {
             logger.error(feil, e);
             throw e;
         }
+    }
+
+    VeiledereResponse mapRessursResponseTilVeilederResponse(WSHentRessursListeResponse originalResponse) {
+        return new VeiledereResponse()
+                .setEnhet(originalResponse.getEnhet())
+                .setVeilederListe(originalResponse.getRessursListe().stream().map(ressurs ->
+                    new Veileder()
+                        .setIdent(ressurs.getRessursId())
+                        .setNavn(ressurs.getNavn())
+                        .setFornavn(ressurs.getFornavn())
+                        .setEtternavn(ressurs.getEtternavn()))
+                    .collect(Collectors.toList())
+        );
     }
 }

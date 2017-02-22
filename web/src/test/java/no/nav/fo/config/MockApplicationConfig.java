@@ -1,30 +1,19 @@
 package no.nav.fo.config;
 
-import no.nav.fo.config.endpoint.norg.VirksomhetEnhetEndpointConfig;
-import no.nav.fo.internal.HealthCheckService;
-import no.nav.fo.internal.IsAliveServlet;
-import no.nav.fo.service.ServiceConfig;
+import no.nav.fo.service.VirksomhetEnhetService;
+import no.nav.virksomhet.tjenester.enhet.v1.Enhet;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+
+import static org.mockito.Mockito.mock;
+
 
 @Configuration
-@Import({
-        Pingables.class,
-        MockDatabaseConfig.class,
-        VirksomhetEnhetEndpointConfig.class,
-        ServiceConfig.class,
-        CacheConfig.class
-})
 public class MockApplicationConfig {
-    @Bean
-    public IsAliveServlet isAliveServlet() {
-        return new IsAliveServlet();
-    }
 
     @Bean
-    public HealthCheckService healthCheckService() {
-        return new HealthCheckService();
-    }
+    public VirksomhetEnhetService virksomhetEnhetService() { return new VirksomhetEnhetService(); }
 
+    @Bean
+    public Enhet virksomhetEnhet() { return mock(Enhet.class);}
 }

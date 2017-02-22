@@ -1,18 +1,15 @@
 package no.nav.fo.provider.rest;
 
 
+import no.nav.fo.domene.VeiledereResponse;
 import no.nav.fo.security.jwt.filter.JWTInAuthorizationHeaderJAAS;
 import no.nav.fo.security.jwt.filter.SessionTerminator;
-import no.nav.fo.service.VirksomhetEnhetServiceImpl;
-import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeResponse;
+import no.nav.fo.service.VirksomhetEnhetService;
 import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeEnhetikkefunnet;
 import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeUgyldigInput;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -27,13 +24,13 @@ import static javax.ws.rs.core.Response.Status.NO_CONTENT;
 public class EnhetController {
 
     @Inject
-    VirksomhetEnhetServiceImpl virksomhetEnhetService;
+    VirksomhetEnhetService virksomhetEnhetService;
 
     @GET
     @Path("/{enhetId}/veiledere")
     public Response hentRessurser(@PathParam("enhetId") String enhetId) {
 
-        WSHentRessursListeResponse response = null;
+        VeiledereResponse response = null;
 
         try {
             response = virksomhetEnhetService.hentRessursListe(enhetId);
