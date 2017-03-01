@@ -10,7 +10,7 @@
             <protected>true</protected>
             <serverAuthContext>
                 <serverAuthModule>
-                    <className>no.nav.security.jwt.security.jaspic.JWTAuthModule</className>
+                    <className>no.nav.brukerdialog.security.jaspic.OidcAuthModule</className>
                 </serverAuthModule>
             </serverAuthContext>
         </serverAuthConfig>

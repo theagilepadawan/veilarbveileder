@@ -1,4 +1,4 @@
 <jboss-web>
     <context-root>veilarbveileder</context-root>
-    <security-domain>java:/jaas/NavJWT</security-domain>
+    <security-domain>jaspitest</security-domain>
 </jboss-web>

@@ -1,5 +1,6 @@
 package no.nav.fo.provider.rest;
 
+import no.nav.brukerdialog.isso.RelyingPartyCallback;
 import no.nav.fo.provider.rest.logger.JSLoggerController;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +13,8 @@ public class RestConfig extends ResourceConfig {
                 DateTimeObjectMapperProvider.class,
                 JSLoggerController.class,
                 VeilederController.class,
-                EnhetController.class
+                EnhetController.class,
+                RelyingPartyCallback.class
         );
     }
 }
