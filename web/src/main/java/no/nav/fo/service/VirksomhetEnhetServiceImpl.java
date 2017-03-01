@@ -55,6 +55,7 @@ public class VirksomhetEnhetServiceImpl {
             request.setRessursId(ident);
             WSHentEnhetListeResponse response = virksomhetEnhet.hentEnhetListe(request);
             saksbehandler.setNavn(response.getRessurs().getNavn());
+            saksbehandler.setEnheter(response.getEnhetListe());
             return saksbehandler;
         } catch (HentEnhetListeUgyldigInput e) {
             String feil = String.format("Kunne ikke hente ansattopplysnigner for %s", ident);
