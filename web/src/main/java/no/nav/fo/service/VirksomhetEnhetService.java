@@ -53,28 +53,11 @@ public class VirksomhetEnhetService {
         }
     }
 
-    public Saksbehandler hentSaksbehandlerInfo(String ident) throws Exception {
+    public Saksbehandler hentSaksbehandlerInfo(String ident) throws HentEnhetListeUgyldigInput, HentEnhetListeRessursIkkeFunnet {
 
         Saksbehandler saksbehandler = new Saksbehandler().withIdent(ident);
-        try {
-            WSHentEnhetListeRequest request = new WSHentEnhetListeRequest();
-            request.setRessursId(ident);
-            WSHentEnhetListeResponse response = virksomhetEnhet.hentEnhetListe(request);
-            saksbehandler.setNavn(response.getRessurs().getNavn());
-            return saksbehandler;
-        } catch (HentEnhetListeUgyldigInput e) {
-            String feil = String.format("Kunne ikke hente ansattopplysnigner for %s", ident);
-            logger.error(feil, e);
-            throw e;
-        } catch (HentEnhetListeRessursIkkeFunnet e) {
-            String feil = String.format("Kunne ikke hente ansattopplysninger for %s", ident);
-            logger.error(feil, e);
-            throw e;
-        } catch (java.lang.Exception e) {
-            String feil = String.format("Kunne ikke hente ansattopplysninger for %s: Ukjent Feil", ident);
-            logger.error(feil, e);
-            throw e;
-        }
+        saksbehandler.setNavn(hentEnhetListe(ident).getRessurs().getNavn());
+        return saksbehandler;
     }
 
     @Cacheable("ressursEnhetCache")
