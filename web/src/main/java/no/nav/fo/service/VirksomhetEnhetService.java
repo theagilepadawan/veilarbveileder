@@ -1,6 +1,6 @@
 package no.nav.fo.service;
 
-import no.nav.fo.domain.Saksbehandler;
+import no.nav.fo.domene.Saksbehandler;
 
 import no.nav.fo.domene.Veileder;
 import no.nav.fo.domene.VeiledereResponse;
@@ -61,7 +61,6 @@ public class VirksomhetEnhetService {
             request.setRessursId(ident);
             WSHentEnhetListeResponse response = virksomhetEnhet.hentEnhetListe(request);
             saksbehandler.setNavn(response.getRessurs().getNavn());
-            saksbehandler.setEnheter(response.getEnhetListe());
             return saksbehandler;
         } catch (HentEnhetListeUgyldigInput e) {
             String feil = String.format("Kunne ikke hente ansattopplysnigner for %s", ident);
