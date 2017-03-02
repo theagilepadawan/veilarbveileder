@@ -1,6 +1,5 @@
 package no.nav.fo.service;
 
-import no.nav.fo.domene.Saksbehandler;
 
 import no.nav.fo.domene.Veileder;
 import no.nav.fo.domene.VeiledereResponse;
@@ -49,11 +48,11 @@ public class VirksomhetEnhetService {
         }
     }
 
-    public Saksbehandler hentSaksbehandlerInfo(String ident) throws HentEnhetListeUgyldigInput, HentEnhetListeRessursIkkeFunnet {
+    public Veileder hentVeilederInfo(String ident) throws HentEnhetListeUgyldigInput, HentEnhetListeRessursIkkeFunnet {
 
-        Saksbehandler saksbehandler = new Saksbehandler().withIdent(ident);
-        saksbehandler.setNavn(hentEnhetListe(ident).getRessurs().getNavn());
-        return saksbehandler;
+        Veileder veileder = new Veileder().withIdent(ident);
+        veileder.setNavn(hentEnhetListe(ident).getRessurs().getNavn());
+        return veileder;
     }
 
     @Cacheable("ressursEnhetCache")
