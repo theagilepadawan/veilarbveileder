@@ -11,6 +11,6 @@ import org.springframework.context.annotation.Import;
         ServiceConfig.class,
         CacheConfig.class
 })
-public class ApplicationConfig {
+public class LocalApplicationConfig {
 
 }

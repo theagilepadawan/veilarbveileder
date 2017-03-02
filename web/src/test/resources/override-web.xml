@@ -12,7 +12,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>no.nav.fo.config.MockApplicationConfig</param-value>
+        <param-value>no.nav.fo.config.LocalApplicationConfig</param-value>
     </context-param>
 
     <filter>
