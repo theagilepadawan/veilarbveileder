@@ -31,7 +31,6 @@ public class DateTimeObjectMapperProvider implements ContextResolver<ObjectMappe
         final ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JodaModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         return mapper;
     }
 }
