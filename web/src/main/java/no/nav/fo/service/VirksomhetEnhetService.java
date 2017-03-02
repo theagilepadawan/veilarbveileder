@@ -9,11 +9,7 @@ import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeResponse;
-import no.nav.virksomhet.tjenester.enhet.v1.Enhet;
-import no.nav.virksomhet.tjenester.enhet.v1.HentEnhetListeRessursIkkeFunnet;
-import no.nav.virksomhet.tjenester.enhet.v1.HentEnhetListeUgyldigInput;
-import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeEnhetikkefunnet;
-import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeUgyldigInput;
+import no.nav.virksomhet.tjenester.enhet.v1.*;
 import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 
