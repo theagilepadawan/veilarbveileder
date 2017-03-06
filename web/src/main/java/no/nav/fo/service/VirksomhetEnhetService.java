@@ -12,7 +12,6 @@ import no.nav.virksomhet.tjenester.enhet.v1.*;
 import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 
-import java.lang.Exception;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -41,7 +40,7 @@ public class VirksomhetEnhetService {
             String feil = String.format("Kunne ikke hente ansattopplysninger for %s", ident);
             logger.error(feil, e);
             throw e;
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             String feil = String.format("Kunne ikke hente ansattopplysninger for %s: Ukjent Feil", ident);
             logger.error(feil, e);
             throw e;
