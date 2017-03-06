@@ -50,7 +50,7 @@ public class VirksomhetEnhetService {
 
     public Veileder hentVeilederInfo(String ident) throws HentEnhetListeUgyldigInput, HentEnhetListeRessursIkkeFunnet {
 
-        Veileder veileder = new Veileder().withIdent(ident);
+        Veileder veileder = new Veileder().setIdent(ident);
         veileder.setNavn(hentEnhetListe(ident).getRessurs().getNavn());
         return veileder;
     }

@@ -10,11 +10,4 @@ public class Veileder {
     String navn;
     String fornavn;
     String etternavn;
-
-    public Veileder withIdent(String ident) {
-        this.ident = ident;
-        return this;
-    }
-
-
 }
