@@ -2,8 +2,6 @@ package no.nav.fo.provider.rest;
 
 
 import no.nav.fo.domene.VeiledereResponse;
-import no.nav.fo.security.jwt.filter.JWTInAuthorizationHeaderJAAS;
-import no.nav.fo.security.jwt.filter.SessionTerminator;
 import no.nav.fo.service.VirksomhetEnhetService;
 import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeEnhetikkefunnet;
 import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeUgyldigInput;
@@ -17,8 +15,6 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
 import static javax.ws.rs.core.Response.Status.NO_CONTENT;
 
-@JWTInAuthorizationHeaderJAAS
-@SessionTerminator
 @Path("/enhet")
 @Produces(APPLICATION_JSON)
 public class EnhetController {
