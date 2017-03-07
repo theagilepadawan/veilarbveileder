@@ -25,8 +25,6 @@
 
     <loadBalancer isAlive="/veilarbveileder/internal/isAlive" />
     <security serviceUserResourceAlias="***REMOVED***">
-        <logins>
-            <openIdConnect moduleClass="no.nav.fo.security.jwt.loginmodule.JwtLoginModule"/>
-        </logins>
+        <logins/>
     </security>
 </application>
