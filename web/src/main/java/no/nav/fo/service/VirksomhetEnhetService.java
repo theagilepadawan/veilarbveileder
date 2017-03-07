@@ -3,6 +3,7 @@ package no.nav.fo.service;
 
 import no.nav.fo.domene.Veileder;
 import no.nav.fo.domene.VeiledereResponse;
+
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeRequest;
@@ -11,7 +12,6 @@ import no.nav.virksomhet.tjenester.enhet.v1.*;
 import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 
-import java.lang.Exception;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -25,7 +25,7 @@ public class VirksomhetEnhetService {
     @Inject
     private Enhet virksomhetEnhet;
 
-    public WSHentEnhetListeResponse hentEnhetListe(String ident) throws Exception{
+    public WSHentEnhetListeResponse hentEnhetListe(String ident) throws HentEnhetListeUgyldigInput, HentEnhetListeRessursIkkeFunnet {
 
         try {
             WSHentEnhetListeRequest request = new WSHentEnhetListeRequest();
@@ -37,14 +37,21 @@ public class VirksomhetEnhetService {
             logger.error(feil, e);
             throw e;
         } catch (HentEnhetListeRessursIkkeFunnet e) {
-            String feil = String.format("Kunne ikke hente ansattopplysnigner for %s", ident);
-            logger.error(feil,e);
+            String feil = String.format("Kunne ikke hente ansattopplysninger for %s", ident);
+            logger.error(feil, e);
             throw e;
-        } catch (java.lang.Exception e) {
-            String feil = String.format("Kunne ikke hente ansattopplysnigner for %s: Ukjent Feil", ident);
+        } catch (Exception e) {
+            String feil = String.format("Kunne ikke hente ansattopplysninger for %s: Ukjent Feil", ident);
             logger.error(feil, e);
             throw e;
         }
+    }
+
+    public Veileder hentVeilederInfo(String ident) throws HentEnhetListeUgyldigInput, HentEnhetListeRessursIkkeFunnet {
+
+        Veileder veileder = new Veileder().setIdent(ident);
+        veileder.setNavn(hentEnhetListe(ident).getRessurs().getNavn());
+        return veileder;
     }
 
     @Cacheable("ressursEnhetCache")
