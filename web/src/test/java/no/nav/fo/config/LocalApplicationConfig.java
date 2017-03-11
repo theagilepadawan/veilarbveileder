@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import({
         Pingables.class,
-        VirksomhetEnhetEndpointConfig.class,
+        VirksomhetEnhetEndpointConfigMock.class,
         ServiceConfig.class,
         CacheConfig.class
 })
