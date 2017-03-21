@@ -18,14 +18,17 @@ import org.springframework.context.annotation.Configuration;
 @EnableCaching
 public class CacheConfig implements CachingConfigurer {
 
+    String cacheSecondsString = System.getProperty("cache.config.seconds","3600");
+    int cahceSecondsInt = Integer.parseInt(cacheSecondsString);
+
     @Bean
     public net.sf.ehcache.CacheManager ehCacheManager() {
         CacheConfiguration cacheConfiguration = new CacheConfiguration();
-        cacheConfiguration.setName("ressursEnhetCache");
-        cacheConfiguration.setMaxEntriesLocalHeap(1000);
+        cacheConfiguration.setName("veilarbveilederCache");
+        cacheConfiguration.setMaxEntriesLocalHeap(10000);
         cacheConfiguration.setMemoryStoreEvictionPolicy("LRU");
         cacheConfiguration.setTimeToIdleSeconds(6000);
-        cacheConfiguration.setTimeToLiveSeconds(6000);
+        cacheConfiguration.setTimeToLiveSeconds(cahceSecondsInt);
         net.sf.ehcache.config.Configuration config = new net.sf.ehcache.config.Configuration();
         config.addCache(cacheConfiguration);
 

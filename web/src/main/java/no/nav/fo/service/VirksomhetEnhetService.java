@@ -54,7 +54,7 @@ public class VirksomhetEnhetService {
         return veileder;
     }
 
-    @Cacheable("ressursEnhetCache")
+    @Cacheable("veilarbveilederCache")
     public VeiledereResponse hentRessursListe(String enhetId) throws Exception {
 
         try {
