@@ -36,7 +36,7 @@ public class EnhetController {
         String ident = SubjectHandler.getSubjectHandler().getUid();
 
         try {
-            boolean isUserInModigOppfolging = pepClient.isSubjectMemberOfModiaOppfolging(ident);
+            boolean isUserInModigOppfolging = pepClient.isSubjectMemberOfModiaOppfolging();
             if(!isUserInModigOppfolging) {
                 return Response.status(UNAUTHORIZED).build();
             }
