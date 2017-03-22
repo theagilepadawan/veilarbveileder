@@ -21,15 +21,15 @@ public class PepClient {
     private Pep pep;
 
     @Cacheable("veilarbveilederCache")
-    public boolean isSubjectMemberOfModiaOppfolging() {
+    public boolean isSubjectMemberOfModiaOppfolging(String ident) {
         BiasedDecisionResponse callAllowed;
         try {
-            callAllowed  = pep.isSubjectMemberOfModiaOppfolging();
+            callAllowed  = pep.isSubjectMemberOfModiaOppfolging(ident);
         } catch (PepException e) {
             throw new InternalServerErrorException("Something went wrong when wrong in PEP", e);
         }
         if (callAllowed.getBiasedDecision().equals(Decision.Deny)) {
-            logger.info("User "+ SubjectHandler.getSubjectHandler().getUid()+" is not in group MODIA-OPPFOLGING");
+            logger.info("User "+ ident +" is not in group MODIA-OPPFOLGING");
         }
         return callAllowed.getBiasedDecision().equals(Decision.Permit);
     }
