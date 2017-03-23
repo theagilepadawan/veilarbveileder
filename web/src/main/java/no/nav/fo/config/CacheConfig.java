@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 public class CacheConfig implements CachingConfigurer {
 
     String cacheSecondsString = System.getProperty("cache.config.seconds","3600");
-    int cahceSecondsInt = Integer.parseInt(cacheSecondsString);
+    int cacheSecondsInt = Integer.parseInt(cacheSecondsString);
 
     @Bean
     public net.sf.ehcache.CacheManager ehCacheManager() {
@@ -28,7 +28,7 @@ public class CacheConfig implements CachingConfigurer {
         cacheConfiguration.setMaxEntriesLocalHeap(10000);
         cacheConfiguration.setMemoryStoreEvictionPolicy("LRU");
         cacheConfiguration.setTimeToIdleSeconds(6000);
-        cacheConfiguration.setTimeToLiveSeconds(cahceSecondsInt);
+        cacheConfiguration.setTimeToLiveSeconds(cacheSecondsInt);
         net.sf.ehcache.config.Configuration config = new net.sf.ehcache.config.Configuration();
         config.addCache(cacheConfiguration);
 
