@@ -25,7 +25,7 @@ public class VirksomhetEnhetService {
     @Inject
     private Enhet virksomhetEnhet;
 
-    public WSHentEnhetListeResponse hentEnhetListe(String ident) throws HentEnhetListeUgyldigInput, HentEnhetListeRessursIkkeFunnet {
+    public WSHentEnhetListeResponse hentEnhetListe(String ident) throws Exception {
 
         try {
             WSHentEnhetListeRequest request = new WSHentEnhetListeRequest();
@@ -47,7 +47,7 @@ public class VirksomhetEnhetService {
         }
     }
 
-    public Veileder hentVeilederInfo(String ident) throws HentEnhetListeUgyldigInput, HentEnhetListeRessursIkkeFunnet {
+    public Veileder hentVeilederInfo(String ident) throws Exception {
 
         Veileder veileder = new Veileder().setIdent(ident);
         veileder.setNavn(hentEnhetListe(ident).getRessurs().getNavn());
