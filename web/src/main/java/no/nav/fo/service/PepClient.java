@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.ws.rs.InternalServerErrorException;
 
 
-public class PepClient {
+public class PepClient implements PepClientInterface {
 
     private Logger logger = LoggerFactory.getLogger(PepClient.class);
 

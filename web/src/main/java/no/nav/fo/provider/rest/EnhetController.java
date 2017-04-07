@@ -3,7 +3,7 @@ package no.nav.fo.provider.rest;
 
 import no.nav.brukerdialog.security.context.SubjectHandler;
 import no.nav.fo.domene.VeiledereResponse;
-import no.nav.fo.service.PepClient;
+import no.nav.fo.service.PepClientInterface;
 import no.nav.fo.service.VirksomhetEnhetService;
 import no.nav.virksomhet.organisering.enhetogressurs.v1.Enhet;
 import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeEnhetikkefunnet;
@@ -28,7 +28,7 @@ public class EnhetController {
     VirksomhetEnhetService virksomhetEnhetService;
 
     @Inject
-    PepClient pepClient;
+    PepClientInterface pepClient;
 
     @GET
     @Path("/{enhetId}/veiledere")
