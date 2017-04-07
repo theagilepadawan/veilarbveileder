@@ -1,6 +1,5 @@
 package no.nav.fo.service;
 
-import no.nav.brukerdialog.security.context.SubjectHandler;
 import no.nav.sbl.dialogarena.common.abac.pep.Pep;
 import no.nav.sbl.dialogarena.common.abac.pep.domain.response.BiasedDecisionResponse;
 import no.nav.sbl.dialogarena.common.abac.pep.domain.response.Decision;
