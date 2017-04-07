@@ -14,7 +14,7 @@ import javax.ws.rs.InternalServerErrorException;
 
 public class PepClient {
 
-    Logger logger = LoggerFactory.getLogger(PepClient.class);
+    private Logger logger = LoggerFactory.getLogger(PepClient.class);
 
     @Inject
     private Pep pep;
