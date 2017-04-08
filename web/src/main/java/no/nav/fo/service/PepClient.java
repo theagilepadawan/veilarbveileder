@@ -1,6 +1,5 @@
 package no.nav.fo.service;
 
-import no.nav.brukerdialog.security.context.SubjectHandler;
 import no.nav.sbl.dialogarena.common.abac.pep.Pep;
 import no.nav.sbl.dialogarena.common.abac.pep.domain.response.BiasedDecisionResponse;
 import no.nav.sbl.dialogarena.common.abac.pep.domain.response.Decision;
@@ -13,9 +12,9 @@ import javax.inject.Inject;
 import javax.ws.rs.InternalServerErrorException;
 
 
-public class PepClient {
+public class PepClient implements PepClientInterface {
 
-    Logger logger = LoggerFactory.getLogger(PepClient.class);
+    private Logger logger = LoggerFactory.getLogger(PepClient.class);
 
     @Inject
     private Pep pep;
