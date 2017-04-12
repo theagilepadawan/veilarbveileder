@@ -1,6 +1,8 @@
 package no.nav.fo.service;
 
 
+import no.nav.fo.domene.EnheterResponse;
+import no.nav.fo.domene.PortefoljeEnhet;
 import no.nav.fo.domene.Veileder;
 import no.nav.fo.domene.VeiledereResponse;
 
@@ -18,6 +20,7 @@ import javax.inject.Inject;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
+
 public class VirksomhetEnhetService {
 
     private static final Logger logger = getLogger(VirksomhetEnhetService.class);
@@ -25,13 +28,13 @@ public class VirksomhetEnhetService {
     @Inject
     private Enhet virksomhetEnhet;
 
-    public WSHentEnhetListeResponse hentEnhetListe(String ident) throws Exception {
+    public EnheterResponse hentEnhetListe(String ident) throws Exception {
 
         try {
             WSHentEnhetListeRequest request = new WSHentEnhetListeRequest();
             request.setRessursId(ident);
             WSHentEnhetListeResponse response = virksomhetEnhet.hentEnhetListe(request);
-            return response;
+            return mapWSEnhetResponseTilEnheterResponse(response);
         } catch (HentEnhetListeUgyldigInput e) {
             String feil = String.format("Kunne ikke hente ansattopplysnigner for %s", ident);
             logger.error(feil, e);
@@ -48,10 +51,7 @@ public class VirksomhetEnhetService {
     }
 
     public Veileder hentVeilederInfo(String ident) throws Exception {
-
-        Veileder veileder = new Veileder().setIdent(ident);
-        veileder.setNavn(hentEnhetListe(ident).getRessurs().getNavn());
-        return veileder;
+        return hentEnhetListe(ident).getVeileder();
     }
 
     @Cacheable("veilarbveilederCache")
@@ -90,5 +90,19 @@ public class VirksomhetEnhetService {
                         .setEtternavn(ressurs.getEtternavn()))
                     .collect(Collectors.toList())
         );
+    }
+
+    EnheterResponse mapWSEnhetResponseTilEnheterResponse(WSHentEnhetListeResponse response) {
+        return new EnheterResponse()
+                .setVeileder(new Veileder().setIdent(response.getRessurs().getRessursId())
+                                            .setEtternavn(response.getRessurs().getEtternavn())
+                                            .setFornavn(response.getRessurs().getFornavn())
+                                            .setNavn(response.getRessurs().getNavn()))
+                .setEnhetliste(response.getEnhetListe().stream().map( enhet ->
+                    new PortefoljeEnhet()
+                            .setEnhetId(enhet.getEnhetId())
+                            .setNavn(enhet.getNavn()))
+                        .collect(Collectors.toList()));
+
     }
 }
