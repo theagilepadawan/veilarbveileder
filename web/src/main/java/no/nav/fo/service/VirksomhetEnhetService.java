@@ -5,7 +5,6 @@ import no.nav.fo.domene.EnheterResponse;
 import no.nav.fo.domene.PortefoljeEnhet;
 import no.nav.fo.domene.Veileder;
 import no.nav.fo.domene.VeiledereResponse;
-
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeRequest;
@@ -14,9 +13,8 @@ import no.nav.virksomhet.tjenester.enhet.v1.*;
 import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 
-import java.util.stream.Collectors;
-
 import javax.inject.Inject;
+import java.util.stream.Collectors;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -28,8 +26,8 @@ public class VirksomhetEnhetService {
     @Inject
     private Enhet virksomhetEnhet;
 
+    @Cacheable("veilarbveilederCache")
     public EnheterResponse hentEnhetListe(String ident) throws Exception {
-
         try {
             WSHentEnhetListeRequest request = new WSHentEnhetListeRequest();
             request.setRessursId(ident);
@@ -48,10 +46,6 @@ public class VirksomhetEnhetService {
             logger.error(feil, e);
             throw e;
         }
-    }
-
-    public Veileder hentVeilederInfo(String ident) throws Exception {
-        return hentEnhetListe(ident).getVeileder();
     }
 
     @Cacheable("veilarbveilederCache")
@@ -83,25 +77,25 @@ public class VirksomhetEnhetService {
         return new VeiledereResponse()
                 .setEnhet(originalResponse.getEnhet())
                 .setVeilederListe(originalResponse.getRessursListe().stream().map(ressurs ->
-                    new Veileder()
-                        .setIdent(ressurs.getRessursId())
-                        .setNavn(ressurs.getNavn())
-                        .setFornavn(ressurs.getFornavn())
-                        .setEtternavn(ressurs.getEtternavn()))
-                    .collect(Collectors.toList())
-        );
+                        new Veileder()
+                                .setIdent(ressurs.getRessursId())
+                                .setNavn(ressurs.getNavn())
+                                .setFornavn(ressurs.getFornavn())
+                                .setEtternavn(ressurs.getEtternavn()))
+                        .collect(Collectors.toList())
+                );
     }
 
     EnheterResponse mapWSEnhetResponseTilEnheterResponse(WSHentEnhetListeResponse response) {
         return new EnheterResponse()
                 .setVeileder(new Veileder().setIdent(response.getRessurs().getRessursId())
-                                            .setEtternavn(response.getRessurs().getEtternavn())
-                                            .setFornavn(response.getRessurs().getFornavn())
-                                            .setNavn(response.getRessurs().getNavn()))
-                .setEnhetliste(response.getEnhetListe().stream().map( enhet ->
-                    new PortefoljeEnhet()
-                            .setEnhetId(enhet.getEnhetId())
-                            .setNavn(enhet.getNavn()))
+                        .setEtternavn(response.getRessurs().getEtternavn())
+                        .setFornavn(response.getRessurs().getFornavn())
+                        .setNavn(response.getRessurs().getNavn()))
+                .setEnhetliste(response.getEnhetListe().stream().map(enhet ->
+                        new PortefoljeEnhet()
+                                .setEnhetId(enhet.getEnhetId())
+                                .setNavn(enhet.getNavn()))
                         .collect(Collectors.toList()));
 
     }

@@ -13,6 +13,8 @@ import org.springframework.cache.interceptor.SimpleKeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.lang.reflect.Method;
+
 
 @Configuration
 @EnableCaching
@@ -48,11 +50,18 @@ public class CacheConfig implements CachingConfigurer {
 
     @Override
     public KeyGenerator keyGenerator() {
-        return new SimpleKeyGenerator();
+        return new CustomKeyGenerator();
     }
 
     @Override
     public CacheErrorHandler errorHandler() {
         return null;
+    }
+
+    static class CustomKeyGenerator extends SimpleKeyGenerator {
+        @Override
+        public Object generate(Object target, Method method, Object... params) {
+            return String.format("%s.%s(%s)", target.getClass().getName(), method.getName(), super.generate(target, method, params));
+        }
     }
 }
