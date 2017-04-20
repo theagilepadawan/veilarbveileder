@@ -1,5 +1,6 @@
 package no.nav.fo.config;
 
+import no.nav.fo.internal.PingConfig;
 import no.nav.fo.service.PepClientInterface;
 import no.nav.fo.service.PepClientMock;
 import no.nav.sbl.dialogarena.common.abac.pep.context.AbacContext;
@@ -12,7 +13,8 @@ import org.springframework.context.annotation.Import;
         VirksomhetEnhetEndpointConfigMock.class,
         ServiceConfig.class,
         CacheConfig.class,
-        AbacContext.class
+        AbacContext.class,
+        PingConfig.class
 })
 public class LocalApplicationConfig {
 
