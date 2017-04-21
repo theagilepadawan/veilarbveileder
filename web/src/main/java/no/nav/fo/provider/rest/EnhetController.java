@@ -1,6 +1,7 @@
 package no.nav.fo.provider.rest;
 
 
+import io.swagger.annotations.Api;
 import no.nav.brukerdialog.security.context.SubjectHandler;
 import no.nav.fo.domene.VeiledereResponse;
 import no.nav.fo.service.PepClientInterface;
@@ -20,6 +21,7 @@ import java.util.List;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.*;
 
+@Api(value="Enhet")
 @Path("/enhet")
 @Produces(APPLICATION_JSON)
 public class EnhetController {
