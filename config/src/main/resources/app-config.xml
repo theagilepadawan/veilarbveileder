@@ -13,14 +13,14 @@
         <ear groupId="no.nav.fo" artifactId="veilarbveileder-jee"/>
     </artifacts>
 
-    <abacSecurity serviceUserResourceAlias="***REMOVED***"/>
+    <abacSecurity serviceUserResourceAlias="srvveilarbveileder"/>
 
 
     <resources>
         <ldap alias="ldap" mapToProperty="ldap"/>
 
         <webservice mapToProperty="norg.virksomhet_enhet" alias="virksomhet:Enhet_v1"/>
-        <applicationCertificate alias="***REMOVED***"/>
+        <applicationCertificate alias="srvveilarbveileder"/>
 
         <baseUrl alias="isso-host"/>
         <baseUrl alias="isso-jwks"/>
@@ -34,7 +34,7 @@
     </resources>
 
     <loadBalancer isAlive="/veilarbveileder/internal/isAlive" />
-    <security serviceUserResourceAlias="***REMOVED***">
+    <security serviceUserResourceAlias="srvveilarbveileder">
         <logins/>
     </security>
 </application>
