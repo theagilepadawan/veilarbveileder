@@ -3,6 +3,7 @@ package no.nav.fo.provider.rest;
 
 import io.swagger.annotations.Api;
 import no.nav.brukerdialog.security.context.SubjectHandler;
+import no.nav.fo.Utils;
 import no.nav.fo.domene.VeiledereResponse;
 import no.nav.fo.service.PepClientInterface;
 import no.nav.fo.service.VirksomhetEnhetService;
@@ -15,8 +16,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.*;
@@ -37,6 +36,12 @@ public class EnhetController {
     public Response hentRessurser(@PathParam("enhetId") String enhetId) {
         String ident = SubjectHandler.getSubjectHandler().getUid();
 
+        if(!Utils.enhetErIPilot(enhetId)) {
+            Enhet returnEnhet = new Enhet();
+            returnEnhet.setEnhetId(enhetId);
+            return Response.ok().entity(new VeiledereResponse().setVeilederListe(new ArrayList<>()).setEnhet(returnEnhet)).build();
+        }
+
         try {
             boolean isUserInModigOppfolging = pepClient.isSubjectMemberOfModiaOppfolging(ident);
             if(!isUserInModigOppfolging) {
@@ -46,17 +51,9 @@ public class EnhetController {
             return Response.status(INTERNAL_SERVER_ERROR).build();
         }
 
-        List<String> enheterIPilot = Arrays.asList(System.getProperty("portefolje.pilot.enhetliste").split(","));
-
-
         VeiledereResponse response = null;
 
         try {
-            if(!enheterIPilot.contains(enhetId)) {
-                Enhet returnEnhet = new Enhet();
-                returnEnhet.setEnhetId(enhetId);
-                return Response.ok().entity(new VeiledereResponse().setVeilederListe(new ArrayList<>()).setEnhet(returnEnhet)).build();
-            }
             response = virksomhetEnhetService.hentRessursListe(enhetId);
         } catch (HentRessursListeUgyldigInput e) {
             return Response.status(BAD_REQUEST).build();
