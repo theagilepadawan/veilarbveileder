@@ -39,7 +39,7 @@ public class EnhetControllerTest {
         setProperty("portefolje.pilot.enhetliste", "0000,0001");
 
         Response response = enhetController.hentRessurser("0002");
-        verify(pepClientInterface, never()).isSubjectMemberOfModiaOppfolging(any());
+        verify(pepClientInterface, never()).isSubjectMemberOfModiaOppfolging(any(), any());
     }
 
     @Test
@@ -47,7 +47,7 @@ public class EnhetControllerTest {
         setProperty("portefolje.pilot.enhetliste", "[]");
         Response response = enhetController.hentRessurser("0002");
 
-        verify(pepClientInterface, times(1)).isSubjectMemberOfModiaOppfolging(any());
+        verify(pepClientInterface, times(1)).isSubjectMemberOfModiaOppfolging(any(), any());
 
     }
 
