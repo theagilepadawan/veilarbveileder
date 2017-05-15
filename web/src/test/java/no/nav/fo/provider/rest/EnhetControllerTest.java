@@ -36,18 +36,23 @@ public class EnhetControllerTest {
 
     @Test
     public void skalReturnereTomResponsNaarEnhetIkkeErIPilot() throws Exception {
+        when(pepClientInterface.isSubjectMemberOfModiaOppfolging(anyString(), anyString())).thenReturn(true);
         setProperty("portefolje.pilot.enhetliste", "0000,0001");
 
         Response response = enhetController.hentRessurser("0002");
-        verify(pepClientInterface, never()).isSubjectMemberOfModiaOppfolging(any(), any());
+        verify(pepClientInterface, times(1)).isSubjectMemberOfModiaOppfolging(any(), any());
+        verify(virksomhetEnhetService, never()).hentRessursListe(anyString());
+
     }
 
     @Test
-    public void skalIkkeReturnereTomResponsNaarPilotlisteIkkeInneholderEnhet() {
+    public void skalIkkeReturnereTomResponsNaarPilotlisteIkkeInneholderEnhet() throws Exception {
+        when(pepClientInterface.isSubjectMemberOfModiaOppfolging(anyString(), anyString())).thenReturn(true);
         setProperty("portefolje.pilot.enhetliste", "[]");
         Response response = enhetController.hentRessurser("0002");
 
         verify(pepClientInterface, times(1)).isSubjectMemberOfModiaOppfolging(any(), any());
+        verify(virksomhetEnhetService, times(1)).hentRessursListe(anyString());
 
     }
 
