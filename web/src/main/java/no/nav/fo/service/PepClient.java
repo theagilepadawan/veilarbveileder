@@ -27,7 +27,7 @@ public class PepClient implements PepClientInterface {
         try {
             Timer timer = MetricsFactory.createTimer("isSubjectMemberOfModiaOppfolging");
             timer.start();
-            callAllowed  = pep.isSubjectMemberOfModiaOppfolging(ident);
+            callAllowed  = pep.isSubjectMemberOfModiaOppfolging(token, "veilarb");
             timer.stop();
             timer.report();
         } catch (PepException e) {

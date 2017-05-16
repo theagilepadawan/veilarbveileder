@@ -8,7 +8,6 @@ import javax.ws.rs.NotAuthorizedException;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
@@ -22,7 +21,7 @@ public class TilgangsRegler {
         String ident = subjectHandler.getUid();
         String token = TokenUtils.getTokenBody(subjectHandler.getSubject());
 
-        test("oppfølgingsbruker", ident, () -> pep.isSubjectMemberOfModiaOppfolging(ident, token));
+        test("oppfølgingsbruker", ident, pep.isSubjectMemberOfModiaOppfolging(ident, token));
     }
 
     public static boolean enhetErIPilot(String enhet) {
@@ -40,14 +39,6 @@ public class TilgangsRegler {
 
     public static void tilgangTilPilot(String enhet) {
         test("pilotenhet", enhet, enhetErIPilot(enhet));
-    }
-
-    private static void test(String navn, Object data, Supplier<Boolean> matches) {
-        try {
-            test(navn, data, matches.get());
-        } catch (Exception e) {
-            test(navn, e, false);
-        }
     }
 
     private static void test(String navn, Object data, boolean matches) {
