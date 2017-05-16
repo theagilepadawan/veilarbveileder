@@ -17,6 +17,7 @@
 
 
     <resources>
+        <rest alias="abac.pdp.endpoint" mapToProperty="abac.endpoint" />
         <ldap alias="ldap" mapToProperty="ldap"/>
 
         <webservice mapToProperty="norg.virksomhet_enhet" alias="virksomhet:Enhet_v1"/>
