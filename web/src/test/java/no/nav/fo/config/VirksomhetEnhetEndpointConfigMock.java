@@ -6,6 +6,8 @@ import no.nav.virksomhet.tjenester.enhet.v1.Enhet;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import static no.nav.sbl.dialogarena.types.Pingable.*;
+
 @Configuration
 public class VirksomhetEnhetEndpointConfigMock {
 
@@ -18,12 +20,18 @@ public class VirksomhetEnhetEndpointConfigMock {
     public Pingable virksomhetEnhetPing() {
         Enhet virksomhetEnhet = new EnhetMock();
 
+        Ping.PingMetadata metadata = new Ping.PingMetadata(
+                "Mock av VirksomhetEnhet",
+                "Ping mot VirksomhetEnhet (NORG).",
+                true
+        );
+
         return () -> {
             try {
                 virksomhetEnhet.ping();
-                return Pingable.Ping.lyktes("VirksomhetEnhet");
+                return Ping.lyktes(metadata);
             } catch (Exception e) {
-                return Pingable.Ping.feilet("Feilet", e);
+                return Ping.feilet(metadata, e);
             }
         };
     }

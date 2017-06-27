@@ -2,6 +2,7 @@ package no.nav.fo.config;
 
 import no.nav.sbl.dialogarena.common.cxf.CXFClient;
 import no.nav.sbl.dialogarena.types.Pingable;
+import no.nav.sbl.dialogarena.types.Pingable.Ping.PingMetadata;
 import no.nav.virksomhet.tjenester.enhet.v1.Enhet;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,12 +28,18 @@ public class VirksomhetEnhetEndpointConfig {
                 .configureStsForSystemUserInFSS()
                 .build();
 
+        PingMetadata metadata = new PingMetadata(
+                "VirksomhetEnhet_v1 via " + System.getProperty("norg.virksomhet_enhet.url"),
+                "Ping mot VirksomhetEnhet (NORG).",
+                true
+        );
+
         return () -> {
             try {
                 virksomhetEnhet.ping();
-                return Pingable.Ping.lyktes("VirksomhetEnhet");
+                return Pingable.Ping.lyktes(metadata);
             } catch (Exception e) {
-                return Pingable.Ping.feilet("VirksomhetEnhet", e);
+                return Pingable.Ping.feilet(metadata, e);
             }
         };
     }

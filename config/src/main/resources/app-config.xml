@@ -5,8 +5,7 @@
     <name>veilarbveileder</name>
 
     <selftest>
-        <path>veilarbveileder/internal/selftest.json</path>
-        <humanReadablePath>veilarbveileder/internal/selftest</humanReadablePath>
+        <path>veilarbveileder/internal/selftest</path>
     </selftest>
 
     <artifacts>
