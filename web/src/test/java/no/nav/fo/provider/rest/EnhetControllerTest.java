@@ -1,6 +1,7 @@
 package no.nav.fo.provider.rest;
 
 import no.nav.brukerdialog.security.context.InternbrukerSubjectHandler;
+import no.nav.brukerdialog.security.context.SubjectHandler;
 import no.nav.fo.service.PepClientInterface;
 import no.nav.fo.service.VirksomhetEnhetService;
 import org.junit.Before;
@@ -13,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import javax.ws.rs.core.Response;
 
 import static java.lang.System.setProperty;
+import static no.nav.brukerdialog.security.context.SubjectHandler.SUBJECTHANDLER_KEY;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,7 +31,7 @@ public class EnhetControllerTest {
 
     @Before
     public void setup() {
-        setProperty("no.nav.modig.core.context.subjectHandlerImplementationClass", InternbrukerSubjectHandler.class.getName());
+        setProperty(SUBJECTHANDLER_KEY, InternbrukerSubjectHandler.class.getName());
         InternbrukerSubjectHandler.setVeilederIdent("testident");
         System.clearProperty("portefolje.pilot.enhetliste");
     }
