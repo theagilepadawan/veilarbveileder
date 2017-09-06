@@ -34,6 +34,11 @@
     </resources>
 
     <loadBalancer isAlive="/veilarbveileder/internal/isAlive" />
+
+    <serverOptions>
+        <memoryParameters resourceAlias="veilarb-memparams"/>
+    </serverOptions>
+
     <security serviceUserResourceAlias="srvveilarbveileder">
         <logins/>
     </security>
