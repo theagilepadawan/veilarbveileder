@@ -9,12 +9,7 @@
         <realm-name>jetty-login</realm-name>
     </login-config>
     <context-param>
-        <param-name>contextClass</param-name>
-        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
+        <param-name>springContekstKlasse</param-name>
         <param-value>no.nav.fo.config.LocalApplicationConfig</param-value>
     </context-param>
 
