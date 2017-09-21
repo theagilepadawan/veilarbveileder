@@ -16,6 +16,11 @@
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
 
+    <context-param>
+        <param-name>disableApiApp</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
