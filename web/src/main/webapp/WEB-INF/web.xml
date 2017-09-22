@@ -21,6 +21,15 @@
         <param-value>true</param-value>
     </context-param>
 
+    <!--CONFIG FOR API-APP-->
+    <context-param>
+        <param-name>springContekstKlasse</param-name>
+        <param-value>no.nav.fo.config.ApplicationConfig</param-value>
+    </context-param>
+    <listener>
+        <listener-class>no.nav.apiapp.ApiAppServletContextListener</listener-class>
+    </listener>
+
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
