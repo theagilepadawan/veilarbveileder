@@ -22,6 +22,8 @@
         <webservice mapToProperty="norg.virksomhet_enhet" alias="virksomhet:Enhet_v1"/>
         <applicationCertificate alias="srvveilarbveileder"/>
 
+        <rest alias="veilarblogin.redirect-url" mapToProperty="oidc-redirect" />
+
         <baseUrl alias="isso-host"/>
         <baseUrl alias="isso-jwks"/>
         <baseUrl alias="isso-issuer"/>

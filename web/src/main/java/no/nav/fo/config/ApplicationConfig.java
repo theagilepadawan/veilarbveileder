@@ -1,7 +1,7 @@
 package no.nav.fo.config;
 
 import no.nav.apiapp.ApiApplication;
-import no.nav.fo.internal.PingConfig;
+import no.nav.fo.provider.rest.RestConfig;
 import no.nav.fo.service.PepClient;
 import no.nav.fo.service.PepClientInterface;
 import no.nav.sbl.dialogarena.common.abac.pep.context.AbacContext;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Import;
         ServiceConfig.class,
         CacheConfig.class,
         AbacContext.class,
-        PingConfig.class
+        RestConfig.class
 })
 public class ApplicationConfig implements ApiApplication {
 
