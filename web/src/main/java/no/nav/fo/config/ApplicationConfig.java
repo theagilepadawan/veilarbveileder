@@ -1,5 +1,6 @@
 package no.nav.fo.config;
 
+import no.nav.apiapp.ApiApplication;
 import no.nav.fo.internal.PingConfig;
 import no.nav.fo.service.PepClient;
 import no.nav.fo.service.PepClientInterface;
@@ -16,9 +17,13 @@ import org.springframework.context.annotation.Import;
         AbacContext.class,
         PingConfig.class
 })
-public class ApplicationConfig {
+public class ApplicationConfig implements ApiApplication {
 
     @Bean
     public PepClientInterface pepClient() { return new PepClient(); }
 
+    @Override
+    public Sone getSone() {
+        return Sone.FSS;
+    }
 }
