@@ -6,12 +6,9 @@ import no.nav.fo.util.TokenUtils;
 
 import javax.ws.rs.NotAuthorizedException;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
-import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class TilgangsRegler {
     final static Pattern pattern = Pattern.compile("\\d{4}");
@@ -22,23 +19,6 @@ public class TilgangsRegler {
         String token = TokenUtils.getTokenBody(subjectHandler.getSubject());
 
         test("oppfølgingsbruker", ident, pep.isSubjectMemberOfModiaOppfolging(ident, token));
-    }
-
-    public static boolean enhetErIPilot(String enhet) {
-        String enhetsliste = System.getProperty("portefolje.pilot.enhetliste", "");
-        enhetsliste = pattern.matcher(enhetsliste).find() ? enhetsliste : "";
-
-        if (isBlank(enhetsliste)) {
-            return true;
-        }
-
-        List<String> pilotenheter = Arrays.asList(enhetsliste.split(","));
-
-        return pilotenheter.isEmpty() || pilotenheter.contains(enhet);
-    }
-
-    public static void tilgangTilPilot(String enhet) {
-        test("pilotenhet", enhet, enhetErIPilot(enhet));
     }
 
     private static void test(String navn, Object data, boolean matches) {
