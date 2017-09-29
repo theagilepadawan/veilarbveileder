@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static java.lang.System.setProperty;
 import static no.nav.brukerdialog.security.context.SubjectHandler.SUBJECTHANDLER_KEY;
@@ -40,9 +40,5 @@ public class EnhetControllerTest {
 
         verify(pepClientInterface, times(1)).isSubjectMemberOfModiaOppfolging(any(), any());
         verify(virksomhetEnhetService, times(1)).hentRessursListe(anyString());
-
     }
-
-
-
 }
