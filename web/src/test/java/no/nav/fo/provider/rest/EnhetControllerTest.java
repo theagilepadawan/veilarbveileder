@@ -1,7 +1,6 @@
 package no.nav.fo.provider.rest;
 
 import no.nav.brukerdialog.security.context.InternbrukerSubjectHandler;
-import no.nav.brukerdialog.security.context.SubjectHandler;
 import no.nav.fo.service.PepClientInterface;
 import no.nav.fo.service.VirksomhetEnhetService;
 import org.junit.Before;
@@ -9,9 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import javax.ws.rs.core.Response;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static java.lang.System.setProperty;
 import static no.nav.brukerdialog.security.context.SubjectHandler.SUBJECTHANDLER_KEY;
@@ -21,13 +18,13 @@ import static org.mockito.Mockito.*;
 public class EnhetControllerTest {
 
     @Mock
-    VirksomhetEnhetService virksomhetEnhetService;
+    private VirksomhetEnhetService virksomhetEnhetService;
 
     @Mock
-    PepClientInterface pepClientInterface;
+    private PepClientInterface pepClientInterface;
 
     @InjectMocks
-    EnhetController enhetController;
+    private EnhetController enhetController;
 
     @Before
     public void setup() {
@@ -45,7 +42,6 @@ public class EnhetControllerTest {
 
         verify(pepClientInterface, times(1)).isSubjectMemberOfModiaOppfolging(any(), any());
         verify(virksomhetEnhetService, never()).hentRessursListe(anyString());
-
     }
 
     @Test
@@ -57,9 +53,5 @@ public class EnhetControllerTest {
 
         verify(pepClientInterface, times(1)).isSubjectMemberOfModiaOppfolging(any(), any());
         verify(virksomhetEnhetService, times(1)).hentRessursListe(anyString());
-
     }
-
-
-
 }
