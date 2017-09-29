@@ -11,23 +11,23 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("/logging")
 public class JSLoggerController {
-    Logger logger = LoggerFactory.getLogger("frontendlog");
+    Logger LOGGER = LoggerFactory.getLogger("frontendlog");
 
     @POST
     @Consumes(APPLICATION_JSON)
     public void log(LogLinje logLinje) {
         switch (logLinje.level) {
             case "INFO":
-                logger.info(logLinje.toString());
+                LOGGER.info(logLinje.toString());
                 break;
             case "WARN":
-                logger.warn(logLinje.toString());
+                LOGGER.warn(logLinje.toString());
                 break;
             case "ERROR":
-                logger.error(logLinje.toString());
+                LOGGER.error(logLinje.toString());
                 break;
             default:
-                logger.error("Level-field for LogLinje ikke godkjent.", logLinje);
+                LOGGER.error("Level-field for LogLinje ikke godkjent.", logLinje);
         }
     }
 }

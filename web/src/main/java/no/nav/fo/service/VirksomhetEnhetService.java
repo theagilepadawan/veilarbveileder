@@ -21,7 +21,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class VirksomhetEnhetService {
 
-    private static final Logger logger = getLogger(VirksomhetEnhetService.class);
+    private static final Logger LOGGER = getLogger(VirksomhetEnhetService.class);
 
     @Inject
     private Enhet virksomhetEnhet;
@@ -35,15 +35,15 @@ public class VirksomhetEnhetService {
             return mapWSEnhetResponseTilEnheterResponse(response);
         } catch (HentEnhetListeUgyldigInput e) {
             String feil = String.format("Kunne ikke hente ansattopplysnigner for %s", ident);
-            logger.error(feil, e);
+            LOGGER.error(feil, e);
             throw e;
         } catch (HentEnhetListeRessursIkkeFunnet e) {
             String feil = String.format("Kunne ikke hente ansattopplysninger for %s", ident);
-            logger.error(feil, e);
+            LOGGER.error(feil, e);
             throw e;
         } catch (Exception e) {
             String feil = String.format("Kunne ikke hente ansattopplysninger for %s: Ukjent Feil", ident);
-            logger.error(feil, e);
+            LOGGER.error(feil, e);
             throw e;
         }
     }
@@ -60,15 +60,15 @@ public class VirksomhetEnhetService {
 
         } catch (HentRessursListeUgyldigInput e) {
             String feil = String.format("Kunne ikke hente ressursliste for %s", enhetId);
-            logger.error(feil, e);
+            LOGGER.error(feil, e);
             throw e;
         } catch (HentRessursListeEnhetikkefunnet e) {
             String feil = String.format("Kunne ikke hente ressursliste for %S", enhetId);
-            logger.error(feil, e);
+            LOGGER.error(feil, e);
             throw e;
         } catch (Exception e) {
             String feil = String.format("Kunne ikke hente ressursliste for %s, ukjent feil", enhetId);
-            logger.error(feil, e);
+            LOGGER.error(feil, e);
             throw e;
         }
     }

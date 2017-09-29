@@ -16,7 +16,7 @@ import javax.ws.rs.InternalServerErrorException;
 
 public class PepClient implements PepClientInterface {
 
-    private Logger logger = LoggerFactory.getLogger(PepClient.class);
+    private Logger LOGGER = LoggerFactory.getLogger(PepClient.class);
 
     @Inject
     private Pep pep;
@@ -34,7 +34,7 @@ public class PepClient implements PepClientInterface {
             throw new InternalServerErrorException("Something went wrong when wrong in PEP", e);
         }
         if (callAllowed.getBiasedDecision().equals(Decision.Deny)) {
-            logger.info("User "+ ident +" is not in group MODIA-OPPFOLGING");
+            LOGGER.info("User "+ ident +" is not in group MODIA-OPPFOLGING");
         }
         return callAllowed.getBiasedDecision().equals(Decision.Permit);
     }
