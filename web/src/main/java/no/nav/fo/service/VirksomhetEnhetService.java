@@ -21,7 +21,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class VirksomhetEnhetService {
 
-    private static final Logger logger = getLogger(VirksomhetEnhetService.class);
+    private static final Logger LOGGER = getLogger(VirksomhetEnhetService.class);
 
     @Inject
     private Enhet virksomhetEnhet;
@@ -33,42 +33,21 @@ public class VirksomhetEnhetService {
             request.setRessursId(ident);
             WSHentEnhetListeResponse response = virksomhetEnhet.hentEnhetListe(request);
             return mapWSEnhetResponseTilEnheterResponse(response);
-        } catch (HentEnhetListeUgyldigInput e) {
-            String feil = String.format("Kunne ikke hente ansattopplysnigner for %s", ident);
-            logger.error(feil, e);
-            throw e;
-        } catch (HentEnhetListeRessursIkkeFunnet e) {
-            String feil = String.format("Kunne ikke hente ansattopplysninger for %s", ident);
-            logger.error(feil, e);
-            throw e;
         } catch (Exception e) {
-            String feil = String.format("Kunne ikke hente ansattopplysninger for %s: Ukjent Feil", ident);
-            logger.error(feil, e);
+            LOGGER.error("Kunne ikke hente enhetene til veileder {} fra VirksomhetEnhet/NORG2", ident, e);
             throw e;
         }
     }
 
     @Cacheable("veilarbveilederCache")
     public VeiledereResponse hentRessursListe(String enhetId) throws Exception {
-
         try {
             WSHentRessursListeRequest request = new WSHentRessursListeRequest();
             request.setEnhetId(enhetId);
             WSHentRessursListeResponse originalResponse = virksomhetEnhet.hentRessursListe(request);
-
             return mapRessursResponseTilVeilederResponse(originalResponse);
-
-        } catch (HentRessursListeUgyldigInput e) {
-            String feil = String.format("Kunne ikke hente ressursliste for %s", enhetId);
-            logger.error(feil, e);
-            throw e;
-        } catch (HentRessursListeEnhetikkefunnet e) {
-            String feil = String.format("Kunne ikke hente ressursliste for %S", enhetId);
-            logger.error(feil, e);
-            throw e;
         } catch (Exception e) {
-            String feil = String.format("Kunne ikke hente ressursliste for %s, ukjent feil", enhetId);
-            logger.error(feil, e);
+            LOGGER.error("Kunne ikke hente ressursene til enhet {} fra VirksomhetEnhet/NORG2", enhetId, e);
             throw e;
         }
     }
@@ -86,7 +65,7 @@ public class VirksomhetEnhetService {
                 );
     }
 
-    EnheterResponse mapWSEnhetResponseTilEnheterResponse(WSHentEnhetListeResponse response) {
+    private EnheterResponse mapWSEnhetResponseTilEnheterResponse(WSHentEnhetListeResponse response) {
         return new EnheterResponse()
                 .setVeileder(new Veileder().setIdent(response.getRessurs().getRessursId())
                         .setEtternavn(response.getRessurs().getEtternavn())
