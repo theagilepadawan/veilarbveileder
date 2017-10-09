@@ -15,12 +15,14 @@ import org.springframework.context.annotation.Configuration;
 
 import java.lang.reflect.Method;
 
+import static no.nav.sbl.dialogarena.common.abac.pep.context.AbacContext.ABAC_CACHE;
+
 
 @Configuration
 @EnableCaching
 public class CacheConfig implements CachingConfigurer {
 
-    String cacheSecondsString = System.getProperty("cache.config.seconds","3600");
+    String cacheSecondsString = System.getProperty("cache.config.seconds", "3600");
     int cacheSecondsInt = Integer.parseInt(cacheSecondsString);
 
     @Bean
@@ -33,6 +35,7 @@ public class CacheConfig implements CachingConfigurer {
         cacheConfiguration.setTimeToLiveSeconds(cacheSecondsInt);
         net.sf.ehcache.config.Configuration config = new net.sf.ehcache.config.Configuration();
         config.addCache(cacheConfiguration);
+        config.addCache(ABAC_CACHE);
 
         return net.sf.ehcache.CacheManager.newInstance(config);
     }

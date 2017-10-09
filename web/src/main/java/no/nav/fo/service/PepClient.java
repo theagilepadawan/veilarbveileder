@@ -21,7 +21,6 @@ public class PepClient implements PepClientInterface {
     @Inject
     private Pep pep;
 
-    @Cacheable("veilarbveilederCache")
     public boolean isSubjectMemberOfModiaOppfolging(String ident, String token) {
         BiasedDecisionResponse callAllowed;
         try {
