@@ -1,5 +1,6 @@
 package no.nav.fo.service;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.metrics.MetricsFactory;
 import no.nav.metrics.Timer;
 import no.nav.sbl.dialogarena.common.abac.pep.Pep;
@@ -13,7 +14,7 @@ import org.springframework.cache.annotation.Cacheable;
 import javax.inject.Inject;
 import javax.ws.rs.InternalServerErrorException;
 
-
+@Slf4j
 public class PepClient implements PepClientInterface {
 
     private Logger logger = LoggerFactory.getLogger(PepClient.class);
@@ -31,6 +32,7 @@ public class PepClient implements PepClientInterface {
             timer.stop();
             timer.report();
         } catch (PepException e) {
+            log.error("Something went wrong when wrong in PEP", e);
             throw new InternalServerErrorException("Something went wrong when wrong in PEP", e);
         }
         if (callAllowed.getBiasedDecision().equals(Decision.Deny)) {
