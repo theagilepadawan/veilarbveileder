@@ -14,8 +14,6 @@ public class StartJettyVeilArbVeileder {
     public static final String VEILARBVEILEDER = "veilarbveileder";
 
     public static void main(String[] args) {
-        SystemProperties.setFrom("jetty-veilarbveileder.properties");
-
         final Jetty jetty = setupISSO(Jetty.usingWar()
                         .at(VEILARBVEILEDER)
                         .sslPort(9590)
