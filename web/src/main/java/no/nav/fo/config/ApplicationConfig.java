@@ -50,7 +50,7 @@ public class ApplicationConfig implements ApiApplication {
                 String requestURI = request.getRequestURI();
                 String relativPath = requestURI.substring(request.getContextPath().length() + request.getServletPath().length() + 1);
                 String apiPath = DEFAULT_API_PATH + relativPath;
-                LOGGER.warn("bakoverkompatibilitet: {} -> {}", requestURI, apiPath);
+                LOGGER.warn("bakoverkompatibilitet: {} -> {} : {}", requestURI, apiPath, request.getHeader("Referer"));
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher(apiPath);
                 requestDispatcher.forward(req, res);
             }
