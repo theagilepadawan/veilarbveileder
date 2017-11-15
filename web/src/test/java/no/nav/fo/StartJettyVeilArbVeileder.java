@@ -2,7 +2,6 @@ package no.nav.fo;
 
 import no.nav.dialogarena.config.DevelopmentSecurity;
 import no.nav.sbl.dialogarena.common.jetty.Jetty;
-import no.nav.sbl.dialogarena.test.SystemProperties;
 
 import static no.nav.dialogarena.config.DevelopmentSecurity.setupISSO;
 import static no.nav.modig.lang.collections.FactoryUtils.gotKeypress;

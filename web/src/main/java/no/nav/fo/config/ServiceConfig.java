@@ -1,5 +1,6 @@
 package no.nav.fo.config;
 
+import no.nav.fo.service.BrukertilgangService;
 import no.nav.fo.service.VirksomhetEnhetService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,4 +12,7 @@ public class ServiceConfig {
     public VirksomhetEnhetService virksomhetEnhetServiceImpl() {
         return new VirksomhetEnhetService();
     }
+
+    @Bean
+    public BrukertilgangService brukertilgangService() { return new BrukertilgangService(); }
 }

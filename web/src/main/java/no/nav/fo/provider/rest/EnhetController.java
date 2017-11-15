@@ -2,6 +2,7 @@ package no.nav.fo.provider.rest;
 
 
 import io.swagger.annotations.Api;
+import no.nav.fo.service.BrukertilgangService;
 import no.nav.fo.service.PepClientInterface;
 import no.nav.fo.service.VirksomhetEnhetService;
 import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeEnhetikkefunnet;
@@ -26,13 +27,16 @@ public class EnhetController {
     VirksomhetEnhetService virksomhetEnhetService;
 
     @Inject
+    BrukertilgangService brukertilgangService;
+
+    @Inject
     PepClientInterface pepClient;
 
     @GET
     @Path("/{enhetId}/veiledere")
     public Response hentRessurser(@PathParam("enhetId") String enhetId) {
         TilgangsRegler.tilgangTilOppfolging(pepClient);
-
+        TilgangsRegler.tilgangTilEnhet(brukertilgangService, enhetId);
         try {
             return Response.ok().entity(virksomhetEnhetService.hentRessursListe(enhetId)).build();
         } catch (HentRessursListeUgyldigInput e) {

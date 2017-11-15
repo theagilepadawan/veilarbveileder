@@ -1,6 +1,7 @@
 package no.nav.fo.provider.rest;
 
 import no.nav.brukerdialog.security.context.InternbrukerSubjectHandler;
+import no.nav.fo.service.BrukertilgangService;
 import no.nav.fo.service.PepClientInterface;
 import no.nav.fo.service.VirksomhetEnhetService;
 import org.junit.Before;
@@ -21,6 +22,9 @@ public class EnhetControllerTest {
     private VirksomhetEnhetService virksomhetEnhetService;
 
     @Mock
+    private BrukertilgangService brukertilgangService;
+
+    @Mock
     private PepClientInterface pepClientInterface;
 
     @InjectMocks
@@ -35,6 +39,7 @@ public class EnhetControllerTest {
     @Test
     public void skalReturnereResponsNaarBrukerHarTilgang() throws Exception {
         when(pepClientInterface.isSubjectMemberOfModiaOppfolging(anyString(), any())).thenReturn(true);
+        when(brukertilgangService.harBrukerTilgang(any(), any())).thenReturn(true);
 
         enhetController.hentRessurser("0002");
 
