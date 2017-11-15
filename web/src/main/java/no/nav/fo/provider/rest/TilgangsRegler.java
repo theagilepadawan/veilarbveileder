@@ -1,24 +1,30 @@
 package no.nav.fo.provider.rest;
 
 import io.vavr.Tuple;
+import lombok.SneakyThrows;
 import no.nav.brukerdialog.security.context.SubjectHandler;
 import no.nav.fo.service.BrukertilgangService;
-import no.nav.fo.service.PepClientInterface;
-import no.nav.fo.util.TokenUtils;
+import no.nav.sbl.dialogarena.common.abac.pep.Pep;
+import no.nav.sbl.dialogarena.common.abac.pep.RequestData;
+import no.nav.sbl.dialogarena.common.abac.pep.domain.ResourceType;
 
 import javax.ws.rs.NotAuthorizedException;
 
-
 import static java.lang.String.format;
+import static no.nav.sbl.dialogarena.common.abac.pep.domain.response.Decision.Permit;
 
 public class TilgangsRegler {
 
-    static void tilgangTilOppfolging(PepClientInterface pep) {
+    @SneakyThrows
+    static void tilgangTilOppfolging(Pep pep) {
         SubjectHandler subjectHandler = SubjectHandler.getSubjectHandler();
         String ident = subjectHandler.getUid();
-        String token = TokenUtils.getTokenBody(subjectHandler.getSubject());
 
-        test("oppfølgingsbruker", ident, pep.isSubjectMemberOfModiaOppfolging(ident, token));
+        RequestData requestData = pep.nyRequest()
+                .withDomain("modia")
+                .withResourceType(ResourceType.Modia);
+
+        test("oppfølgingsbruker", ident, pep.harTilgang(requestData).getBiasedDecision() == Permit);
     }
 
     static void tilgangTilEnhet(BrukertilgangService brukertilgangService, String enhet) {

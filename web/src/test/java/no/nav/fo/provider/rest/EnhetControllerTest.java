@@ -2,8 +2,10 @@ package no.nav.fo.provider.rest;
 
 import no.nav.brukerdialog.security.context.InternbrukerSubjectHandler;
 import no.nav.fo.service.BrukertilgangService;
-import no.nav.fo.service.PepClientInterface;
 import no.nav.fo.service.VirksomhetEnhetService;
+import no.nav.sbl.dialogarena.common.abac.pep.Pep;
+import no.nav.sbl.dialogarena.common.abac.pep.RequestData;
+import no.nav.sbl.dialogarena.common.abac.pep.domain.response.BiasedDecisionResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import static java.lang.System.setProperty;
 import static no.nav.brukerdialog.security.context.SubjectHandler.SUBJECTHANDLER_KEY;
+import static no.nav.sbl.dialogarena.common.abac.pep.domain.response.Decision.Permit;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -25,7 +28,7 @@ public class EnhetControllerTest {
     private BrukertilgangService brukertilgangService;
 
     @Mock
-    private PepClientInterface pepClientInterface;
+    private Pep pepClientInterface;
 
     @InjectMocks
     private EnhetController enhetController;
@@ -38,7 +41,7 @@ public class EnhetControllerTest {
 
     @Test
     public void skalReturnereResponsNaarBrukerHarTilgang() throws Exception {
-        when(pepClientInterface.isSubjectMemberOfModiaOppfolging(anyString(), any())).thenReturn(true);
+        when(pepClientInterface.harTilgang(any(RequestData.class))).thenReturn(new BiasedDecisionResponse(Permit, null));
         when(brukertilgangService.harBrukerTilgang(any(), any())).thenReturn(true);
 
         enhetController.hentRessurser("0002");

@@ -3,8 +3,8 @@ package no.nav.fo.provider.rest;
 
 import io.swagger.annotations.Api;
 import no.nav.fo.service.BrukertilgangService;
-import no.nav.fo.service.PepClientInterface;
 import no.nav.fo.service.VirksomhetEnhetService;
+import no.nav.sbl.dialogarena.common.abac.pep.Pep;
 import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeEnhetikkefunnet;
 import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeUgyldigInput;
 
@@ -30,7 +30,7 @@ public class EnhetController {
     BrukertilgangService brukertilgangService;
 
     @Inject
-    PepClientInterface pepClient;
+    Pep pepClient;
 
     @GET
     @Path("/{enhetId}/veiledere")
