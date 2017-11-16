@@ -41,12 +41,13 @@ public class EnhetControllerTest {
 
     @Test
     public void skalReturnereResponsNaarBrukerHarTilgang() throws Exception {
+        when(pepClientInterface.nyRequest()).thenReturn(new RequestData());
         when(pepClientInterface.harTilgang(any(RequestData.class))).thenReturn(new BiasedDecisionResponse(Permit, null));
         when(brukertilgangService.harBrukerTilgang(any(), any())).thenReturn(true);
 
         enhetController.hentRessurser("0002");
 
-        verify(pepClientInterface, times(1)).isSubjectMemberOfModiaOppfolging(any(), any());
+        verify(pepClientInterface, times(1)).harTilgang(any(RequestData.class));
         verify(virksomhetEnhetService, times(1)).hentRessursListe(anyString());
     }
 }
