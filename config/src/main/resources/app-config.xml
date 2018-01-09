@@ -35,6 +35,10 @@
 
     </resources>
 
+    <exposed-services>
+        <exposedRest name="veilArbVeilederAPI" path="/veilarbveileder/api"/>
+    </exposed-services>
+
     <loadBalancer isAlive="/veilarbveileder/internal/isAlive" />
 
     <serverOptions>
