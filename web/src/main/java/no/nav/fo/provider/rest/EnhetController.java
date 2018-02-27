@@ -2,7 +2,6 @@ package no.nav.fo.provider.rest;
 
 
 import io.swagger.annotations.Api;
-import no.nav.fo.service.BrukertilgangService;
 import no.nav.fo.service.VirksomhetEnhetService;
 import no.nav.sbl.dialogarena.common.abac.pep.Pep;
 import no.nav.virksomhet.tjenester.enhet.v1.HentRessursListeEnhetikkefunnet;
@@ -24,19 +23,16 @@ import static javax.ws.rs.core.Response.Status.*;
 public class EnhetController {
 
     @Inject
-    VirksomhetEnhetService virksomhetEnhetService;
+    private VirksomhetEnhetService virksomhetEnhetService;
 
     @Inject
-    BrukertilgangService brukertilgangService;
-
-    @Inject
-    Pep pepClient;
+    private Pep pepClient;
 
     @GET
     @Path("/{enhetId}/veiledere")
     public Response hentRessurser(@PathParam("enhetId") String enhetId) {
         TilgangsRegler.tilgangTilOppfolging(pepClient);
-        TilgangsRegler.tilgangTilEnhet(brukertilgangService, enhetId);
+        TilgangsRegler.tilgangTilEnhet(pepClient, enhetId);
         try {
             return Response.ok().entity(virksomhetEnhetService.hentRessursListe(enhetId)).build();
         } catch (HentRessursListeUgyldigInput e) {

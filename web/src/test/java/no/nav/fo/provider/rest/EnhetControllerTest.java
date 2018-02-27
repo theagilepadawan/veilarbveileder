@@ -1,7 +1,6 @@
 package no.nav.fo.provider.rest;
 
 import no.nav.brukerdialog.security.context.InternbrukerSubjectHandler;
-import no.nav.fo.service.BrukertilgangService;
 import no.nav.fo.service.VirksomhetEnhetService;
 import no.nav.sbl.dialogarena.common.abac.pep.Pep;
 import no.nav.sbl.dialogarena.common.abac.pep.RequestData;
@@ -25,10 +24,7 @@ public class EnhetControllerTest {
     private VirksomhetEnhetService virksomhetEnhetService;
 
     @Mock
-    private BrukertilgangService brukertilgangService;
-
-    @Mock
-    private Pep pepClientInterface;
+    private Pep pep;
 
     @InjectMocks
     private EnhetController enhetController;
@@ -41,13 +37,13 @@ public class EnhetControllerTest {
 
     @Test
     public void skalReturnereResponsNaarBrukerHarTilgang() throws Exception {
-        when(pepClientInterface.nyRequest()).thenReturn(new RequestData());
-        when(pepClientInterface.harTilgang(any(RequestData.class))).thenReturn(new BiasedDecisionResponse(Permit, null));
-        when(brukertilgangService.harBrukerTilgang(any(), any())).thenReturn(true);
+        System.setProperty("no.nav.modig.core.context.subjectHandlerImplementationClass", no.nav.modig.core.context.ThreadLocalSubjectHandler.class.getName());
+        when(pep.nyRequest()).thenReturn(new RequestData());
+        when(pep.harTilgang(any(RequestData.class))).thenReturn(new BiasedDecisionResponse(Permit, null));
 
         enhetController.hentRessurser("0002");
 
-        verify(pepClientInterface, times(1)).harTilgang(any(RequestData.class));
+        verify(pep, times(2)).harTilgang(any(RequestData.class));
         verify(virksomhetEnhetService, times(1)).hentRessursListe(anyString());
     }
 }
