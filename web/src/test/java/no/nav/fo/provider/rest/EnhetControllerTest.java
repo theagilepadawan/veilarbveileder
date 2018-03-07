@@ -40,10 +40,11 @@ public class EnhetControllerTest {
         System.setProperty("no.nav.modig.core.context.subjectHandlerImplementationClass", no.nav.modig.core.context.ThreadLocalSubjectHandler.class.getName());
         when(pep.nyRequest()).thenReturn(new RequestData());
         when(pep.harTilgang(any(RequestData.class))).thenReturn(new BiasedDecisionResponse(Permit, null));
+        when(pep.harTilgangTilEnhet(any(), any())).thenReturn(new BiasedDecisionResponse(Permit, null));
 
         enhetController.hentRessurser("0002");
 
-        verify(pep, times(2)).harTilgang(any(RequestData.class));
+        verify(pep, times(1)).harTilgang(any(RequestData.class));
         verify(virksomhetEnhetService, times(1)).hentRessursListe(anyString());
     }
 }
