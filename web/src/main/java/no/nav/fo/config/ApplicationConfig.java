@@ -12,7 +12,9 @@ import org.springframework.context.annotation.Import;
         ServiceConfig.class,
         CacheConfig.class,
         AbacContext.class,
-        RestConfig.class
+        RestConfig.class,
+        LdapContextProvider.class,
+        OrganisasjonEnhetV2Config.class
 })
 public class ApplicationConfig implements ApiApplication {
 

@@ -37,7 +37,7 @@ public class TilgangsRegler {
     private static void tilgangTilEnhet(Pep pep, String enhet, String ident) {
         BiasedDecisionResponse callAllowed;
         try {
-            callAllowed = pep.harTilgangTilEnhet(enhet, "srvveilarbveileder");
+            callAllowed = pep.harTilgangTilEnhet(enhet, "srvveilarbveileder", "veilarb");
         } catch (PepException e) {
             throw new InternalServerErrorException("Something went wrong in PEP", e);
         }

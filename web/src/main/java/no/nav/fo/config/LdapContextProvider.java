@@ -1,5 +1,7 @@
 package no.nav.fo.config;
 
+import org.springframework.context.annotation.Configuration;
+
 import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.ldap.InitialLdapContext;
@@ -8,6 +10,7 @@ import java.util.Hashtable;
 
 import static java.lang.System.getProperty;
 
+@Configuration
 public class LdapContextProvider {
 
     private static Hashtable<String, String> env = new Hashtable<>();

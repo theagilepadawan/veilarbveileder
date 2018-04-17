@@ -20,6 +20,7 @@
         <ldap alias="ldap" mapToProperty="ldap"/>
 
         <webservice mapToProperty="norg.virksomhet_enhet" alias="virksomhet:Enhet_v1"/>
+        <webservice mapToProperty="norg2.organisasjonenhet.v2" alias="virksomhet:OrganisasjonEnhet_v2"/>
         <applicationCertificate alias="srvveilarbveileder"/>
 
         <rest alias="veilarblogin.redirect-url" mapToProperty="oidc-redirect" />
