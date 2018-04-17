@@ -13,7 +13,6 @@ public class StartJettyVeilArbVeileder {
     public static final String VEILARBVEILEDER = "veilarbveileder";
 
     public static void main(String[] args) {
-        System.setProperty("norg2.organisasjonenhet.v2.url", "https://app-t6.adeo.no/norg2/ws/OrganisasjonEnhet/v2");
         final Jetty jetty = setupISSO(Jetty.usingWar()
                         .at(VEILARBVEILEDER)
                         .sslPort(9590)
