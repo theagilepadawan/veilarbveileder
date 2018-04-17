@@ -43,4 +43,18 @@ public class EnhetController {
             return Response.status(INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @GET
+    @Path("/{enhetId}/identer")
+    public Response hentIdenter(@PathParam("enhetId") String enhetId) {
+        try {
+            return Response.ok().entity(virksomhetEnhetService.hentIdentListe(enhetId)).build();
+        } catch (HentRessursListeUgyldigInput e) {
+            return Response.status(BAD_REQUEST).build();
+        } catch (HentRessursListeEnhetikkefunnet e) {
+            return Response.status(NO_CONTENT).build();
+        } catch (Exception e) {
+            return Response.status(INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

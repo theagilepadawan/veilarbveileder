@@ -3,6 +3,7 @@ package no.nav.fo.service;
 import no.nav.fo.domene.PortefoljeEnhet;
 import no.nav.fo.domene.Veileder;
 import no.nav.fo.domene.VeiledereResponse;
+import no.nav.virksomhet.organisering.enhetogressurs.v1.Ressurs;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeRequest;
@@ -21,7 +22,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class VirksomhetEnhetService {
 
     private static final Logger LOGGER = getLogger(VirksomhetEnhetService.class);
-    private final String rolleModiaAdmin = "0000-GA-Modia_Admin";
+    private static final String rolleModiaAdmin = "0000-GA-Modia_Admin";
 
     @Inject
     private Enhet virksomhetEnhet;
@@ -79,6 +80,26 @@ public class VirksomhetEnhetService {
             LOGGER.error("Kunne ikke hente ressursene til enhet {} fra VirksomhetEnhet/NORG2", enhetId, e);
             throw e;
         }
+    }
+
+    @Cacheable("veilarbveilederCache")
+    public List<String> hentIdentListe(String enhetId) throws Exception {
+        try {
+            WSHentRessursListeRequest request = new WSHentRessursListeRequest();
+            request.setEnhetId(enhetId);
+            WSHentRessursListeResponse originalResponse = virksomhetEnhet.hentRessursListe(request);
+            return mapRessursResponsTilIdentListe(originalResponse);
+        } catch (Exception e) {
+            LOGGER.error("Kunne ikke hente ressursene til enhet {} fra VirksomhetEnhet/NORG2 for identliste", enhetId, e);
+            throw e;
+        }
+    }
+
+    private List<String> mapRessursResponsTilIdentListe(WSHentRessursListeResponse originalResponse) {
+        return originalResponse.getRessursListe()
+                .stream()
+                .map(Ressurs::getRessursId)
+                .collect(Collectors.toList());
     }
 
     VeiledereResponse mapRessursResponseTilVeilederResponse(WSHentRessursListeResponse originalResponse) {
