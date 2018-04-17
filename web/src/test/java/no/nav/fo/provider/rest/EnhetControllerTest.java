@@ -1,6 +1,7 @@
 package no.nav.fo.provider.rest;
 
 import no.nav.brukerdialog.security.context.InternbrukerSubjectHandler;
+import no.nav.brukerdialog.security.context.ThreadLocalSubjectHandler;
 import no.nav.fo.service.VirksomhetEnhetService;
 import no.nav.sbl.dialogarena.common.abac.pep.Pep;
 import no.nav.sbl.dialogarena.common.abac.pep.RequestData;
@@ -37,7 +38,7 @@ public class EnhetControllerTest {
 
     @Test
     public void skalReturnereResponsNaarBrukerHarTilgang() throws Exception {
-        System.setProperty("no.nav.modig.core.context.subjectHandlerImplementationClass", no.nav.modig.core.context.ThreadLocalSubjectHandler.class.getName());
+        System.setProperty("no.nav.modig.core.context.subjectHandlerImplementationClass", ThreadLocalSubjectHandler.class.getName());
         when(pep.nyRequest()).thenReturn(new RequestData());
         when(pep.harTilgang(any(RequestData.class))).thenReturn(new BiasedDecisionResponse(Permit, null));
         when(pep.harTilgangTilEnhet(any(), any(), any())).thenReturn(new BiasedDecisionResponse(Permit, null));
