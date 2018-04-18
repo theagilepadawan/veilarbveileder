@@ -32,7 +32,7 @@ public class VirksomhetEnhetService {
         final boolean harModiaAdminRolle = ldapService.veilederHarRolle(ident, rolleModiaAdmin);
 
         if (harModiaAdminRolle) {
-            log.info("Rollen 0000-GA-Modia_Admin ble brukt for ident: {}", ident);
+            log.info("Rollen {} ble brukt for ident: {}", rolleModiaAdmin, ident);
             return hentAlleEnheter();
         }
 
