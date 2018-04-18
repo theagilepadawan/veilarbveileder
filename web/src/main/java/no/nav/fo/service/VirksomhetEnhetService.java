@@ -25,7 +25,7 @@ public class VirksomhetEnhetService {
     private OrganisasjonEnhetV2Service organisasjonEnhetV2Service;
 
     @Inject
-    private VirksomhetEnhetConsumer enhetService;
+    private VirksomhetEnhetConsumer virksomhetEnhetConsumer;
 
 
     public List<PortefoljeEnhet> hentEnhetListe(String ident) throws Exception {
@@ -36,22 +36,22 @@ public class VirksomhetEnhetService {
             return hentAlleEnheter();
         }
 
-        WSHentEnhetListeResponse response = enhetService.hentVeilederInfo(ident);
+        WSHentEnhetListeResponse response = virksomhetEnhetConsumer.hentVeilederInfo(ident);
         return mapWSEnhetResponseTilEnheterResponse(response);
     }
 
     public Veileder hentVeilederData(String ident) throws Exception {
-        WSHentEnhetListeResponse response = enhetService.hentVeilederInfo(ident);
+        WSHentEnhetListeResponse response = virksomhetEnhetConsumer.hentVeilederInfo(ident);
         return mapWSEnhetResponseTilVeilederResponse(response);
     }
 
     public VeiledereResponse hentRessursListe(String enhetId) throws Exception {
-        WSHentRessursListeResponse response = enhetService.hentEnhetInfo(enhetId);
+        WSHentRessursListeResponse response = virksomhetEnhetConsumer.hentEnhetInfo(enhetId);
         return mapRessursResponseTilVeilederResponse(response);
     }
 
     public List<String> hentIdentListe(String enhetId) throws Exception {
-        WSHentRessursListeResponse response = enhetService.hentEnhetInfo(enhetId);
+        WSHentRessursListeResponse response = virksomhetEnhetConsumer.hentEnhetInfo(enhetId);
         return mapRessursResponsTilIdentListe(response);
     }
 
