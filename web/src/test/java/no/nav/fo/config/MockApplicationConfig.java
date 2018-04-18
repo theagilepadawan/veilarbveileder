@@ -1,5 +1,6 @@
 package no.nav.fo.config;
 
+import no.nav.fo.consumer.VirksomhetEnhetConsumer;
 import no.nav.fo.service.LdapService;
 import no.nav.fo.service.OrganisasjonEnhetV2Service;
 import no.nav.fo.service.VirksomhetEnhetService;
@@ -31,5 +32,10 @@ public class MockApplicationConfig {
     @Bean
     public OrganisasjonEnhetV2 organisasjonEnhetV2() {
         return mock(OrganisasjonEnhetV2.class);
+    }
+
+    @Bean
+    public VirksomhetEnhetConsumer virksomhetEnhetConsumer() {
+        return new VirksomhetEnhetConsumer();
     }
 }

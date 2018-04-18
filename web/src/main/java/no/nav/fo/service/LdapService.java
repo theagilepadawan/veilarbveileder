@@ -1,6 +1,7 @@
 package no.nav.fo.service;
 
 import no.nav.fo.config.LdapContextProvider;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
@@ -15,6 +16,7 @@ import static java.util.stream.Collectors.toList;
 
 public class LdapService {
 
+    @Cacheable("veilarbveilederCache")
     public boolean veilederHarRolle(String ident, String rolle) {
         NamingEnumeration<SearchResult> result = sokLDAP(ident);
         return getRoller(result).contains(rolle);

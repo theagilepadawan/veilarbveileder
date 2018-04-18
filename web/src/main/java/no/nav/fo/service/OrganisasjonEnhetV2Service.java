@@ -7,6 +7,7 @@ import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.informasjon.Organisasjons
 import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.meldinger.HentFullstendigEnhetListeRequest;
 import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.meldinger.HentFullstendigEnhetListeResponse;
 import org.slf4j.Logger;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -22,6 +23,7 @@ public class OrganisasjonEnhetV2Service {
     @Inject
     private OrganisasjonEnhetV2 organisasjonEnhetService;
 
+    @Cacheable("veilarbveilederCache")
     public List<PortefoljeEnhet> hentAlleEnheter() {
         try {
             HentFullstendigEnhetListeResponse hentFullstendigEnhetListeResponse = organisasjonEnhetService.hentFullstendigEnhetListe(lagHentFullstendigEnhetListeRequest());
