@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.System.getProperty;
-import static no.nav.fo.service.ADRolleParserKt.parseADRolle;
+import static java.util.stream.Collectors.toList;
 
 public class LdapService {
 
@@ -53,4 +53,16 @@ public class LdapService {
         return parseADRolle(rawRolleStrenger);
     }
 
+
+    private static List<String> parseADRolle(List<String> rawRolleStrenger) {
+        return rawRolleStrenger
+                .stream()
+                .map((rolle) -> {
+                    if (!rolle.startsWith("CN=")) {
+                        throw new IllegalStateException("Feil format på AD-rolle: " + rolle);
+                    }
+                    return rolle.split(",")[0].split("CN=")[1];
+                })
+                .collect(toList());
+    }
 }
