@@ -11,9 +11,7 @@ fun orgEnhetTilPortefoljeEnhet(orgEnhet: Organisasjonsenhet): PortefoljeEnhet =
     PortefoljeEnhet(orgEnhet.enhetId, orgEnhet.enhetNavn)
 
 fun wsEnhetResponseTilEnheterResponse(response: WSHentEnhetListeResponse): List<PortefoljeEnhet> =
-    response.enhetListe.map { enhet ->
-        PortefoljeEnhet(enhet.enhetId, enhet.navn)
-    }
+    response.enhetListe.map { PortefoljeEnhet(it.enhetId, it.navn) }
 
 fun wsEnhetResponseTilVeileder(response: WSHentEnhetListeResponse): Veileder {
     val ressurs = response.ressurs
