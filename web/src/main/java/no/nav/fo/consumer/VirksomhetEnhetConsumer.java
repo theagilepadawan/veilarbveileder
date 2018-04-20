@@ -1,17 +1,18 @@
 package no.nav.fo.consumer;
 
-import lombok.extern.slf4j.Slf4j;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeResponse;
 import no.nav.virksomhet.tjenester.enhet.v1.Enhet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 
-@Slf4j
 public class VirksomhetEnhetConsumer {
+    private static Logger log = LoggerFactory.getLogger(VirksomhetEnhetConsumer.class.getName());
 
     @Inject
     private Enhet virksomhetEnhet;

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.System.getProperty;
-import static java.util.stream.Collectors.toList;
 import static no.nav.fo.service.ADRolleParserKt.parseADRolle;
 
 public class LdapService {

@@ -1,16 +1,17 @@
 package no.nav.fo.smoketest;
 
-import lombok.extern.slf4j.Slf4j;
 import no.nav.dialogarena.smoketest.SmoketestException;
 import no.nav.dialogarena.smoketest.SmoketestFSS;
 import no.nav.dialogarena.smoketest.SmoketestFSS.SmoketestFSSConfig;
-import no.nav.fo.domene.EnheterResponse;
-import no.nav.fo.domene.PortefoljeEnhet;
-import no.nav.fo.domene.Veileder;
-import no.nav.fo.domene.VeiledereResponse;
+import no.nav.fo.EnheterResponse;
+import no.nav.fo.PortefoljeEnhet;
+import no.nav.fo.Veileder;
+import no.nav.fo.VeiledereResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -19,7 +20,6 @@ import static no.nav.dialogarena.smoketest.SmoketestUtils.appOrLocalhost;
 import static no.nav.dialogarena.smoketest.Tag.SMOKETEST;
 import static no.nav.sbl.rest.RestUtils.withClient;
 
-@Slf4j
 @Tag(SMOKETEST)
 public class VeilarbveilederSmoketest {
 
@@ -31,6 +31,7 @@ public class VeilarbveilederSmoketest {
     private static String ME_URL;
     private static String VEILEDERE_URL;
     private static String hostname;
+    private static Logger log = LoggerFactory.getLogger(VeilarbveilederSmoketest.class.getName());
 
     @BeforeAll
     public static void setup() {
@@ -60,7 +61,7 @@ public class VeilarbveilederSmoketest {
     @Test
     public void skalHenteVeilederinfoForIdenter() {
         String enhet = hentEnheter().get(0).getEnhetId();
-        log.info("Henter informasjon om alle veildere på enhet {}" , enhet);
+        log.info("Henter informasjon om alle veildere på enhet {}", enhet);
         List<Veileder> veilederListe = hentVeiledereForEnhet(enhet).getVeilederListe();
         veilederListe.stream().map(Veileder::getIdent).forEach(VeilarbveilederSmoketest::hentVeilederinfoForIdent);
 
@@ -74,7 +75,7 @@ public class VeilarbveilederSmoketest {
                 .request()
                 .cookie(smoketestFSS.getTokenCookie())
                 .get(EnheterResponse.class)).getEnhetliste();
-        if(enheter.isEmpty()) {
+        if (enheter.isEmpty()) {
             throw new SmoketestException("Veileder " + smoketestFSS.getInnloggetVeielder() + " har ingen enheter i norg");
         }
         return enheter;

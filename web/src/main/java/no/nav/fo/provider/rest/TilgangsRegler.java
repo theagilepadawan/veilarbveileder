@@ -1,7 +1,6 @@
 package no.nav.fo.provider.rest;
 
 import io.vavr.Tuple;
-import lombok.SneakyThrows;
 import no.nav.brukerdialog.security.context.SubjectHandler;
 import no.nav.sbl.dialogarena.common.abac.pep.Pep;
 import no.nav.sbl.dialogarena.common.abac.pep.RequestData;
@@ -17,16 +16,19 @@ import static no.nav.sbl.dialogarena.common.abac.pep.domain.response.Decision.Pe
 
 public class TilgangsRegler {
 
-    @SneakyThrows
     static void tilgangTilOppfolging(Pep pep) {
         SubjectHandler subjectHandler = SubjectHandler.getSubjectHandler();
         String ident = subjectHandler.getUid();
 
-        RequestData requestData = pep.nyRequest()
-                .withDomain("modia")
-                .withResourceType(ResourceType.Modia);
+        try {
+            RequestData requestData = pep.nyRequest()
+                    .withDomain("modia")
+                    .withResourceType(ResourceType.Modia);
 
-        test("oppfølgingsbruker", ident, pep.harTilgang(requestData).getBiasedDecision() == Permit);
+            test("oppfølgingsbruker", ident, pep.harTilgang(requestData).getBiasedDecision() == Permit);
+        } catch (PepException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     static void tilgangTilEnhet(Pep pep, String enhet) {
