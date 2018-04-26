@@ -1,6 +1,5 @@
 package no.nav.fo.pacts;
 
-import au.com.dius.pact.provider.junit.Consumer;
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
 import no.nav.pact.runner.NavHttpsPactTest;
@@ -11,7 +10,6 @@ import java.util.Optional;
 
 @RunWith(NavPactRunner.class)
 @Provider("veilarbveileder")
-@Consumer("veilarbportefolje")
 public class PactVeilederProviderTest extends NavHttpsPactTest {
 
     @State("a request for info about a veileder")
