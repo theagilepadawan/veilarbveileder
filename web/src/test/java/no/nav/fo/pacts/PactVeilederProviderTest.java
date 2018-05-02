@@ -22,6 +22,11 @@ public class PactVeilederProviderTest extends NavHttpsPactTest {
         System.out.println("Unknown veileder.");
     }
 
+    @State("a request for info about a veileder in enhet")
+    public void verifyProviderStateVeilederEnhet() {
+        System.out.println("Known veileder in enhet.");
+    }
+
     @Override
     public String getHttpTarget() {
         return Optional.ofNullable(System.getenv("PACT_TARGET_URL")).orElse("https://app-t6.adeo.no");
