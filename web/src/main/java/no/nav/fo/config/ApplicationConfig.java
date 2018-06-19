@@ -19,15 +19,8 @@ import org.springframework.context.annotation.Import;
 })
 public class ApplicationConfig implements ApiApplication {
 
-    private final String APPLICATION_NAME = "veilarbveileder";
     @Override
     public String getApplicationName() {
-        return APPLICATION_NAME;
+        return "veilarbveileder";
     }
-
-    @Override
-    public Sone getSone() {
-        return Sone.FSS;
-    }
-
 }
