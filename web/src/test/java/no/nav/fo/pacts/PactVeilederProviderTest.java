@@ -2,6 +2,7 @@ package no.nav.fo.pacts;
 
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
+import no.nav.dialogarena.config.fasit.FasitUtils;
 import no.nav.pact.runner.NavHttpsPactTest;
 import no.nav.pact.runner.NavPactRunner;
 import org.junit.runner.RunWith;
@@ -29,7 +30,7 @@ public class PactVeilederProviderTest extends NavHttpsPactTest {
 
     @Override
     public String getHttpTarget() {
-        return Optional.ofNullable(System.getenv("PACT_TARGET_URL")).orElse("https://app-t6.adeo.no");
+        return Optional.ofNullable(System.getenv("PACT_TARGET_URL")).orElse("https://app-" + FasitUtils.getDefaultEnvironment() + ".adeo.no");
     }
 
 }
