@@ -19,8 +19,4 @@ import org.springframework.context.annotation.Import;
 })
 public class ApplicationConfig implements ApiApplication {
 
-    @Override
-    public String getApplicationName() {
-        return "veilarbveileder";
-    }
 }
