@@ -7,6 +7,7 @@ import no.nav.fo.EnheterResponse;
 import no.nav.fo.PortefoljeEnhet;
 import no.nav.fo.Veileder;
 import no.nav.fo.VeiledereResponse;
+import no.nav.sbl.dialogarena.test.FasitAssumption;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import static java.lang.System.getProperty;
+import static no.nav.dialogarena.config.fasit.FasitUtils.getDefaultEnvironment;
 import static no.nav.dialogarena.smoketest.SmoketestUtils.appOrLocalhost;
 import static no.nav.dialogarena.smoketest.Tag.SMOKETEST;
 import static no.nav.sbl.rest.RestUtils.withClient;
@@ -35,7 +37,8 @@ public class VeilarbveilederSmoketest {
 
     @BeforeAll
     public static void setup() {
-        System.setProperty("miljo", "t4");
+        FasitAssumption.assumeFasitAccessible();
+        System.setProperty("miljo", getDefaultEnvironment());
         hostname = appOrLocalhost(getProperty("miljo"));
         SmoketestFSSConfig config = new SmoketestFSSConfig(VEILARBVEILEDER);
         smoketestFSS = new SmoketestFSS(config);
