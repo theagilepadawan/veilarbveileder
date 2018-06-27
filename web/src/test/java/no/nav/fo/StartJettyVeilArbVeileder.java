@@ -4,9 +4,9 @@ import no.nav.dialogarena.config.DevelopmentSecurity;
 import no.nav.sbl.dialogarena.common.jetty.Jetty;
 
 import static no.nav.dialogarena.config.DevelopmentSecurity.setupISSO;
-import static no.nav.sbl.dialogarena.common.jetty.JettyStarterUtils.first;
-import static no.nav.sbl.dialogarena.common.jetty.JettyStarterUtils.gotKeypress;
-import static no.nav.sbl.dialogarena.common.jetty.JettyStarterUtils.waitFor;
+import static no.nav.modig.lang.collections.FactoryUtils.gotKeypress;
+import static no.nav.modig.lang.collections.RunnableUtils.first;
+import static no.nav.modig.lang.collections.RunnableUtils.waitFor;
 
 public class StartJettyVeilArbVeileder {
 
