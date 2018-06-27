@@ -18,6 +18,14 @@
             <module name="com.fasterxml.jackson.core.jackson-databind" />
             <module name="com.fasterxml.jackson.jaxrs.jackson-jaxrs-json-provider" />
             <module name="org.jboss.resteasy.resteasy-jackson2-provider" />
+            <module name="org.jboss.resteasy.resteasy-atom-provider"/>
+            <module name="org.jboss.resteasy.resteasy-cdi"/>
+            <module name="org.jboss.resteasy.resteasy-jaxrs"/>
+            <module name="org.jboss.resteasy.resteasy-jaxb-provider"/>
+            <module name="org.jboss.resteasy.resteasy-jackson-provider"/>
+            <module name="org.jboss.resteasy.resteasy-jsapi"/>
+            <module name="org.jboss.resteasy.resteasy-multipart-provider"/>
+            <module name="org.jboss.resteasy.async-http-servlet-30"/>
         </exclusions>
     </sub-deployment>
 </jboss-deployment-structure>
