@@ -1,0 +1,57 @@
+# ref https://raw.githubusercontent.com/nais/naisd/master/nais_example.yaml
+image: docker.adeo.no:5000/fo/veilarbveileder
+replicas:
+  min: 2
+  max: 4
+  cpuThresholdPercentage: 50
+port: 8080
+healthcheck:
+  liveness:
+    path: veilarbveileder/internal/isAlive
+    initialDelay: 20
+  readiness:
+    path: veilarbveileder/internal/selftest
+    initialDelay: 20
+prometheus:
+  enabled: true
+  path: veilarbveileder/internal/metrics
+resources:
+  limits:
+    cpu: 3
+fasitResources:
+  used:
+  - alias: loadbalancer:veilarbveileder
+    resourceType: loadbalancerconfig
+  - alias: srvveilarbveileder
+    resourceType: credential
+  - alias: securityTokenService
+    resourceType: baseUrl
+  - alias: virksomhet:OrganisasjonEnhet_v2
+    resourceType: webserviceendpoint
+  - alias: virksomhet:Enhet_v1
+    resourceType: webserviceendpoint
+  - alias: abac.pdp.endpoint
+    resourceType: restservice
+  - alias: ldap
+    resourceType: ldap
+
+  # ISSO
+  - alias: isso-host
+    resourceType: baseurl
+  - alias: isso-jwks
+    resourceType: baseurl
+  - alias: isso-issuer
+    resourceType: baseurl
+  - alias: isso.isalive
+    resourceType: baseurl
+  - alias: isso-rp-user
+    resourceType: credential
+  - alias: veilarblogin.redirect-url
+    resourceType: baseurl
+    propertyMap:
+      url: OIDC_REDIRECT_URL
+
+  exposed:
+  - alias: veilArbVeilederAPI
+    resourceType: restservice
+    path: /veilarbveileder/api
