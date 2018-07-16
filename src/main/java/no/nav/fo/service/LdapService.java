@@ -11,10 +11,15 @@ import javax.naming.ldap.LdapContext;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.System.getProperty;
+import static java.util.Collections.emptyList;
 import static no.nav.fo.service.ADRolleParserKt.parseADRolle;
+import static no.nav.sbl.util.EnvironmentUtils.getRequiredProperty;
 
 public class LdapService {
+
+    public static final String LDAP_BASEDN_PROPERTY_NAME = "LDAP_BASEDN";
+
+    private String LDAP_BASE_DN = getRequiredProperty(LDAP_BASEDN_PROPERTY_NAME);
 
     @Cacheable("veilarbveilederCache")
     public boolean veilederHarRolle(String ident, String rolle) {
@@ -27,7 +32,7 @@ public class LdapService {
     }
 
     private NamingEnumeration<SearchResult> sokLDAP(String ident) {
-        String searchbase = "OU=Users,OU=NAV,OU=BusinessUnits," + getProperty("ldap.basedn");
+        String searchbase = "OU=Users,OU=NAV,OU=BusinessUnits," + LDAP_BASE_DN;
         SearchControls searchCtrl = new SearchControls();
         searchCtrl.setSearchScope(SearchControls.SUBTREE_SCOPE);
 
@@ -40,8 +45,13 @@ public class LdapService {
 
     private List<String> getRoller(NamingEnumeration<SearchResult> result) {
         try {
-            NamingEnumeration<?> attributes = result.next().getAttributes().get("memberof").getAll();
-            return parseRollerFraAD(attributes);
+            if (result.hasMore()) {
+                SearchResult searchResult = result.next();
+                NamingEnumeration<?> attributes = searchResult.getAttributes().get("memberof").getAll();
+                return parseRollerFraAD(attributes);
+            } else {
+                return emptyList();
+            }
         } catch (NamingException e) {
             throw new RuntimeException(e);
         }

@@ -7,6 +7,7 @@ import no.nav.dialogarena.config.fasit.dto.RestService;
 import no.nav.fo.config.LdapContextProvider;
 import no.nav.fo.config.OrganisasjonEnhetV2Config;
 import no.nav.fo.config.VirksomhetEnhetEndpointConfig;
+import no.nav.fo.service.LdapService;
 import no.nav.sbl.dialogarena.common.abac.pep.service.AbacServiceConfig;
 import no.nav.sbl.dialogarena.common.cxf.StsSecurityConstants;
 import no.nav.testconfig.ApiAppTest;
@@ -38,6 +39,7 @@ public class MainTest {
         setProperty(StsSecurityConstants.SYSTEMUSER_PASSWORD, srvveilarbveileder.getPassword(), SECRET);
 
         LdapConfig ldapConfig = FasitUtils.getLdapConfig();
+        setProperty(LdapService.LDAP_BASEDN_PROPERTY_NAME, ldapConfig.baseDN, PUBLIC);
         setProperty(LdapContextProvider.LDAP_URL, ldapConfig.url, PUBLIC);
         setProperty(LdapContextProvider.LDAP_USERNAME, ldapConfig.username, PUBLIC);
         setProperty(LdapContextProvider.LDAP_PASSWORD, ldapConfig.password, SECRET);
