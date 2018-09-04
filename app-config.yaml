@@ -20,6 +20,8 @@ resources:
     cpu: 3
 fasitResources:
   used:
+  - alias: appdynamics
+  - resourceType: applicationproperties
   - alias: loadbalancer:veilarbveileder
     resourceType: loadbalancerconfig
   - alias: srvveilarbveileder
