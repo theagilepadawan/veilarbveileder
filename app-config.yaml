@@ -22,7 +22,7 @@ resources:
 fasitResources:
   used:
   - alias: appdynamics
-  - resourceType: applicationproperties
+    resourceType: applicationproperties
   - alias: loadbalancer:veilarbveileder
     resourceType: loadbalancerconfig
   - alias: srvveilarbveileder
