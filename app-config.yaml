@@ -36,7 +36,7 @@ fasitResources:
   - alias: abac.pdp.endpoint
     resourceType: restservice
   - alias: ldap
-    resourceType: ldapde
+    resourceType: ldap
 
   # ISSO
   - alias: isso-host
