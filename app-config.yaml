@@ -1,5 +1,6 @@
 # ref https://raw.githubusercontent.com/nais/naisd/master/nais_example.yaml
 image: docker.adeo.no:5000/fo/veilarbveileder
+team: oppfolging
 replicas:
   min: 2
   max: 4
@@ -8,18 +9,23 @@ port: 8080
 healthcheck:
   liveness:
     path: veilarbveileder/internal/isAlive
-    initialDelay: 20
+    initialDelay: 60
   readiness:
     path: veilarbveileder/internal/selftest
-    initialDelay: 20
+    initialDelay: 60
 prometheus:
   enabled: true
   path: veilarbveileder/internal/metrics
 resources:
   limits:
     cpu: 3
+    memory: 768Mi
+  requests:
+    memory: 512Mi
 fasitResources:
   used:
+  - alias: appdynamics
+    resourceType: applicationproperties
   - alias: loadbalancer:veilarbveileder
     resourceType: loadbalancerconfig
   - alias: srvveilarbveileder
