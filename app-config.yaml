@@ -11,7 +11,7 @@ healthcheck:
     path: veilarbveileder/internal/isAlive
     initialDelay: 60
   readiness:
-    path: veilarbveileder/internal/selftest
+    path: veilarbveileder/internal/isReady
     initialDelay: 60
 prometheus:
   enabled: true
@@ -19,8 +19,9 @@ prometheus:
 resources:
   limits:
     cpu: 3
-    memory: 768Mi
+    memory: 1024Mi
   requests:
+    cpu: 200m
     memory: 512Mi
 fasitResources:
   used:
@@ -53,7 +54,7 @@ fasitResources:
   - alias: isso-rp-user
     resourceType: credential
   - alias: veilarblogin.redirect-url
-    resourceType: baseurl
+    resourceType: restservice
     propertyMap:
       url: OIDC_REDIRECT_URL
 
@@ -61,3 +62,6 @@ fasitResources:
   - alias: veilArbVeilederAPI
     resourceType: restservice
     path: /veilarbveileder/api
+
+alertProfiles:
+  - common-java-modules
