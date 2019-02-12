@@ -52,7 +52,7 @@ public class MainTest {
         String issoISSUER = FasitUtils.getBaseUrl("isso-issuer");
         String issoIsAlive = FasitUtils.getBaseUrl("isso.isalive", FSS);
         ServiceUser isso_rp_user = FasitUtils.getServiceUser("isso-rp-user", APPLICATION_NAME);
-        String loginUrl = FasitUtils.getBaseUrl("veilarblogin.redirect-url", FSS);
+        RestService loginEndpoint = FasitUtils.getRestService("veilarblogin.redirect-url", getDefaultEnvironment());
         setProperty(Constants.ISSO_HOST_URL_PROPERTY_NAME, issoHost, PUBLIC);
         setProperty(Constants.ISSO_RP_USER_USERNAME_PROPERTY_NAME, isso_rp_user.getUsername(), PUBLIC);
         setProperty(Constants.ISSO_RP_USER_PASSWORD_PROPERTY_NAME, isso_rp_user.getPassword(), SECRET);
@@ -61,7 +61,7 @@ public class MainTest {
         setProperty(Constants.ISSO_ISALIVE_URL_PROPERTY_NAME, issoIsAlive, PUBLIC);
         setProperty(SecurityConstants.SYSTEMUSER_USERNAME, srvveilarbveileder.getUsername(), PUBLIC);
         setProperty(SecurityConstants.SYSTEMUSER_PASSWORD, srvveilarbveileder.getPassword(), SECRET);
-        setProperty(Constants.OIDC_REDIRECT_URL_PROPERTY_NAME, loginUrl, PUBLIC);
+        setProperty(Constants.OIDC_REDIRECT_URL_PROPERTY_NAME, loginEndpoint.getUrl(), PUBLIC);
 
         RestService abacEndpoint = FasitUtils.getRestService("abac.pdp.endpoint", getDefaultEnvironment());
         setProperty(AbacServiceConfig.ABAC_ENDPOINT_URL_PROPERTY_NAME, abacEndpoint.getUrl(), PUBLIC);
