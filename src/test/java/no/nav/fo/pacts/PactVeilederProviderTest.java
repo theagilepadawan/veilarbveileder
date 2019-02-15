@@ -5,12 +5,14 @@ import au.com.dius.pact.provider.junit.State;
 import no.nav.dialogarena.config.fasit.FasitUtils;
 import no.nav.pact.runner.NavHttpsPactTest;
 import no.nav.pact.runner.NavPactRunner;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 
 import java.util.Optional;
 
 @RunWith(NavPactRunner.class)
 @Provider("veilarbveileder")
+@Ignore
 public class PactVeilederProviderTest extends NavHttpsPactTest {
 
     @State("a request for info about a veileder")
