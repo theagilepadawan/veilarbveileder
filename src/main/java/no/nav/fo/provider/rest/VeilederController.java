@@ -31,45 +31,24 @@ public class VeilederController {
 
     @GET
     @Path("/enheter")
-    public Response hentEnheter() {
+    public IdentOgEnhetliste hentEnheter() throws Exception {
         TilgangsRegler.tilgangTilOppfolging(pepClient);
         String ident = SubjectHandler.getSubjectHandler().getUid();
-
-        try {
-            List<PortefoljeEnhet> response = virksomhetEnhetService.hentEnhetListe(ident);
-            IdentOgEnhetliste entity = new IdentOgEnhetliste(ident, response);
-
-            return Response.ok().entity(entity).build();
-        } catch (HentEnhetListeUgyldigInput e) {
-            throw new WebApplicationException(e, BAD_REQUEST);
-        } catch (HentEnhetListeRessursIkkeFunnet e) {
-            return Response.noContent().build();
-        } catch (Exception e) {
-            throw new WebApplicationException(e, INTERNAL_SERVER_ERROR);
-        }
+        List<PortefoljeEnhet> response = virksomhetEnhetService.hentEnhetListe(ident);
+        return new IdentOgEnhetliste(ident, response);
     }
 
     @GET
     @Path("/me")
-    public Response hentVeilederInfo() {
+    public Veileder hentVeilederInfo() throws Exception {
         String ident = SubjectHandler.getSubjectHandler().getUid();
         return hentVeilederForIdent(ident);
     }
 
     @GET
     @Path("/{ident}")
-    public Response hentVeilederForIdent(@PathParam("ident") String ident) {
+    public Veileder hentVeilederForIdent(@PathParam("ident") String ident) throws Exception {
         TilgangsRegler.tilgangTilOppfolging(pepClient);
-
-        try {
-            Veileder veileder = virksomhetEnhetService.hentVeilederData(ident);
-            return Response.ok(veileder).build();
-        } catch (HentEnhetListeUgyldigInput e) {
-            throw new WebApplicationException(e, BAD_REQUEST);
-        } catch (HentEnhetListeRessursIkkeFunnet e) {
-            return Response.noContent().build();
-        } catch (Exception e) {
-            throw new WebApplicationException(e, INTERNAL_SERVER_ERROR);
-        }
+        return virksomhetEnhetService.hentVeilederData(ident);
     }
 }
