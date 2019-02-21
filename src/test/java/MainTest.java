@@ -66,7 +66,7 @@ public class MainTest {
         RestService abacEndpoint = FasitUtils.getRestService("abac.pdp.endpoint", getDefaultEnvironment());
         setProperty(AbacServiceConfig.ABAC_ENDPOINT_URL_PROPERTY_NAME, abacEndpoint.getUrl(), PUBLIC);
 
-        Main.main(new String[]{"9591"});
+        Main.main("9591","9592");
     }
 
 }

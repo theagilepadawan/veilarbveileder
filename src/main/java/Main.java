@@ -3,7 +3,7 @@ import no.nav.fo.config.ApplicationConfig;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
         ApiApp.runApp(ApplicationConfig.class, args);
     }
 
