@@ -3,11 +3,11 @@ package no.nav.fo.service
 import no.nav.fo.PortefoljeEnhet
 import no.nav.fo.Veileder
 import no.nav.fo.VeiledereResponse
-import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.informasjon.Organisasjonsenhet
+import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.informasjon.WSOrganisasjonsenhet
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeResponse
 
-fun orgEnhetTilPortefoljeEnhet(orgEnhet: Organisasjonsenhet): PortefoljeEnhet =
+fun orgEnhetTilPortefoljeEnhet(orgEnhet: WSOrganisasjonsenhet): PortefoljeEnhet =
     PortefoljeEnhet(orgEnhet.enhetId, orgEnhet.enhetNavn)
 
 fun wsEnhetResponseTilEnheterResponse(response: WSHentEnhetListeResponse): List<PortefoljeEnhet> =

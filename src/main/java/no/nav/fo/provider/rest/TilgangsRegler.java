@@ -7,6 +7,7 @@ import no.nav.sbl.dialogarena.common.abac.pep.RequestData;
 import no.nav.sbl.dialogarena.common.abac.pep.domain.ResourceType;
 import no.nav.sbl.dialogarena.common.abac.pep.domain.response.BiasedDecisionResponse;
 import no.nav.sbl.dialogarena.common.abac.pep.exception.PepException;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotAuthorizedException;
@@ -14,9 +15,15 @@ import javax.ws.rs.NotAuthorizedException;
 import static java.lang.String.format;
 import static no.nav.sbl.dialogarena.common.abac.pep.domain.response.Decision.Permit;
 
+@Component
 public class TilgangsRegler {
 
-    static void tilgangTilOppfolging(Pep pep) {
+
+    private final Pep pep;
+    private final VeilarbabacService veilarbabacService
+    private final Unleash unleash;
+
+    public void tilgangTilOppfolging(Pep pep) {
         SubjectHandler subjectHandler = SubjectHandler.getSubjectHandler();
         String ident = subjectHandler.getUid();
 
@@ -31,7 +38,7 @@ public class TilgangsRegler {
         }
     }
 
-    static void tilgangTilEnhet(Pep pep, String enhet) {
+    public void tilgangTilEnhet(Pep pep, String enhet) {
         String veilederId = SubjectHandler.getSubjectHandler().getUid();
         tilgangTilEnhet(pep, enhet, veilederId);
     }

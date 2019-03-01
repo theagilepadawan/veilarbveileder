@@ -1,10 +1,10 @@
 package no.nav.fo.service;
 
 import no.nav.fo.PortefoljeEnhet;
-import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.binding.OrganisasjonEnhetV2;
-import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.informasjon.Oppgavebehandlerfilter;
-import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.meldinger.HentFullstendigEnhetListeRequest;
-import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.meldinger.HentFullstendigEnhetListeResponse;
+import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.OrganisasjonEnhetV2;
+import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.informasjon.WSOppgavebehandlerfilter;
+import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.meldinger.WSHentFullstendigEnhetListeRequest;
+import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.meldinger.WSHentFullstendigEnhetListeResponse;
 import org.slf4j.Logger;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -24,7 +24,7 @@ public class OrganisasjonEnhetV2Service {
     @Cacheable("veilarbveilederCache")
     public List<PortefoljeEnhet> hentAlleEnheter() {
         try {
-            HentFullstendigEnhetListeResponse hentFullstendigEnhetListeResponse = organisasjonEnhetService.hentFullstendigEnhetListe(lagHentFullstendigEnhetListeRequest());
+            WSHentFullstendigEnhetListeResponse hentFullstendigEnhetListeResponse = organisasjonEnhetService.hentFullstendigEnhetListe(lagHentFullstendigEnhetListeRequest());
 
             return hentFullstendigEnhetListeResponse.getEnhetListe().stream()
                     .map(MappersKt::orgEnhetTilPortefoljeEnhet)
@@ -36,9 +36,9 @@ public class OrganisasjonEnhetV2Service {
         }
     }
 
-    private HentFullstendigEnhetListeRequest lagHentFullstendigEnhetListeRequest() {
-        final HentFullstendigEnhetListeRequest request = new HentFullstendigEnhetListeRequest();
-        request.setOppgavebehandlerfilter(Oppgavebehandlerfilter.UFILTRERT);
+    private WSHentFullstendigEnhetListeRequest lagHentFullstendigEnhetListeRequest() {
+        final WSHentFullstendigEnhetListeRequest request = new WSHentFullstendigEnhetListeRequest();
+        request.setOppgavebehandlerfilter(WSOppgavebehandlerfilter.UFILTRERT);
 
         return request;
     }
