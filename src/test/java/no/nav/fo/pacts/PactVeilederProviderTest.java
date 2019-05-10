@@ -2,7 +2,7 @@ package no.nav.fo.pacts;
 
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
-import no.nav.dialogarena.config.fasit.FasitUtils;
+import no.nav.fasit.FasitUtils;
 import no.nav.pact.runner.NavHttpsPactTest;
 import no.nav.pact.runner.NavPactRunner;
 import org.junit.Ignore;

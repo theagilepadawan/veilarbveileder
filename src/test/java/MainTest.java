@@ -1,9 +1,9 @@
 import no.nav.brukerdialog.security.Constants;
 import no.nav.brukerdialog.tools.SecurityConstants;
-import no.nav.dialogarena.config.fasit.FasitUtils;
-import no.nav.dialogarena.config.fasit.LdapConfig;
-import no.nav.dialogarena.config.fasit.ServiceUser;
-import no.nav.dialogarena.config.fasit.dto.RestService;
+import no.nav.fasit.FasitUtils;
+import no.nav.fasit.LdapConfig;
+import no.nav.fasit.ServiceUser;
+import no.nav.fasit.dto.RestService;
 import no.nav.fo.config.LdapContextProvider;
 import no.nav.fo.config.OrganisasjonEnhetV2Config;
 import no.nav.fo.config.VirksomhetEnhetEndpointConfig;
@@ -12,8 +12,8 @@ import no.nav.sbl.dialogarena.common.abac.pep.service.AbacServiceConfig;
 import no.nav.sbl.dialogarena.common.cxf.StsSecurityConstants;
 import no.nav.testconfig.ApiAppTest;
 
-import static no.nav.dialogarena.config.fasit.FasitUtils.Zone.FSS;
-import static no.nav.dialogarena.config.fasit.FasitUtils.getDefaultEnvironment;
+import static no.nav.fasit.FasitUtils.Zone.FSS;
+import static no.nav.fasit.FasitUtils.getDefaultEnvironment;
 import static no.nav.sbl.util.EnvironmentUtils.Type.PUBLIC;
 import static no.nav.sbl.util.EnvironmentUtils.Type.SECRET;
 import static no.nav.sbl.util.EnvironmentUtils.*;

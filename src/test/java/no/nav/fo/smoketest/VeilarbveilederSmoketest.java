@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import static java.lang.System.getProperty;
-import static no.nav.dialogarena.config.fasit.FasitUtils.getDefaultEnvironment;
 import static no.nav.dialogarena.smoketest.SmoketestUtils.appOrLocalhost;
 import static no.nav.dialogarena.smoketest.Tag.SMOKETEST;
+import static no.nav.fasit.FasitUtils.getDefaultEnvironment;
 import static no.nav.sbl.rest.RestUtils.withClient;
 
 @Disabled
