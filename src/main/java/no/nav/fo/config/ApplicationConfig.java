@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Import;
         OrganisasjonEnhetV2Config.class,
         ConsumerConfig.class
 })
-public class ApplicationConfig implements ApiApplication.NaisApiApplication {
+public class ApplicationConfig implements ApiApplication {
 
     @Override
     public void configure(ApiAppConfigurator apiAppConfigurator) {
