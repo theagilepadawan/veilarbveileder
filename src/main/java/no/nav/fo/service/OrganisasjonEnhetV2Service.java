@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -20,6 +21,13 @@ public class OrganisasjonEnhetV2Service {
 
     @Inject
     private OrganisasjonEnhetV2 organisasjonEnhetService;
+
+    public Optional<PortefoljeEnhet> hentEnhet(String enhetId) {
+         return hentAlleEnheter()
+                .stream()
+                .filter((enhet) -> enhet.getEnhetId().equals(enhetId))
+                .findFirst();
+    }
 
     @Cacheable("veilarbveilederCache")
     public List<PortefoljeEnhet> hentAlleEnheter() {
