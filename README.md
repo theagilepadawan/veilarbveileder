@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/navikt/veilarbveileder.svg?style=svg)](https://circleci.com/gh/navikt/veilarbveileder)
+
 Veilarbveileder
 ===============
 
