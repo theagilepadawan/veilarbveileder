@@ -10,13 +10,12 @@ metadata:
 spec:
   image: docker.pkg.github.com/navikt/veilarbveileder/veilarbveileder:{{version}}
   port: 8080
-  healthcheck:
-    liveness:
-      path: veilarbveileder/internal/isAlive
-      initialDelay: 20
-    readiness:
-      path: veilarbveileder/internal/selftest
-      initialDelay: 20
+  liveness:
+    path: veilarbveileder/internal/isAlive
+    initialDelay: 20
+  readiness:
+    path: veilarbveileder/internal/selftest
+    initialDelay: 20
   prometheus:
     enabled: true
     path: veilarbveileder/internal/metrics
