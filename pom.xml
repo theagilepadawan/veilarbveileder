@@ -34,10 +34,9 @@
                 <version>${tjenestespesifikasjoner.version}</version>
             </dependency>
             <dependency>
-                <groupId>no.nav.tjenester</groupId>
-                <artifactId>nav-organisasjonEnhet-v2-tjenestespesifikasjon</artifactId>
-                <version>${organisasjonenhet-v2.tjenestespesifikasjon.versjon}</version>
-                <classifier>jaxws</classifier>
+                <groupId>no.nav.tjenestespesifikasjoner</groupId>
+                <artifactId>organisasjonenhet-v2-tjenestespesifikasjon</artifactId>
+                <version>1.2019.08.16-13.46-35cbdfd492d4</version>
             </dependency>
             <dependency>
                 <groupId>io.vavr</groupId>
@@ -106,14 +105,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-        </dependency>
 
         <!--Jersey-->
         <dependency>
@@ -174,9 +165,8 @@
             <artifactId>enhet-v1-tjenestespesifikasjon</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.nav.tjenester</groupId>
-            <artifactId>nav-organisasjonEnhet-v2-tjenestespesifikasjon</artifactId>
-            <classifier>jaxws</classifier>
+            <groupId>no.nav.tjenestespesifikasjoner</groupId>
+            <artifactId>organisasjonenhet-v2-tjenestespesifikasjon</artifactId>
         </dependency>
         <dependency>
             <groupId>net.sf.ehcache</groupId>
