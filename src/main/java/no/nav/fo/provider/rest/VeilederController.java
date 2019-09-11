@@ -7,16 +7,15 @@ import no.nav.fo.PortefoljeEnhet;
 import no.nav.fo.Veileder;
 import no.nav.fo.service.VirksomhetEnhetService;
 import no.nav.sbl.dialogarena.common.abac.pep.Pep;
-import no.nav.virksomhet.tjenester.enhet.v1.HentEnhetListeRessursIkkeFunnet;
-import no.nav.virksomhet.tjenester.enhet.v1.HentEnhetListeUgyldigInput;
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.Response.Status.*;
 
 @Api(value = "Veileder")
 @Path("/veileder")

@@ -4,7 +4,7 @@ import no.nav.fo.consumer.VirksomhetEnhetConsumer;
 import no.nav.fo.service.LdapService;
 import no.nav.fo.service.OrganisasjonEnhetV2Service;
 import no.nav.fo.service.VirksomhetEnhetService;
-import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.binding.OrganisasjonEnhetV2;
+import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.OrganisasjonEnhetV2;
 import no.nav.virksomhet.tjenester.enhet.v1.Enhet;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

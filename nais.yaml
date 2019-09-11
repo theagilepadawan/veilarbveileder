@@ -1,0 +1,56 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: veilarbveileder
+  namespace: default
+  cluster:
+    - prod-fss
+  labels:
+    team: voff
+spec:
+  image: docker.pkg.github.com/navikt/veilarbveileder/veilarbveileder:{{version}}
+  port: 8080
+  healthcheck:
+    liveness:
+      path: veilarbveileder/internal/isAlive
+      initialDelay: 20
+    readiness:
+      path: veilarbveileder/internal/selftest
+      initialDelay: 20
+  prometheus:
+    enabled: true
+    path: veilarbveileder/internal/metrics
+  replicas:
+    min: 2
+    max: 4
+    cpuThresholdPercentage: 50
+  resources:
+    limits:
+      cpu: 3
+      memory: 1024Mi
+    requests:
+      cpu: 200m
+      memory: 512Mi
+  ingresses:
+    - https://veilarbveileder.nais.adeo.no
+    - https://app.adeo.no/veilarbveileder
+  vault:
+    enabled: true
+  env:
+    - ABAC_PDP_ENDPOINT_URL
+    - ABAC_PDP_ENDPOINT_DESCRIPTION
+    - ISSO_JWKS_URL
+    - ISSO_HOST_URL
+    - ISSO_ISSUER_URL
+    - ISSO_ISALIVE_URL
+    - VEILARBLOGIN_REDIRECT_URL_URL
+    - OIDC_REDIRECT_URL
+    - SECURITYTOKENSERVICE_URL
+    - name: LDAP_BASEDN
+      value: dc=adeo,dc=no
+    - name: LDAP_URL
+      value: ldaps://ldapgw.adeo.no
+    - name: VIRKSOMHET_ORGANISASJONENHET_V2_ENDPOINTURL
+      value: https://app.adeo.no/norg2/ws/OrganisasjonEnhet/v2
+    - name: VIRKSOMHET_ENHET_V1_ENDPOINTURL
+      value: https://tjenestebuss.adeo.no/nav-tjeneste-enhet_v1Web/sca/EnhetWSEXP
