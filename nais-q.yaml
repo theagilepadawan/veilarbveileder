@@ -3,8 +3,6 @@ kind: "Application"
 metadata:
   name: veilarbveileder
   namespace: {{namespace}}
-  cluster:
-    - dev-fss
   labels:
     team: voff
 spec:
