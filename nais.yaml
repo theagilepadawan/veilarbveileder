@@ -47,8 +47,14 @@ spec:
     - SECURITYTOKENSERVICE_URL
     - name: LDAP_BASEDN
       value: dc=adeo,dc=no
+    - name: LDAP_USER_BASEDN
+      value: ou=NAV,ou=BusinessUnits,dc=adeo,dc=no
+    - name: LDAP_SERVICEUSER_BASEDN
+      value: ou=ServiceAccounts,dc=adeo,dc=no
     - name: LDAP_URL
       value: ldaps://ldapgw.adeo.no
+    - name: LDAP_DOMAIN
+      value: ADEO.NO
     - name: VIRKSOMHET_ORGANISASJONENHET_V2_ENDPOINTURL
       value: https://app.adeo.no/norg2/ws/OrganisasjonEnhet/v2
     - name: VIRKSOMHET_ENHET_V1_ENDPOINTURL

@@ -47,8 +47,14 @@ spec:
     - SECURITYTOKENSERVICE_URL
     - name: LDAP_BASEDN
       value: dc=preprod,dc=local
+    - name: LDAP_USER_BASEDN
+      value: ou=NAV,ou=BusinessUnits,dc=preprod,dc=local
+    - name: LDAP_SERVICEUSER_BASEDN
+      value: ou=ServiceAccounts,dc=preprod,dc=local
     - name: LDAP_URL
       value: ldaps://ldapgw.preprod.local
+    - name: LDAP_DOMAIN
+      value: PREPROD.LOCAL
     - name: VIRKSOMHET_ORGANISASJONENHET_V2_ENDPOINTURL
       value: https://app-{{namespace}}.adeo.no/norg2/ws/OrganisasjonEnhet/v2
     - name: VIRKSOMHET_ENHET_V1_ENDPOINTURL
