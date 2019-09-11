@@ -17,6 +17,7 @@
         <tjenestespesifikasjoner.version>1.2019.04.03-23.09-56488320520a</tjenestespesifikasjoner.version>
         <vavr.version>0.9.0</vavr.version>
         <organisasjonenhet-v2.tjenestespesifikasjon.versjon>2.1.0</organisasjonenhet-v2.tjenestespesifikasjon.versjon>
+        <jaxb.version>2.2.11</jaxb.version>
     </properties>
 
     <dependencyManagement>
@@ -177,12 +178,30 @@
             <artifactId>vavr</artifactId>
         </dependency>
 
+        <!--JAXB-->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>${jaxb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
 
         <!-- test -->
-        <dependency>
-            <groupId>no.nav.common</groupId>
-            <artifactId>smoketest</artifactId>
-        </dependency>
         <dependency>
             <groupId>no.nav.common</groupId>
             <artifactId>test-config</artifactId>
