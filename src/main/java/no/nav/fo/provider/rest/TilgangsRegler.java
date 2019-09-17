@@ -1,11 +1,11 @@
 package no.nav.fo.provider.rest;
 
-import io.vavr.Tuple;
 import no.nav.brukerdialog.security.context.SubjectHandler;
 import no.nav.sbl.dialogarena.common.abac.pep.Pep;
 import no.nav.sbl.dialogarena.common.abac.pep.RequestData;
 import no.nav.sbl.dialogarena.common.abac.pep.domain.ResourceType;
 import no.nav.sbl.dialogarena.common.abac.pep.domain.response.BiasedDecisionResponse;
+import no.nav.sbl.dialogarena.common.abac.pep.domain.response.Decision;
 import no.nav.sbl.dialogarena.common.abac.pep.exception.PepException;
 
 import javax.ws.rs.InternalServerErrorException;
@@ -25,7 +25,9 @@ public class TilgangsRegler {
                     .withDomain("modia")
                     .withResourceType(ResourceType.Modia);
 
-            test("oppfølgingsbruker", ident, pep.harTilgang(requestData).getBiasedDecision() == Permit);
+            BiasedDecisionResponse abacResponse = pep.harTilgang(requestData);
+            sjekkTilgang(ResourceType.Modia.name(), ident, abacResponse);
+
         } catch (PepException e) {
             throw new RuntimeException(e);
         }
@@ -37,18 +39,20 @@ public class TilgangsRegler {
     }
 
     private static void tilgangTilEnhet(Pep pep, String enhet, String ident) {
-        BiasedDecisionResponse callAllowed;
+        BiasedDecisionResponse abacResponse;
         try {
-            callAllowed = pep.harTilgangTilEnhet(enhet, "srvveilarbveileder", "veilarb");
+            abacResponse = pep.harTilgangTilEnhet(enhet, "srvveilarbveileder", "veilarb");
         } catch (PepException e) {
             throw new InternalServerErrorException("Something went wrong in PEP", e);
         }
-        test("tilgang til enhet", Tuple.of(enhet, ident), Permit.equals(callAllowed.getBiasedDecision()));
+        sjekkTilgang(enhet, ident, abacResponse);
     }
 
-    private static void test(String navn, Object data, boolean matches) {
-        if (!matches) {
-            throw new NotAuthorizedException(format("sjekk av %s feilet, %s", navn, data));
+    private static void sjekkTilgang(String ressurs, String ident, BiasedDecisionResponse abacResponse) {
+        Decision decision = abacResponse.getBiasedDecision();
+        if (!Permit.equals(decision)) {
+            String message = format("Veileder %s har ikke tilgang til %s: %s", ident, ressurs, decision);
+            throw new NotAuthorizedException(message, ressurs);
         }
     }
 }
