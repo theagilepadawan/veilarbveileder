@@ -5,7 +5,7 @@ metadata:
   namespace: {{namespace}}
   cluster: dev-fss
   labels:
-    team: voff
+    team: pto
 spec:
   image: docker.pkg.github.com/navikt/veilarbveileder/veilarbveileder:{{version}}
   port: 8080
