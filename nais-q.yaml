@@ -11,10 +11,12 @@ spec:
   port: 8080
   liveness:
     path: veilarbveileder/internal/isAlive
-    initialDelay: 60
+    initialDelay: 10
+    timeout: 10
   readiness:
     path: veilarbveileder/internal/selftest
-    initialDelay: 60
+    initialDelay: 10
+    timeout: 10
   prometheus:
     enabled: true
     path: veilarbveileder/internal/metrics
