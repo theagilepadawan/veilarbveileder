@@ -35,4 +35,4 @@ spec:
   vault:
     enabled: true
   envFrom:
-    configmap: pto-config
+    - configmap: pto-config
