@@ -1,5 +1,3 @@
-[![CircleCI](https://circleci.com/gh/navikt/veilarbveileder.svg?style=svg)](https://circleci.com/gh/navikt/veilarbveileder)
-
 Veilarbveileder
 ===============
 
@@ -11,4 +9,4 @@ Spørsmål knyttet til koden eller prosjektet kan stilles ved å opprette en iss
 
 ## For NAV-ansatte
 
-Interne henvendelser kan sendes via Slack i kanalen #pto-voff.
+Interne henvendelser kan sendes via Slack i kanalen #pto.
