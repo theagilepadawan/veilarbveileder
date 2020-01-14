@@ -34,27 +34,5 @@ spec:
     - https://app.adeo.no/veilarbveileder
   vault:
     enabled: true
-  env:
-    - ABAC_PDP_ENDPOINT_URL
-    - ABAC_PDP_ENDPOINT_DESCRIPTION
-    - ISSO_JWKS_URL
-    - ISSO_HOST_URL
-    - ISSO_ISSUER_URL
-    - ISSO_ISALIVE_URL
-    - VEILARBLOGIN_REDIRECT_URL_URL
-    - OIDC_REDIRECT_URL
-    - SECURITYTOKENSERVICE_URL
-    - name: LDAP_BASEDN
-      value: dc=adeo,dc=no
-    - name: LDAP_USER_BASEDN
-      value: ou=NAV,ou=BusinessUnits,dc=adeo,dc=no
-    - name: LDAP_SERVICEUSER_BASEDN
-      value: ou=ServiceAccounts,dc=adeo,dc=no
-    - name: LDAP_URL
-      value: ldaps://ldapgw.adeo.no
-    - name: LDAP_DOMAIN
-      value: ADEO.NO
-    - name: VIRKSOMHET_ORGANISASJONENHET_V2_ENDPOINTURL
-      value: https://app.adeo.no/norg2/ws/OrganisasjonEnhet/v2
-    - name: VIRKSOMHET_ENHET_V1_ENDPOINTURL
-      value: https://tjenestebuss.adeo.no/nav-tjeneste-enhet_v1Web/sca/EnhetWSEXP
+  envFrom:
+    configmap: pto-config
