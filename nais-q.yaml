@@ -11,10 +11,12 @@ spec:
   port: 8080
   liveness:
     path: veilarbveileder/internal/isAlive
-    initialDelay: 60
+    initialDelay: 10
+    timeout: 10
   readiness:
     path: veilarbveileder/internal/selftest
-    initialDelay: 60
+    initialDelay: 10
+    timeout: 10
   prometheus:
     enabled: true
     path: veilarbveileder/internal/metrics
@@ -34,16 +36,9 @@ spec:
     - https://app-{{namespace}}.adeo.no/veilarbveileder
   vault:
     enabled: true
+  envFrom:
+    - configmap: pto-config
   env:
-    - ABAC_PDP_ENDPOINT_URL
-    - ABAC_PDP_ENDPOINT_DESCRIPTION
-    - ISSO_JWKS_URL
-    - ISSO_HOST_URL
-    - ISSO_ISSUER_URL
-    - ISSO_ISALIVE_URL
-    - VEILARBLOGIN_REDIRECT_URL_URL
-    - OIDC_REDIRECT_URL
-    - SECURITYTOKENSERVICE_URL
     - name: LDAP_BASEDN
       value: dc=preprod,dc=local
     - name: LDAP_USER_BASEDN
@@ -54,7 +49,3 @@ spec:
       value: ldaps://ldapgw.preprod.local
     - name: LDAP_DOMAIN
       value: PREPROD.LOCAL
-    - name: VIRKSOMHET_ORGANISASJONENHET_V2_ENDPOINTURL
-      value: https://app-{{namespace}}.adeo.no/norg2/ws/OrganisasjonEnhet/v2
-    - name: VIRKSOMHET_ENHET_V1_ENDPOINTURL
-      value: https://tjenestebuss-{{namespace}}.adeo.no/nav-tjeneste-enhet_v1Web/sca/EnhetWSEXP
