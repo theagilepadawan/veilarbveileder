@@ -1,8 +1,6 @@
 package no.nav.fo.service
 
-import no.nav.fo.PortefoljeEnhet
-import no.nav.fo.Veileder
-import no.nav.fo.VeiledereResponse
+import no.nav.fo.*
 import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.informasjon.WSOrganisasjonsenhet
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeResponse
@@ -16,6 +14,12 @@ fun wsEnhetResponseTilEnheterResponse(response: WSHentEnhetListeResponse): List<
 fun wsEnhetResponseTilVeileder(response: WSHentEnhetListeResponse): Veileder {
     val ressurs = response.ressurs
     return Veileder(ressurs.ressursId, ressurs.navn, ressurs.fornavn, ressurs.etternavn)
+}
+
+fun wsEnhetResponseTilVeilederInfo(response: WSHentEnhetListeResponse): VeilederInfo {
+    val ressurs = response.ressurs
+    val enheter = wsEnhetResponseTilEnheterResponse(response)
+    return VeilederInfo(ressurs.ressursId, ressurs.navn, ressurs.fornavn, ressurs.etternavn, enheter)
 }
 
 fun ressursResponseTilVeilederResponse(response: WSHentRessursListeResponse): VeiledereResponse =
