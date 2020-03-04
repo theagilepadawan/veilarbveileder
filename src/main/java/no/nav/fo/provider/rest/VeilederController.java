@@ -37,12 +37,10 @@ public class VeilederController {
 
     @GET
     @Path("/enheter")
-    public IdentOgEnhetliste hentEnheter(@RequestHeader HttpHeaders headers) throws Exception {
+    public IdentOgEnhetliste hentEnheter() throws Exception {
         TilgangsRegler.tilgangTilOppfolging(pepClient);
-        String ident = SubjectHandler.getIdent().orElseThrow(IllegalStateException::new);
+        String ident = no.nav.brukerdialog.security.context.SubjectHandler.getSubjectHandler().getUid();
         List<PortefoljeEnhet> response = virksomhetEnhetService.hentEnhetListe(ident);
-        String referer = new URI(headers.getHeaderString("Referer")).getPath().split("/")[1];
-        log.info("/enheter blev kallt av {}", referer);
         return new IdentOgEnhetliste(ident, response);
     }
 
