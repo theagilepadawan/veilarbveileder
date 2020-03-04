@@ -2,6 +2,7 @@ package no.nav.fo.service;
 
 import no.nav.fo.PortefoljeEnhet;
 import no.nav.fo.Veileder;
+import no.nav.fo.VeilederInfo;
 import no.nav.fo.VeiledereResponse;
 import no.nav.fo.consumer.VirksomhetEnhetConsumer;
 import no.nav.virksomhet.organisering.enhetogressurs.v1.Ressurs;
@@ -43,6 +44,20 @@ public class VirksomhetEnhetService {
     public Veileder hentVeilederData(String ident) throws Exception {
         WSHentEnhetListeResponse response = virksomhetEnhetConsumer.hentVeilederInfo(ident);
         return MappersKt.wsEnhetResponseTilVeileder(response);
+    }
+
+    public VeilederInfo hentVeilederInfo(String ident) throws Exception {
+        final boolean harModiaAdminRolle = ldapService.veilederHarRolle(ident, rolleModiaAdmin);
+        WSHentEnhetListeResponse response = virksomhetEnhetConsumer.hentVeilederInfo(ident);
+        VeilederInfo veilederInfo = MappersKt.wsEnhetResponseTilVeilederInfo(response);
+        if (!harModiaAdminRolle) {
+            return veilederInfo;
+        }
+
+        log.info("Rollen {} ble brukt for ident: {}", rolleModiaAdmin, ident);
+
+        List<PortefoljeEnhet> enheter = hentEnhetListe(ident);
+        return new VeilederInfo(veilederInfo.getIdent(), veilederInfo.getNavn(), veilederInfo.getFornavn(), veilederInfo.getEtternavn(), enheter);
     }
 
     public VeiledereResponse hentRessursListe(String enhetId) throws Exception {
