@@ -5,7 +5,6 @@ import no.nav.fo.Veileder;
 import no.nav.fo.VeilederInfo;
 import no.nav.fo.VeiledereResponse;
 import no.nav.fo.consumer.VirksomhetEnhetConsumer;
-import no.nav.virksomhet.organisering.enhetogressurs.v1.Ressurs;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeResponse;
 import org.slf4j.Logger;
@@ -17,7 +16,7 @@ import java.util.List;
 public class VirksomhetEnhetService {
 
     private static final String rolleModiaAdmin = "0000-GA-Modia_Admin";
-    private Logger log = LoggerFactory.getLogger(VirksomhetEnhetService.class.getName());
+    private final Logger log = LoggerFactory.getLogger(VirksomhetEnhetService.class.getName());
 
     @Inject
     private LdapService ldapService;

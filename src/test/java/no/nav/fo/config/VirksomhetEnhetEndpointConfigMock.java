@@ -6,7 +6,7 @@ import no.nav.virksomhet.tjenester.enhet.v1.Enhet;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static no.nav.sbl.dialogarena.types.Pingable.*;
+import static no.nav.sbl.dialogarena.types.Pingable.Ping;
 
 @Configuration
 public class VirksomhetEnhetEndpointConfigMock {

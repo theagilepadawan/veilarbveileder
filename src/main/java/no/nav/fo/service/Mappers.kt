@@ -1,6 +1,9 @@
 package no.nav.fo.service
 
-import no.nav.fo.*
+import no.nav.fo.PortefoljeEnhet
+import no.nav.fo.Veileder
+import no.nav.fo.VeilederInfo
+import no.nav.fo.VeiledereResponse
 import no.nav.tjeneste.virksomhet.organisasjonenhet.v2.informasjon.WSOrganisasjonsenhet
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeResponse
