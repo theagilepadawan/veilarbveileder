@@ -1,9 +1,8 @@
 package no.nav.fo.mock;
 
-import no.nav.virksomhet.organisering.enhetogressurs.v1.*;
+import no.nav.virksomhet.organisering.enhetogressurs.v1.Ressurs;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.*;
 import no.nav.virksomhet.tjenester.enhet.v1.*;
-import no.nav.virksomhet.tjenester.enhet.v1.Enhet;
 
 import java.util.ArrayList;
 import java.util.List;
