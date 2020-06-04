@@ -1,5 +1,5 @@
 import no.nav.apiapp.ApiApp;
-import no.nav.fo.config.ApplicationConfig;
+import no.nav.veilarbveileder.config.ApplicationConfig;
 
 public class Main {
 

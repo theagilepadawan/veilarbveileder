@@ -13,24 +13,24 @@ spec:
     enabled: true
   liveness:
     path: veilarbveileder/internal/isAlive
-    initialDelay: 20
+    initialDelay: 15
   readiness:
     path: veilarbveileder/internal/selftest
-    initialDelay: 20
+    initialDelay: 15
   prometheus:
     enabled: true
     path: veilarbveileder/internal/metrics
   replicas:
     min: 2
     max: 4
-    cpuThresholdPercentage: 50
+    cpuThresholdPercentage: 75
   resources:
     limits:
-      cpu: "3"
-      memory: 1024Mi
+      cpu: "2"
+      memory: 2048Mi
     requests:
-      cpu: 200m
-      memory: 512Mi
+      cpu: 500m
+      memory: 1024Mi
   ingresses:
     - https://veilarbveileder.nais.adeo.no
     - https://app.adeo.no/veilarbveileder
