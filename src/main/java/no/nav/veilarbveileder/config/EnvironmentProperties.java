@@ -13,13 +13,13 @@ public class EnvironmentProperties {
 
     private String openAmClientId;
 
+    private String openAmRefreshUrl;
+
     private String stsDiscoveryUrl;
 
-    private String refreshUrl;
+    private String stsClientId;
 
     private String abacUrl;
-
-    private String aktorregisterUrl;
 
     private String norg2Url;
 

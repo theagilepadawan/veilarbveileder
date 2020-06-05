@@ -1,6 +1,7 @@
 package no.nav.veilarbveileder.config;
 
 import no.nav.common.auth.oidc.filter.OidcAuthenticationFilter;
+import no.nav.common.auth.oidc.filter.OidcAuthenticator;
 import no.nav.common.auth.oidc.filter.OidcAuthenticatorConfig;
 import no.nav.common.auth.subject.IdentType;
 import no.nav.common.log.LogFilter;
@@ -9,8 +10,10 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static no.nav.common.auth.Constants.OPEN_AM_ID_TOKEN_COOKIE_NAME;
 import static no.nav.common.auth.Constants.REFRESH_TOKEN_COOKIE_NAME;
@@ -20,35 +23,34 @@ import static no.nav.common.utils.EnvironmentUtils.*;
 @Configuration
 public class FilterConfig {
 
-    private OidcAuthenticatorConfig createSystemUserConfig() {
-        String discoveryUrl = getRequiredProperty("SECURITY_TOKEN_SERVICE_DISCOVERY_URL");
-        String clientId = getRequiredProperty("SECURITY_TOKEN_SERVICE_CLIENT_ID");
-
+    private OidcAuthenticatorConfig createSystemUserConfig(EnvironmentProperties properties) {
         return new OidcAuthenticatorConfig()
-                .withDiscoveryUrl(discoveryUrl)
-                .withClientId(clientId)
+                .withDiscoveryUrl(properties.getStsDiscoveryUrl())
+                .withClientId(properties.getStsClientId())
                 .withIdentType(IdentType.Systemressurs);
     }
 
-    private OidcAuthenticatorConfig createOpenAmConfig() {
-        String discoveryUrl = getRequiredProperty("OPENAM_DISCOVERY_URL");
-        String clientId = getRequiredProperty("VEILARBLOGIN_OPENAM_CLIENT_ID");
-        String refreshUrl = getRequiredProperty("VEILARBLOGIN_OPENAM_REFRESH_URL");
-
+    private OidcAuthenticatorConfig createOpenAmConfig(EnvironmentProperties properties) {
         return new OidcAuthenticatorConfig()
-                .withDiscoveryUrl(discoveryUrl)
-                .withClientId(clientId)
-                .withRefreshUrl(refreshUrl)
+                .withDiscoveryUrl(properties.getOpenAmDiscoveryUrl())
+                .withClientId(properties.getOpenAmClientId())
+                .withRefreshUrl(properties.getOpenAmRefreshUrl())
                 .withRefreshTokenCookieName(REFRESH_TOKEN_COOKIE_NAME)
                 .withIdTokenCookieName(OPEN_AM_ID_TOKEN_COOKIE_NAME)
                 .withIdentType(IdentType.InternBruker);
+    }
+
+    public static List<OidcAuthenticator> fromConfigs(OidcAuthenticatorConfig ...configs) {
+        return Arrays.stream(configs)
+                .map(OidcAuthenticator::fromConfig)
+                .collect(Collectors.toList());
     }
 
     @Bean
     public FilterRegistrationBean authenticationFilterRegistrationBean(EnvironmentProperties properties) {
         FilterRegistrationBean<OidcAuthenticationFilter> registration = new FilterRegistrationBean<>();
         OidcAuthenticationFilter authenticationFilter = new OidcAuthenticationFilter(
-                List.of(fromConfig(createOpenAmConfig()), fromConfig(createSystemUserConfig()))
+                fromConfigs(createOpenAmConfig(properties), createSystemUserConfig(properties))
         );
 
         registration.setFilter(authenticationFilter);
