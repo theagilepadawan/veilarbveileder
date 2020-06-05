@@ -1,9 +1,9 @@
 package no.nav.veilarbveileder.service;
 
-import no.nav.veilarbveileder.PortefoljeEnhet;
-import no.nav.veilarbveileder.Veileder;
-import no.nav.veilarbveileder.VeiledereResponse;
-import no.nav.veilarbveileder.config.MockApplicationConfig;
+import no.nav.veilarbveileder.domain.PortefoljeEnhet;
+import no.nav.veilarbveileder.domain.Veileder;
+import no.nav.veilarbveileder.domain.VeiledereResponse;
+import no.nav.veilarbveileder.utils.Mappers;
 import no.nav.virksomhet.organisering.enhetogressurs.v1.Ressurs;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
@@ -19,7 +19,6 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,10 +36,10 @@ public class VirksomhetEnhetServiceTest {
 
     private WSHentEnhetListeResponse response;
 
-    @Inject
+//    @Inject
     private Enhet virksomhetEnhet;
 
-    @Inject
+//    @Inject
     private VirksomhetEnhetService virksomhetEnhetService;
 
     @Before
@@ -105,7 +104,7 @@ public class VirksomhetEnhetServiceTest {
         when(wsHentRessursListeResponse.getEnhet()).thenReturn(enhet);
         when(wsHentRessursListeResponse.getRessursListe()).thenReturn(ressursListe);
 
-        VeiledereResponse veiledereResponse = MappersKt.ressursResponseTilVeilederResponse(wsHentRessursListeResponse);
+        VeiledereResponse veiledereResponse = Mappers.ressursResponseTilVeilederResponse(wsHentRessursListeResponse);
 
         assertThat(veiledereResponse.getEnhet().getEnhetId()).isEqualTo(enhet.getEnhetId());
         assertThat(veiledereResponse.getEnhet().getNavn()).isEqualTo(enhet.getNavn());

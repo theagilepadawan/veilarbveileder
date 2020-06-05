@@ -1,27 +1,32 @@
-package no.nav.veilarbveileder.consumer;
+package no.nav.veilarbveileder.client;
 
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import no.nav.common.health.HealthCheckResult;
+import no.nav.veilarbveileder.config.CacheConfig;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeResponse;
 import no.nav.virksomhet.tjenester.enhet.v1.Enhet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 
-import javax.inject.Inject;
+@Slf4j
+public class VirksomhetEnhetSoapClientImpl implements VirksomhetEnhetSoapClient {
 
-public class VirksomhetEnhetConsumer {
-    private static Logger log = LoggerFactory.getLogger(VirksomhetEnhetConsumer.class.getName());
+    private final Enhet virksomhetEnhet;
 
-    @Inject
-    private Enhet virksomhetEnhet;
+    public VirksomhetEnhetSoapClientImpl(Enhet virksomhetEnhet) {
+        this.virksomhetEnhet = virksomhetEnhet;
+    }
 
-
-    @Cacheable("veilarbveilederCache")
-    public WSHentRessursListeResponse hentEnhetInfo(String enhetId) throws Exception{
+    @Override
+    @SneakyThrows
+    @Cacheable(CacheConfig.HENT_ENHET_INFO_CACHE_NAME)
+    public WSHentRessursListeResponse hentEnhetInfo(String enhetId) {
         WSHentRessursListeRequest request = new WSHentRessursListeRequest();
         request.setEnhetId(enhetId);
+
         try {
             return virksomhetEnhet.hentRessursListe(request);
         } catch (Exception e) {
@@ -30,8 +35,10 @@ public class VirksomhetEnhetConsumer {
         }
     }
 
-    @Cacheable("veilarbveilederCache")
-    public WSHentEnhetListeResponse hentVeilederInfo(String ident) throws Exception{
+    @Override
+    @SneakyThrows
+    @Cacheable(CacheConfig.VEILEDER_INFO_CACHE_NAME)
+    public WSHentEnhetListeResponse hentVeilederInfo(String ident) {
         WSHentEnhetListeRequest request = new WSHentEnhetListeRequest();
         request.setRessursId(ident);
         try {
@@ -39,6 +46,16 @@ public class VirksomhetEnhetConsumer {
         } catch (Exception e){
             log.error("Kunne ikke hente enhetene til veileder {} fra VirksomhetEnhet/NORG2", ident, e);
             throw e;
+        }
+    }
+
+    @Override
+    public HealthCheckResult checkHealth() {
+        try {
+            virksomhetEnhet.ping();
+            return HealthCheckResult.healthy();
+        } catch (Exception e) {
+            return HealthCheckResult.unhealthy(e);
         }
     }
 }

@@ -1,75 +1,87 @@
 package no.nav.veilarbveileder.service;
 
-import no.nav.veilarbveileder.PortefoljeEnhet;
-import no.nav.veilarbveileder.Veileder;
-import no.nav.veilarbveileder.VeilederInfo;
-import no.nav.veilarbveileder.VeiledereResponse;
-import no.nav.veilarbveileder.consumer.VirksomhetEnhetConsumer;
+import lombok.extern.slf4j.Slf4j;
+import no.nav.common.client.norg2.Norg2Client;
+import no.nav.veilarbveileder.client.LdapClient;
+import no.nav.veilarbveileder.client.VirksomhetEnhetSoapClient;
+import no.nav.veilarbveileder.domain.PortefoljeEnhet;
+import no.nav.veilarbveileder.domain.Veileder;
+import no.nav.veilarbveileder.domain.VeilederInfo;
+import no.nav.veilarbveileder.domain.VeiledereResponse;
+import no.nav.veilarbveileder.utils.Mappers;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Slf4j
+@Service
 public class VirksomhetEnhetService {
 
     private static final String rolleModiaAdmin = "0000-GA-Modia_Admin";
-    private final Logger log = LoggerFactory.getLogger(VirksomhetEnhetService.class.getName());
 
-    @Inject
-    private LdapService ldapService;
+    private final LdapClient ldapClient;
 
-    @Inject
-    private OrganisasjonEnhetV2Service organisasjonEnhetV2Service;
+    private final Norg2Client norg2Client;
 
-    @Inject
-    private VirksomhetEnhetConsumer virksomhetEnhetConsumer;
+    private final VirksomhetEnhetSoapClient virksomhetEnhetSoapClient;
 
+    @Autowired
+    public VirksomhetEnhetService(LdapClient ldapClient, Norg2Client norg2Client, VirksomhetEnhetSoapClient virksomhetEnhetSoapClient) {
+        this.ldapClient = ldapClient;
+        this.norg2Client = norg2Client;
+        this.virksomhetEnhetSoapClient = virksomhetEnhetSoapClient;
+    }
 
-    public List<PortefoljeEnhet> hentEnhetListe(String ident) throws Exception {
-        final boolean harModiaAdminRolle = ldapService.veilederHarRolle(ident, rolleModiaAdmin);
+    public List<PortefoljeEnhet> hentEnhetListe(String ident) {
+        final boolean harModiaAdminRolle = ldapClient.veilederHarRolle(ident, rolleModiaAdmin);
 
         if (harModiaAdminRolle) {
             log.info("Rollen {} ble brukt for ident: {}", rolleModiaAdmin, ident);
-            return hentAlleEnheter();
+            return alleEnheter();
         }
 
-        WSHentEnhetListeResponse response = virksomhetEnhetConsumer.hentVeilederInfo(ident);
-        return MappersKt.wsEnhetResponseTilEnheterResponse(response);
+        WSHentEnhetListeResponse response = virksomhetEnhetSoapClient.hentVeilederInfo(ident);
+
+        return response.getEnhetListe().stream().map(Mappers::tilPortefoljeEnhet).collect(Collectors.toList());
     }
 
-    public Veileder hentVeilederData(String ident) throws Exception {
-        WSHentEnhetListeResponse response = virksomhetEnhetConsumer.hentVeilederInfo(ident);
-        return MappersKt.wsEnhetResponseTilVeileder(response);
+    public Veileder hentVeilederData(String ident) {
+        WSHentEnhetListeResponse response = virksomhetEnhetSoapClient.hentVeilederInfo(ident);
+        return Mappers.ressursTilVeileder(response.getRessurs());
     }
 
-    public VeilederInfo hentVeilederInfo(String ident) throws Exception {
-        final boolean harModiaAdminRolle = ldapService.veilederHarRolle(ident, rolleModiaAdmin);
-        WSHentEnhetListeResponse response = virksomhetEnhetConsumer.hentVeilederInfo(ident);
-        VeilederInfo veilederInfo = MappersKt.wsEnhetResponseTilVeilederInfo(response);
-        if (!harModiaAdminRolle) {
-            return veilederInfo;
+    public VeilederInfo hentVeilederInfo(String ident) {
+        final boolean harModiaAdminRolle = ldapClient.veilederHarRolle(ident, rolleModiaAdmin);
+        WSHentEnhetListeResponse response = virksomhetEnhetSoapClient.hentVeilederInfo(ident);
+        VeilederInfo veilederInfo = Mappers.enhetResponseTilVeilederInfo(response);
+
+        if (harModiaAdminRolle) {
+            log.info("Rollen {} ble brukt for ident: {}", rolleModiaAdmin, ident);
+            veilederInfo.setEnheter(alleEnheter());
         }
 
-        log.info("Rollen {} ble brukt for ident: {}", rolleModiaAdmin, ident);
-
-        List<PortefoljeEnhet> enheter = hentEnhetListe(ident);
-        return new VeilederInfo(veilederInfo.getIdent(), veilederInfo.getNavn(), veilederInfo.getFornavn(), veilederInfo.getEtternavn(), enheter);
+        return veilederInfo;
     }
 
-    public VeiledereResponse hentRessursListe(String enhetId) throws Exception {
-        WSHentRessursListeResponse response = virksomhetEnhetConsumer.hentEnhetInfo(enhetId);
-        return MappersKt.ressursResponseTilVeilederResponse(response);
+    public VeiledereResponse hentRessursListe(String enhetId) {
+        WSHentRessursListeResponse response = virksomhetEnhetSoapClient.hentEnhetInfo(enhetId);
+        return Mappers.ressursResponseTilVeilederResponse(response);
     }
 
-    public List<String> hentIdentListe(String enhetId) throws Exception {
-        WSHentRessursListeResponse response = virksomhetEnhetConsumer.hentEnhetInfo(enhetId);
-        return MappersKt.ressursResponseTilIdentListe(response);
+    public List<String> hentIdentListe(String enhetId) {
+        WSHentRessursListeResponse response = virksomhetEnhetSoapClient.hentEnhetInfo(enhetId);
+        return Mappers.ressursResponseTilIdentListe(response);
     }
 
-    private List<PortefoljeEnhet> hentAlleEnheter() {
-        return organisasjonEnhetV2Service.hentAlleEnheter();
+    private List<PortefoljeEnhet> alleEnheter() {
+        return norg2Client.alleAktiveEnheter()
+                .stream()
+                .map(Mappers::tilPortefoljeEnhet)
+                .collect(Collectors.toList());
     }
+
 }

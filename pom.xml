@@ -88,11 +88,6 @@
             <artifactId>enhet-v1-tjenestespesifikasjon</artifactId>
             <version>1.2019.04.03-23.09-56488320520a</version>
         </dependency>
-        <dependency>
-            <groupId>no.nav.tjenestespesifikasjoner</groupId>
-            <artifactId>organisasjonenhet-v2-tjenestespesifikasjon</artifactId>
-            <version>1.2019.08.16-13.46-35cbdfd492d4</version>
-        </dependency>
 
         <!-- Common Dependencies -->
         <dependency>
