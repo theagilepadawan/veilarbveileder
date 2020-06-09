@@ -2,7 +2,6 @@ package no.nav.veilarbveileder.client;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import no.nav.common.health.HealthCheckResult;
 import no.nav.veilarbveileder.config.CacheConfig;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
@@ -49,13 +48,4 @@ public class VirksomhetEnhetSoapClientImpl implements VirksomhetEnhetSoapClient 
         }
     }
 
-    @Override
-    public HealthCheckResult checkHealth() {
-        try {
-            virksomhetEnhet.ping();
-            return HealthCheckResult.healthy();
-        } catch (Exception e) {
-            return HealthCheckResult.unhealthy(e);
-        }
-    }
 }

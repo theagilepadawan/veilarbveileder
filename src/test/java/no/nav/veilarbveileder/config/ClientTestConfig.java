@@ -1,8 +1,6 @@
 package no.nav.veilarbveileder.config;
 
-import no.nav.common.client.norg2.CachedNorg2Client;
 import no.nav.common.client.norg2.Norg2Client;
-import no.nav.common.client.norg2.NorgHttp2Client;
 import no.nav.common.health.HealthCheckResult;
 import no.nav.veilarbveileder.client.LdapClient;
 import no.nav.veilarbveileder.client.VirksomhetEnhetSoapClient;
@@ -16,8 +14,6 @@ import org.springframework.context.annotation.Configuration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static no.nav.veilarbveileder.utils.TestData.*;
 
 @Configuration
 public class ClientTestConfig {
@@ -84,10 +80,6 @@ public class ClientTestConfig {
                 return new WSHentEnhetListeResponse().withEnhetListe(enhetliste).withRessurs(ressurs);
             }
 
-            @Override
-            public HealthCheckResult checkHealth() {
-                return HealthCheckResult.healthy();
-            }
         };
     }
 
