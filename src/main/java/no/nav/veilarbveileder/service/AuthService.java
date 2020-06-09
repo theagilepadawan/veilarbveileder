@@ -1,6 +1,7 @@
 package no.nav.veilarbveileder.service;
 
 import no.nav.common.abac.Pep;
+import no.nav.common.auth.subject.SsoToken;
 import no.nav.common.auth.subject.SubjectHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,29 +21,22 @@ public class AuthService {
     public String getInnloggetVeilederIdent() {
         return SubjectHandler
                 .getIdent()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing ident from subject"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id is missing from subject"));
     }
 
-    public void tilgangTilOppfolging() {
-//        private static final String MODIA = "modia";
-//        private static final String SYSTEMBRUKER = "srvveilarbveileder";
-//        private static final String DOMAIN = "veilarb";
+    public String getInnloggetBrukerToken() {
+        return SubjectHandler
+                .getSsoToken()
+                .map(SsoToken::getToken)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token is missing"));
+    }
 
-//        try {
-//            RequestData requestData = pep.nyRequest()
-//                    .withDomain(MODIA)
-//                    .withResourceType(ResourceType.Modia);
-//
-//            BiasedDecisionResponse abacResponse = pep.harTilgang(requestData);
-//            sjekkTilgang(ResourceType.Modia.name(), abacResponse);
-//
-//        } catch (PepException e) {
-//            throw new RuntimeException(e);
-//        }
+    public void tilgangTilModia() {
+        veilarbPep.sjekkTilgangTilModia(getInnloggetBrukerToken());
     }
 
     public void tilgangTilEnhet(String enhetId) {
-        veilarbPep.sjekkVeilederTilgangTilEnhet(getInnloggetVeilederIdent(), enhetId);
+        veilarbPep.sjekkTilgangTilEnhet(getInnloggetVeilederIdent(), enhetId);
     }
 
 }

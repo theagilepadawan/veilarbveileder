@@ -50,7 +50,7 @@ public class EnhetController {
 
     @GetMapping("/{enhetId}/veiledere")
     public VeiledereResponse hentRessurser(@PathVariable("enhetId") String enhetId) {
-        authService.tilgangTilOppfolging();
+        authService.tilgangTilModia();
         authService.tilgangTilEnhet(enhetId);
         return virksomhetEnhetService.hentRessursListe(enhetId);
     }

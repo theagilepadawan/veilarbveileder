@@ -30,7 +30,7 @@ public class VeilederController {
 
     @GetMapping("/enheter")
     public IdentOgEnhetliste hentEnheter() {
-        authService.tilgangTilOppfolging();
+        authService.tilgangTilModia();
         String ident = authService.getInnloggetVeilederIdent();
         List<PortefoljeEnhet> response = virksomhetEnhetService.hentEnhetListe(ident);
         return new IdentOgEnhetliste(ident, response);
@@ -44,7 +44,7 @@ public class VeilederController {
 
     @GetMapping("/v2/me")
     public VeilederInfo hentVeilederInfo() {
-        authService.tilgangTilOppfolging();
+        authService.tilgangTilModia();
         String ident = authService.getInnloggetVeilederIdent();
         return virksomhetEnhetService.hentVeilederInfo(ident);
     }
@@ -52,7 +52,7 @@ public class VeilederController {
 
     @GetMapping("/{ident}")
     public Veileder hentVeilederForIdent(@PathVariable("ident") String ident) {
-        authService.tilgangTilOppfolging();
+        authService.tilgangTilModia();
         return virksomhetEnhetService.hentVeilederData(ident);
     }
 }

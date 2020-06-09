@@ -1,7 +1,9 @@
 package no.nav.veilarbveileder.config;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.common.abac.*;
+import no.nav.common.abac.Pep;
+import no.nav.common.abac.VeilarbPep;
+import no.nav.common.abac.audit.SpringAuditRequestInfoSupplier;
 import no.nav.common.client.norg2.CachedNorg2Client;
 import no.nav.common.client.norg2.Norg2Client;
 import no.nav.common.client.norg2.NorgHttp2Client;
@@ -33,7 +35,10 @@ public class ApplicationConfig {
 
     @Bean
     public Pep veilarbPep(EnvironmentProperties properties, Credentials serviceUserCredentials) {
-        return new VeilarbPep(properties.getAbacUrl(), serviceUserCredentials.username, serviceUserCredentials.password);
+        return new VeilarbPep(
+                properties.getAbacUrl(), serviceUserCredentials.username,
+                serviceUserCredentials.password, new SpringAuditRequestInfoSupplier()
+        );
     }
 
     @Bean

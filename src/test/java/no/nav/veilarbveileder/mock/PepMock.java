@@ -14,32 +14,42 @@ public class PepMock implements Pep {
     }
 
     @Override
-    public void sjekkVeilederTilgangTilEnhet(String s, String s1) {
+    public void sjekkTilgangTilEnhet(String veilederIdent, String enhetId) {
 
     }
 
     @Override
-    public void sjekkVeilederTilgangTilBruker(String s, ActionId actionId, AbacPersonId abacPersonId) {
+    public void sjekkVeilederTilgangTilPerson(String veilederIdent, ActionId actionId, AbacPersonId personId) {
 
     }
 
     @Override
-    public void sjekkTilgangTilPerson(String s, ActionId actionId, AbacPersonId abacPersonId) {
+    public void sjekkTilgangTilPerson(String innloggetBrukerIdToken, ActionId actionId, AbacPersonId personId) {
 
     }
 
     @Override
-    public void sjekkVeilederTilgangTilKode6(String s) {
+    public void sjekkTilgangTilOppfolging(String innloggetVeilederIdToken) {
 
     }
 
     @Override
-    public void sjekkVeilederTilgangTilKode7(String s) {
+    public void sjekkTilgangTilModia(String innloggetVeilederIdToken) {
 
     }
 
     @Override
-    public void sjekkVeilederTilgangTilEgenAnsatt(String s) {
+    public void sjekkTilgangTilKode6(String veilederIdent) {
+
+    }
+
+    @Override
+    public void sjekkTilgangTilKode7(String veilederIdent) {
+
+    }
+
+    @Override
+    public void sjekkTilgangTilEgenAnsatt(String veilederIdent) {
 
     }
 

@@ -5,6 +5,7 @@ import no.nav.common.abac.domain.request.XacmlRequest;
 import no.nav.common.abac.domain.response.Decision;
 import no.nav.common.abac.domain.response.Response;
 import no.nav.common.abac.domain.response.XacmlResponse;
+import no.nav.common.health.HealthCheckResult;
 
 import java.util.Collections;
 
@@ -22,4 +23,8 @@ public class AbacClientMock implements AbacClient {
         return xacmlResponse;
     }
 
+    @Override
+    public HealthCheckResult checkHealth() {
+        return HealthCheckResult.healthy();
+    }
 }
