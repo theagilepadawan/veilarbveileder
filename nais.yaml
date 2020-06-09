@@ -13,13 +13,13 @@ spec:
     enabled: true
   liveness:
     path: veilarbveileder/internal/isAlive
-    initialDelay: 15
+    initialDelay: 30
   readiness:
-    path: veilarbveileder/internal/selftest
-    initialDelay: 15
+    path: veilarbveileder/internal/isReady
+    initialDelay: 30
   prometheus:
     enabled: true
-    path: veilarbveileder/internal/metrics
+    path: veilarbveileder/internal/prometheus
   replicas:
     min: 2
     max: 4
