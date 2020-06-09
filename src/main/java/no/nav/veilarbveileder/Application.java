@@ -7,13 +7,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import static no.nav.common.utils.EnvironmentUtils.getRequiredProperty;
-import static no.nav.common.utils.NaisUtils.getCredentials;
+import static no.nav.veilarbveileder.utils.ServiceUserUtils.getServiceUserCredentials;
 
 @SpringBootApplication
 public class Application {
 
     public static void main(String... args) {
-        Credentials serviceUser = getCredentials("service_user");
+        Credentials serviceUser = getServiceUserCredentials();
 
         //CXF
         System.setProperty(StsSecurityConstants.STS_URL_KEY, getRequiredProperty("SECURITYTOKENSERVICE_URL"));

@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import static no.nav.common.utils.NaisUtils.getCredentials;
+import static no.nav.veilarbveileder.utils.ServiceUserUtils.getServiceUserCredentials;
 
 @Slf4j
 @Configuration
@@ -24,17 +24,13 @@ import static no.nav.common.utils.NaisUtils.getCredentials;
 public class ApplicationConfig {
 
     @Bean
-    public Credentials serviceUserCredentials() {
-        return getCredentials("service_user");
-    }
-
-    @Bean
     public Norg2Client norg2Client(EnvironmentProperties properties) {
         return new CachedNorg2Client(new NorgHttp2Client(properties.getNorg2Url()));
     }
 
     @Bean
-    public Pep veilarbPep(EnvironmentProperties properties, Credentials serviceUserCredentials) {
+    public Pep veilarbPep(EnvironmentProperties properties) {
+        Credentials serviceUserCredentials = getServiceUserCredentials();
         return new VeilarbPep(
                 properties.getAbacUrl(), serviceUserCredentials.username,
                 serviceUserCredentials.password, new SpringAuditRequestInfoSupplier()
