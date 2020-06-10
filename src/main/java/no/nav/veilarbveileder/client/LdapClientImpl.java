@@ -26,14 +26,6 @@ public class LdapClientImpl implements LdapClient {
     private static final String LDAP_USERNAME = "LDAP_USERNAME";
     private static final String LDAP_PASSWORD = "LDAP_PASSWORD";
 
-    private final String ldapBaseDn;
-    private final LdapContext ldapContext;
-
-    public LdapClientImpl() {
-        ldapBaseDn = getRequiredProperty(LDAP_BASEDN_PROPERTY_NAME);
-        ldapContext = createLdapContext();
-    }
-
     @Cacheable(CacheConfig.VEILEDER_ROLLE_CACHE_NAME)
     public boolean veilederHarRolle(String ident, String rolle) {
         NamingEnumeration<SearchResult> result = sokLDAP(ident);
@@ -50,12 +42,12 @@ public class LdapClientImpl implements LdapClient {
     }
 
     private NamingEnumeration<SearchResult> sokLDAP(String ident) {
-        String searchbase = "OU=Users,OU=NAV,OU=BusinessUnits," + ldapBaseDn;
+        String searchbase = "OU=Users,OU=NAV,OU=BusinessUnits," + getRequiredProperty(LDAP_BASEDN_PROPERTY_NAME);
         SearchControls searchCtrl = new SearchControls();
         searchCtrl.setSearchScope(SearchControls.SUBTREE_SCOPE);
 
         try {
-            return ldapContext.search(searchbase, String.format("(&(objectClass=user)(CN=%s))", ident), searchCtrl);
+            return createLdapContext().search(searchbase, String.format("(&(objectClass=user)(CN=%s))", ident), searchCtrl);
         } catch (NamingException e) {
             throw new RuntimeException(e);
         }
