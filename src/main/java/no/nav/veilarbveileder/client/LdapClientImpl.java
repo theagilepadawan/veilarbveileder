@@ -58,7 +58,8 @@ public class LdapClientImpl implements LdapClient {
             if (result.hasMore()) {
                 SearchResult searchResult = result.next();
                 NamingEnumeration<?> attributes = searchResult.getAttributes().get("memberof").getAll();
-                return parseRollerFraAD(attributes);
+                List<String> rawRoles = getRawRoles(attributes);
+                return extractCommonName(rawRoles);
             } else {
                 return emptyList();
             }
@@ -67,12 +68,12 @@ public class LdapClientImpl implements LdapClient {
         }
     }
 
-    private List<String> parseRollerFraAD(NamingEnumeration<?> attributes) throws NamingException {
-        List<String> rawRolleStrenger = new ArrayList<>();
+    private List<String> getRawRoles(NamingEnumeration<?> attributes) throws NamingException {
+        List<String> rawRoles = new ArrayList<>();
         while (attributes.hasMore()) {
-            rawRolleStrenger.add((String) attributes.next());
+            rawRoles.add((String) attributes.next());
         }
-        return parseAdRolle(rawRolleStrenger);
+        return rawRoles;
     }
 
     private static LdapContext createLdapContext() {
@@ -90,14 +91,13 @@ public class LdapClientImpl implements LdapClient {
         }
     }
 
-    private static List<String> parseAdRolle(List<String> rawRolleStrenger) {
-        return rawRolleStrenger
+    private static List<String> extractCommonName(List<String> rawRoles) {
+        return rawRoles
                 .stream()
                 .map(rolleStr -> {
-                    if (rolleStr.startsWith("CN=")) {
+                    if (!rolleStr.startsWith("CN=")) {
                         throw new IllegalArgumentException("Feil format på AD-rolle: " + rolleStr);
                     }
-
                     return rolleStr.split(",")[0].split("CN=")[1];
                 })
                 .collect(Collectors.toList());
