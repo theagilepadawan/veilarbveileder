@@ -13,44 +13,45 @@ public class PepMock implements Pep {
         this.abacClient = abacClient;
     }
 
-    @Override
-    public void sjekkTilgangTilEnhet(String veilederIdent, String enhetId) {
 
+    @Override
+    public boolean harVeilederTilgangTilEnhet(String s, String s1) {
+        return true;
     }
 
     @Override
-    public void sjekkVeilederTilgangTilPerson(String veilederIdent, ActionId actionId, AbacPersonId personId) {
-
+    public boolean harVeilederTilgangTilPerson(String s, ActionId actionId, AbacPersonId abacPersonId) {
+        return true;
     }
 
     @Override
-    public void sjekkTilgangTilPerson(String innloggetBrukerIdToken, ActionId actionId, AbacPersonId personId) {
-
+    public boolean harTilgangTilPerson(String s, ActionId actionId, AbacPersonId abacPersonId) {
+        return true;
     }
 
     @Override
-    public void sjekkTilgangTilOppfolging(String innloggetVeilederIdToken) {
-
+    public boolean harVeilederTilgangTilOppfolging(String s) {
+        return true;
     }
 
     @Override
-    public void sjekkTilgangTilModia(String innloggetVeilederIdToken) {
-
+    public boolean harVeilederTilgangTilModia(String s) {
+        return true;
     }
 
     @Override
-    public void sjekkTilgangTilKode6(String veilederIdent) {
-
+    public boolean harVeilederTilgangTilKode6(String s) {
+        return true;
     }
 
     @Override
-    public void sjekkTilgangTilKode7(String veilederIdent) {
-
+    public boolean harVeilederTilgangTilKode7(String s) {
+        return true;
     }
 
     @Override
-    public void sjekkTilgangTilEgenAnsatt(String veilederIdent) {
-
+    public boolean harVeilederTilgangTilEgenAnsatt(String s) {
+        return true;
     }
 
     @Override

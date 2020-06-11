@@ -32,11 +32,15 @@ public class AuthService {
     }
 
     public void tilgangTilModia() {
-        veilarbPep.sjekkTilgangTilModia(getInnloggetBrukerToken());
+        if (!veilarbPep.harVeilederTilgangTilModia(getInnloggetBrukerToken())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
     }
 
     public void tilgangTilEnhet(String enhetId) {
-        veilarbPep.sjekkTilgangTilEnhet(getInnloggetVeilederIdent(), enhetId);
+        if (!veilarbPep.harVeilederTilgangTilEnhet(getInnloggetVeilederIdent(), enhetId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
     }
 
 }
