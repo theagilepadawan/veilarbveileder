@@ -15,7 +15,7 @@ public class AuthService {
     private final Pep veilarbPep;
     private final LdapClient ldapClient;
 
-    private static final String ROLLE_MODIA_ADMIN = "0000-GA-Modia_Admin";
+    public static final String ROLLE_MODIA_ADMIN = "0000-GA-Modia_Admin";
 
     @Autowired
     public AuthService(Pep veilarbPep, LdapClient ldapClient) {
@@ -44,9 +44,13 @@ public class AuthService {
 
     public void tilgangTilEnhet(String enhetId) {
         String ident = getInnloggetVeilederIdent();
-        if (!ldapClient.veilederHarRolle(ident, ROLLE_MODIA_ADMIN) && !veilarbPep.harVeilederTilgangTilEnhet(ident, enhetId)) {
+        if (!harModiaAdminRolle(ident) && !veilarbPep.harVeilederTilgangTilEnhet(ident, enhetId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
+    }
+
+    public boolean harModiaAdminRolle(String ident) {
+        return ldapClient.veilederHarRolle(ident, ROLLE_MODIA_ADMIN);
     }
 
 }
