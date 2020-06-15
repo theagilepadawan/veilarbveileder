@@ -2,7 +2,6 @@ package no.nav.veilarbveileder.service;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.common.client.norg2.Norg2Client;
-import no.nav.veilarbveileder.client.LdapClient;
 import no.nav.veilarbveileder.client.VirksomhetEnhetSoapClient;
 import no.nav.veilarbveileder.domain.PortefoljeEnhet;
 import no.nav.veilarbveileder.domain.Veileder;
@@ -17,30 +16,30 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static no.nav.veilarbveileder.service.AuthService.ROLLE_MODIA_ADMIN;
+
 @Slf4j
 @Service
 public class VirksomhetEnhetService {
 
-    private static final String rolleModiaAdmin = "0000-GA-Modia_Admin";
-
-    private final LdapClient ldapClient;
+    private final AuthService authService;
 
     private final Norg2Client norg2Client;
 
     private final VirksomhetEnhetSoapClient virksomhetEnhetSoapClient;
 
     @Autowired
-    public VirksomhetEnhetService(LdapClient ldapClient, Norg2Client norg2Client, VirksomhetEnhetSoapClient virksomhetEnhetSoapClient) {
-        this.ldapClient = ldapClient;
+    public VirksomhetEnhetService(AuthService authService, Norg2Client norg2Client, VirksomhetEnhetSoapClient virksomhetEnhetSoapClient) {
+        this.authService = authService;
         this.norg2Client = norg2Client;
         this.virksomhetEnhetSoapClient = virksomhetEnhetSoapClient;
     }
 
     public List<PortefoljeEnhet> hentEnhetListe(String ident) {
-        final boolean harModiaAdminRolle = ldapClient.veilederHarRolle(ident, rolleModiaAdmin);
+        final boolean harModiaAdminRolle = authService.harModiaAdminRolle(ident);
 
         if (harModiaAdminRolle) {
-            log.info("Rollen {} ble brukt for ident: {}", rolleModiaAdmin, ident);
+            log.info("Rollen {} ble brukt for ident: {}", ROLLE_MODIA_ADMIN, ident);
             return alleEnheter();
         }
 
@@ -55,12 +54,12 @@ public class VirksomhetEnhetService {
     }
 
     public VeilederInfo hentVeilederInfo(String ident) {
-        final boolean harModiaAdminRolle = ldapClient.veilederHarRolle(ident, rolleModiaAdmin);
+        final boolean harModiaAdminRolle = authService.harModiaAdminRolle(ident);
         WSHentEnhetListeResponse response = virksomhetEnhetSoapClient.hentVeilederInfo(ident);
         VeilederInfo veilederInfo = Mappers.enhetResponseTilVeilederInfo(response);
 
         if (harModiaAdminRolle) {
-            log.info("Rollen {} ble brukt for ident: {}", rolleModiaAdmin, ident);
+            log.info("Rollen {} ble brukt for ident: {}", ROLLE_MODIA_ADMIN, ident);
             veilederInfo.setEnheter(alleEnheter());
         }
 
