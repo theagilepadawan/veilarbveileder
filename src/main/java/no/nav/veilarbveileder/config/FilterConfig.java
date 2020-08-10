@@ -1,56 +1,74 @@
 package no.nav.veilarbveileder.config;
 
 import no.nav.common.auth.oidc.filter.OidcAuthenticationFilter;
-import no.nav.common.auth.oidc.filter.OidcAuthenticator;
 import no.nav.common.auth.oidc.filter.OidcAuthenticatorConfig;
 import no.nav.common.auth.subject.IdentType;
+import no.nav.common.auth.utils.ServiceUserTokenFinder;
+import no.nav.common.auth.utils.UserTokenFinder;
 import no.nav.common.log.LogFilter;
 import no.nav.common.rest.filter.SetStandardHttpHeadersFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static no.nav.common.auth.Constants.OPEN_AM_ID_TOKEN_COOKIE_NAME;
-import static no.nav.common.auth.Constants.REFRESH_TOKEN_COOKIE_NAME;
-import static no.nav.common.auth.oidc.filter.OidcAuthenticator.fromConfig;
-import static no.nav.common.utils.EnvironmentUtils.*;
+import static no.nav.common.auth.Constants.*;
+import static no.nav.common.auth.oidc.filter.OidcAuthenticator.fromConfigs;
+import static no.nav.common.utils.EnvironmentUtils.isDevelopment;
+import static no.nav.common.utils.EnvironmentUtils.requireApplicationName;
 
 @Configuration
 public class FilterConfig {
 
-    private OidcAuthenticatorConfig createSystemUserConfig(EnvironmentProperties properties) {
-        return new OidcAuthenticatorConfig()
-                .withDiscoveryUrl(properties.getStsDiscoveryUrl())
-                .withClientId(properties.getStsClientId())
-                .withIdentType(IdentType.Systemressurs);
-    }
+    private final List<String> ALLOWED_SERVICE_USERS = List.of(
+            "srvveilarbfilter"
+    );
 
-    private OidcAuthenticatorConfig createOpenAmConfig(EnvironmentProperties properties) {
+    private OidcAuthenticatorConfig openAmServiceUserAuthConfig(EnvironmentProperties properties) {
         return new OidcAuthenticatorConfig()
                 .withDiscoveryUrl(properties.getOpenAmDiscoveryUrl())
                 .withClientId(properties.getOpenAmClientId())
-                .withRefreshUrl(properties.getOpenAmRefreshUrl())
-                .withRefreshTokenCookieName(REFRESH_TOKEN_COOKIE_NAME)
+                .withIdTokenFinder(new ServiceUserTokenFinder())
+                .withIdentType(IdentType.Systemressurs);
+    }
+
+    private OidcAuthenticatorConfig naisServiceUserAuthConfig(EnvironmentProperties properties) {
+        return new OidcAuthenticatorConfig()
+                .withDiscoveryUrl(properties.getNaisStsDiscoveryUrl())
+                .withClientIds(ALLOWED_SERVICE_USERS)
+                .withIdentType(IdentType.Systemressurs);
+    }
+
+    private OidcAuthenticatorConfig openAmAuthConfig(EnvironmentProperties properties) {
+        return new OidcAuthenticatorConfig()
+                .withDiscoveryUrl(properties.getOpenAmDiscoveryUrl())
+                .withClientId(properties.getOpenAmClientId())
                 .withIdTokenCookieName(OPEN_AM_ID_TOKEN_COOKIE_NAME)
+                .withRefreshTokenCookieName(REFRESH_TOKEN_COOKIE_NAME)
+                .withIdTokenFinder(new UserTokenFinder())
+                .withRefreshUrl(properties.getOpenAmRefreshUrl())
                 .withIdentType(IdentType.InternBruker);
     }
 
-    public static List<OidcAuthenticator> fromConfigs(OidcAuthenticatorConfig ...configs) {
-        return Arrays.stream(configs)
-                .map(OidcAuthenticator::fromConfig)
-                .collect(Collectors.toList());
+    private OidcAuthenticatorConfig azureAdAuthConfig(EnvironmentProperties environmentProperties) {
+        return new OidcAuthenticatorConfig()
+                .withDiscoveryUrl(environmentProperties.getAzureAdDiscoveryUrl())
+                .withClientId(environmentProperties.getAzureAdClientId())
+                .withIdTokenCookieName(AZURE_AD_ID_TOKEN_COOKIE_NAME)
+                .withIdentType(IdentType.InternBruker);
     }
 
     @Bean
     public FilterRegistrationBean authenticationFilterRegistrationBean(EnvironmentProperties properties) {
         FilterRegistrationBean<OidcAuthenticationFilter> registration = new FilterRegistrationBean<>();
         OidcAuthenticationFilter authenticationFilter = new OidcAuthenticationFilter(
-                fromConfigs(createOpenAmConfig(properties), createSystemUserConfig(properties))
+                fromConfigs(
+                        openAmAuthConfig(properties),
+                        azureAdAuthConfig(properties),
+                        openAmServiceUserAuthConfig(properties),
+                        naisServiceUserAuthConfig(properties)
+                )
         );
 
         registration.setFilter(authenticationFilter);

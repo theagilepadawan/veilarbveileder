@@ -15,9 +15,11 @@ public class EnvironmentProperties {
 
     private String openAmRefreshUrl;
 
-    private String stsDiscoveryUrl;
+    private String azureAdDiscoveryUrl;
 
-    private String stsClientId;
+    private String azureAdClientId;
+
+    private String naisStsDiscoveryUrl;
 
     private String abacUrl;
 
