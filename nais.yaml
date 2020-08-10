@@ -9,6 +9,7 @@ metadata:
 spec:
   image: docker.pkg.github.com/navikt/veilarbveileder/veilarbveileder:{{version}}
   port: 8080
+  webproxy: true
   secureLogs:
     enabled: true
   liveness:
