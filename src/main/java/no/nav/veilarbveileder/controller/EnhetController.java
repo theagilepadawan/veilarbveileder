@@ -1,5 +1,6 @@
 package no.nav.veilarbveileder.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.common.client.norg2.Norg2Client;
 import no.nav.veilarbveileder.domain.PortefoljeEnhet;
 import no.nav.veilarbveileder.domain.VeiledereResponse;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/enhet")
+@Slf4j
 public class EnhetController {
 
     private final VirksomhetEnhetService virksomhetEnhetService;
@@ -57,6 +59,10 @@ public class EnhetController {
 
     @GetMapping("/{enhetId}/identer")
     public List<String> hentIdenter(@PathVariable("enhetId") String enhetId) {
+        log.info("Getting access til modia...");
+        log.info("User: "+ authService.getInnloggetVeilederIdent());
+        authService.tilgangTilModia();
+        log.info("Trying to get veileder ident liste...");
         return virksomhetEnhetService.hentIdentListe(enhetId);
     }
 
