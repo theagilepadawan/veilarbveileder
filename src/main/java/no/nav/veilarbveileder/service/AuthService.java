@@ -1,10 +1,12 @@
 package no.nav.veilarbveileder.service;
 
 import lombok.extern.slf4j.Slf4j;
+import no.nav.common.abac.AbacUtils;
 import no.nav.common.abac.Pep;
 import no.nav.common.auth.context.AuthContextHolder;
 import no.nav.common.types.identer.EnhetId;
 import no.nav.common.types.identer.NavIdent;
+import no.nav.common.abac.audit.NimbusSubjectProvider;
 import no.nav.veilarbveileder.client.LdapClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
