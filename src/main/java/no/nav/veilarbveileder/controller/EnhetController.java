@@ -2,6 +2,7 @@ package no.nav.veilarbveileder.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.common.client.norg2.Norg2Client;
+import no.nav.common.types.identer.EnhetId;
 import no.nav.veilarbveileder.domain.PortefoljeEnhet;
 import no.nav.veilarbveileder.domain.VeiledereResponse;
 import no.nav.veilarbveileder.service.AuthService;
@@ -52,14 +53,16 @@ public class EnhetController {
 
     @GetMapping("/{enhetId}/veiledere")
     public VeiledereResponse hentRessurser(@PathVariable("enhetId") String enhetId) {
+        EnhetId enhet = EnhetId.of(enhetId);
         authService.tilgangTilModia();
-        authService.tilgangTilEnhet(enhetId);
-        return virksomhetEnhetService.hentRessursListe(enhetId);
+        authService.tilgangTilEnhet(enhet);
+        return virksomhetEnhetService.hentRessursListe(enhet);
     }
 
     @GetMapping("/{enhetId}/identer")
     public List<String> hentIdenter(@PathVariable("enhetId") String enhetId) {
-        return virksomhetEnhetService.hentIdentListe(enhetId);
+        EnhetId enhet = EnhetId.of(enhetId);
+        return virksomhetEnhetService.hentIdentListe(enhet);
     }
 
 }

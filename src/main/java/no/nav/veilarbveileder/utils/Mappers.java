@@ -1,6 +1,7 @@
 package no.nav.veilarbveileder.utils;
 
 import no.nav.common.client.norg2.Enhet;
+import no.nav.common.types.identer.EnhetId;
 import no.nav.veilarbveileder.domain.PortefoljeEnhet;
 import no.nav.veilarbveileder.domain.Veileder;
 import no.nav.veilarbveileder.domain.VeilederInfo;
@@ -15,11 +16,11 @@ import java.util.stream.Collectors;
 public class Mappers {
 
     public static PortefoljeEnhet tilPortefoljeEnhet(Enhet enhet) {
-        return new PortefoljeEnhet(enhet.getEnhetNr(), enhet.getNavn());
+        return new PortefoljeEnhet(EnhetId.of(enhet.getEnhetNr()), enhet.getNavn());
     }
 
     public static PortefoljeEnhet tilPortefoljeEnhet(no.nav.virksomhet.organisering.enhetogressurs.v1.Enhet enhet) {
-        return new PortefoljeEnhet(enhet.getEnhetId(), enhet.getNavn());
+        return new PortefoljeEnhet(EnhetId.of(enhet.getEnhetId()), enhet.getNavn());
     }
 
     public static List<String> ressursResponseTilIdentListe(WSHentRessursListeResponse response) {
@@ -46,7 +47,7 @@ public class Mappers {
 
     public static VeiledereResponse ressursResponseTilVeilederResponse(WSHentRessursListeResponse response) {
         PortefoljeEnhet portefoljeEnhet = new PortefoljeEnhet()
-                .setEnhetId(response.getEnhet().getEnhetId())
+                .setEnhetId(EnhetId.of(response.getEnhet().getEnhetId()))
                 .setNavn(response.getEnhet().getNavn());
 
         List<Veileder> veiledere = response.getRessursListe()

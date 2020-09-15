@@ -1,5 +1,6 @@
 package no.nav.veilarbveileder.controller;
 
+import no.nav.common.types.identer.NavIdent;
 import no.nav.veilarbveileder.domain.IdentOgEnhetliste;
 import no.nav.veilarbveileder.domain.PortefoljeEnhet;
 import no.nav.veilarbveileder.domain.Veileder;
@@ -31,28 +32,27 @@ public class VeilederController {
     @GetMapping("/enheter")
     public IdentOgEnhetliste hentEnheter() {
         authService.tilgangTilModia();
-        String ident = authService.getInnloggetVeilederIdent();
-        List<PortefoljeEnhet> response = virksomhetEnhetService.hentEnhetListe(ident);
-        return new IdentOgEnhetliste(ident, response);
+        NavIdent navIdent = authService.getInnloggetVeilederIdent();
+        List<PortefoljeEnhet> response = virksomhetEnhetService.hentEnhetListe(navIdent);
+        return new IdentOgEnhetliste(navIdent, response);
     }
 
     @GetMapping("/me")
     public Veileder hentVeilederData() {
-        String ident = authService.getInnloggetVeilederIdent();
-        return hentVeilederForIdent(ident);
+        authService.tilgangTilModia();
+        return virksomhetEnhetService.hentVeilederData(authService.getInnloggetVeilederIdent());
     }
 
     @GetMapping("/v2/me")
     public VeilederInfo hentVeilederInfo() {
         authService.tilgangTilModia();
-        String ident = authService.getInnloggetVeilederIdent();
-        return virksomhetEnhetService.hentVeilederInfo(ident);
+        return virksomhetEnhetService.hentVeilederInfo(authService.getInnloggetVeilederIdent());
     }
-
 
     @GetMapping("/{ident}")
     public Veileder hentVeilederForIdent(@PathVariable("ident") String ident) {
         authService.tilgangTilModia();
-        return virksomhetEnhetService.hentVeilederData(ident);
+        return virksomhetEnhetService.hentVeilederData(NavIdent.of(ident));
     }
+
 }
