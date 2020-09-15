@@ -1,7 +1,9 @@
 package no.nav.veilarbveileder.service;
 
 import lombok.extern.slf4j.Slf4j;
+import no.nav.common.abac.AbacUtils;
 import no.nav.common.abac.Pep;
+import no.nav.common.abac.audit.NimbusSubjectProvider;
 import no.nav.common.auth.subject.SsoToken;
 import no.nav.common.auth.subject.SubjectHandler;
 import no.nav.veilarbveileder.client.LdapClient;
@@ -40,6 +42,11 @@ public class AuthService {
 
     public void tilgangTilModia() {
         if (!veilarbPep.harVeilederTilgangTilModia(getInnloggetBrukerToken())) {
+            var token = getInnloggetBrukerToken();
+            log.info("Cant get access til Modia, token: ", token);
+            log.info("Subject from token: " + new NimbusSubjectProvider().getSubjectFromToken(token));
+            log.info("oidcTokenBody: ", AbacUtils.extractOidcTokenBody(token));
+
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
     }
