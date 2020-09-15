@@ -59,10 +59,6 @@ public class EnhetController {
 
     @GetMapping("/{enhetId}/identer")
     public List<String> hentIdenter(@PathVariable("enhetId") String enhetId) {
-        log.info("Getting access til modia...");
-        log.info("User: "+ authService.getInnloggetVeilederIdent());
-        authService.tilgangTilModia();
-        log.info("Trying to get veileder ident liste...");
         return virksomhetEnhetService.hentIdentListe(enhetId);
     }
 

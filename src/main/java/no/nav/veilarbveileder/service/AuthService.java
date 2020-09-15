@@ -40,7 +40,6 @@ public class AuthService {
 
     public void tilgangTilModia() {
         if (!veilarbPep.harVeilederTilgangTilModia(getInnloggetBrukerToken())) {
-            log.warn("Can't get access to modia");
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
     }
@@ -48,7 +47,6 @@ public class AuthService {
     public void tilgangTilEnhet(String enhetId) {
         String ident = getInnloggetVeilederIdent();
         if (!harModiaAdminRolle(ident) && !veilarbPep.harVeilederTilgangTilEnhet(ident, enhetId)) {
-            log.warn("Can't get access to enhet");
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
     }
