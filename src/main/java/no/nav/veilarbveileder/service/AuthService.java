@@ -1,12 +1,11 @@
 package no.nav.veilarbveileder.service;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.common.abac.AbacUtils;
 import no.nav.common.abac.Pep;
 import no.nav.common.auth.context.AuthContextHolder;
+import no.nav.common.auth.context.UserRole;
 import no.nav.common.types.identer.EnhetId;
 import no.nav.common.types.identer.NavIdent;
-import no.nav.common.abac.audit.NimbusSubjectProvider;
 import no.nav.veilarbveileder.client.LdapClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,16 +35,21 @@ public class AuthService {
         return AuthContextHolder.getIdTokenString().orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token is missing"));
     }
 
-    public void tilgangTilModia() {
+    public void sjekkErSystemBruker() {
+        if (AuthContextHolder.requireRole() != UserRole.SYSTEM) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Kun systembruker har tilgang");
+        }
+    }
+    public void sjekkTilgangTilModia() {
         if (!veilarbPep.harVeilederTilgangTilModia(getInnloggetBrukerToken())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ikke tilgang til modia");
         }
     }
 
-    public void tilgangTilEnhet(EnhetId enhetId) {
+    public void sjekkVeilederTilgangTilEnhet(EnhetId enhetId) {
         NavIdent ident = getInnloggetVeilederIdent();
         if (!harModiaAdminRolle(ident) && !veilarbPep.harVeilederTilgangTilEnhet(ident, enhetId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ikke tilgang til enhet");
         }
     }
 

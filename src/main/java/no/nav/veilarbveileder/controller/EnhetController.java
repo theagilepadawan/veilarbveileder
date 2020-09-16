@@ -54,14 +54,15 @@ public class EnhetController {
     @GetMapping("/{enhetId}/veiledere")
     public VeiledereResponse hentRessurser(@PathVariable("enhetId") String enhetId) {
         EnhetId enhet = EnhetId.of(enhetId);
-        authService.tilgangTilModia();
-        authService.tilgangTilEnhet(enhet);
+        authService.sjekkTilgangTilModia();
+        authService.sjekkVeilederTilgangTilEnhet(enhet);
         return virksomhetEnhetService.hentRessursListe(enhet);
     }
 
     @GetMapping("/{enhetId}/identer")
     public List<String> hentIdenter(@PathVariable("enhetId") String enhetId) {
         EnhetId enhet = EnhetId.of(enhetId);
+        authService.sjekkErSystemBruker();
         return virksomhetEnhetService.hentIdentListe(enhet);
     }
 

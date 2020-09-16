@@ -31,7 +31,7 @@ public class VeilederController {
 
     @GetMapping("/enheter")
     public IdentOgEnhetliste hentEnheter() {
-        authService.tilgangTilModia();
+        authService.sjekkTilgangTilModia();
         NavIdent navIdent = authService.getInnloggetVeilederIdent();
         List<PortefoljeEnhet> response = virksomhetEnhetService.hentEnhetListe(navIdent);
         return new IdentOgEnhetliste(navIdent, response);
@@ -39,19 +39,19 @@ public class VeilederController {
 
     @GetMapping("/me")
     public Veileder hentVeilederData() {
-        authService.tilgangTilModia();
+        authService.sjekkTilgangTilModia();
         return virksomhetEnhetService.hentVeilederData(authService.getInnloggetVeilederIdent());
     }
 
     @GetMapping("/v2/me")
     public VeilederInfo hentVeilederInfo() {
-        authService.tilgangTilModia();
+        authService.sjekkTilgangTilModia();
         return virksomhetEnhetService.hentVeilederInfo(authService.getInnloggetVeilederIdent());
     }
 
     @GetMapping("/{ident}")
     public Veileder hentVeilederForIdent(@PathVariable("ident") String ident) {
-        authService.tilgangTilModia();
+        authService.sjekkTilgangTilModia();
         return virksomhetEnhetService.hentVeilederData(NavIdent.of(ident));
     }
 
