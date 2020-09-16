@@ -50,9 +50,9 @@ public class VeilederController {
     }
 
     @GetMapping("/{ident}")
-    public Veileder hentVeilederForIdent(@PathVariable("ident") String ident) {
+    public Veileder hentVeilederForIdent(@PathVariable("ident") NavIdent ident) {
         authService.sjekkTilgangTilModia();
-        return virksomhetEnhetService.hentVeilederData(NavIdent.of(ident));
+        return virksomhetEnhetService.hentVeilederData(ident);
     }
 
 }

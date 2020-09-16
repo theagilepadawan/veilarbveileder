@@ -41,29 +41,27 @@ public class EnhetController {
     }
 
     @GetMapping("/{enhetId}/navn")
-    public PortefoljeEnhet hentNavn(@PathVariable("enhetId") String enhetId) {
+    public PortefoljeEnhet hentNavn(@PathVariable("enhetId") EnhetId enhetId) {
         return norg2Client
                 .alleAktiveEnheter()
                 .stream()
-                .filter(enhet -> enhet.getEnhetNr().equals(enhetId))
+                .filter(enhet -> enhet.getEnhetNr().equals(enhetId.get()))
                 .findFirst()
                 .map(Mappers::tilPortefoljeEnhet)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/{enhetId}/veiledere")
-    public VeiledereResponse hentRessurser(@PathVariable("enhetId") String enhetId) {
-        EnhetId enhet = EnhetId.of(enhetId);
+    public VeiledereResponse hentRessurser(@PathVariable("enhetId") EnhetId enhetId) {
         authService.sjekkTilgangTilModia();
-        authService.sjekkVeilederTilgangTilEnhet(enhet);
-        return virksomhetEnhetService.hentRessursListe(enhet);
+        authService.sjekkVeilederTilgangTilEnhet(enhetId);
+        return virksomhetEnhetService.hentRessursListe(enhetId);
     }
 
     @GetMapping("/{enhetId}/identer")
-    public List<String> hentIdenter(@PathVariable("enhetId") String enhetId) {
-        EnhetId enhet = EnhetId.of(enhetId);
+    public List<String> hentIdenter(@PathVariable("enhetId") EnhetId enhetId) {
         authService.sjekkErSystemBruker();
-        return virksomhetEnhetService.hentIdentListe(enhet);
+        return virksomhetEnhetService.hentIdentListe(enhetId);
     }
 
 }
