@@ -2,6 +2,8 @@ package no.nav.veilarbveileder.client;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import no.nav.common.types.identer.EnhetId;
+import no.nav.common.types.identer.NavIdent;
 import no.nav.veilarbveileder.config.CacheConfig;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeRequest;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
@@ -22,9 +24,9 @@ public class VirksomhetEnhetSoapClientImpl implements VirksomhetEnhetSoapClient 
     @Override
     @SneakyThrows
     @Cacheable(CacheConfig.HENT_ENHET_INFO_CACHE_NAME)
-    public WSHentRessursListeResponse hentEnhetInfo(String enhetId) {
+    public WSHentRessursListeResponse hentEnhetInfo(EnhetId enhetId) {
         WSHentRessursListeRequest request = new WSHentRessursListeRequest();
-        request.setEnhetId(enhetId);
+        request.setEnhetId(enhetId.get());
 
         try {
             return virksomhetEnhet.hentRessursListe(request);
@@ -37,13 +39,13 @@ public class VirksomhetEnhetSoapClientImpl implements VirksomhetEnhetSoapClient 
     @Override
     @SneakyThrows
     @Cacheable(CacheConfig.VEILEDER_INFO_CACHE_NAME)
-    public WSHentEnhetListeResponse hentVeilederInfo(String ident) {
+    public WSHentEnhetListeResponse hentVeilederInfo(NavIdent navIdent) {
         WSHentEnhetListeRequest request = new WSHentEnhetListeRequest();
-        request.setRessursId(ident);
+        request.setRessursId(navIdent.get());
         try {
             return virksomhetEnhet.hentEnhetListe(request);
         } catch (Exception e){
-            log.error("Kunne ikke hente enhetene til veileder {} fra VirksomhetEnhet/NORG2", ident, e);
+            log.error("Kunne ikke hente enhetene til veileder {} fra VirksomhetEnhet/NORG2", navIdent, e);
             throw e;
         }
     }

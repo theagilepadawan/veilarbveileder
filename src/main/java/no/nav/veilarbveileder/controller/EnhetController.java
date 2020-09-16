@@ -2,6 +2,7 @@ package no.nav.veilarbveileder.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.common.client.norg2.Norg2Client;
+import no.nav.common.types.identer.EnhetId;
 import no.nav.veilarbveileder.domain.PortefoljeEnhet;
 import no.nav.veilarbveileder.domain.VeiledereResponse;
 import no.nav.veilarbveileder.service.AuthService;
@@ -40,25 +41,30 @@ public class EnhetController {
     }
 
     @GetMapping("/{enhetId}/navn")
-    public PortefoljeEnhet hentNavn(@PathVariable("enhetId") String enhetId) {
+    public PortefoljeEnhet hentNavn(@PathVariable("enhetId") EnhetId enhetId) {
         return norg2Client
                 .alleAktiveEnheter()
                 .stream()
-                .filter(enhet -> enhet.getEnhetNr().equals(enhetId))
+                .filter(enhet -> enhet.getEnhetNr().equals(enhetId.get()))
                 .findFirst()
                 .map(Mappers::tilPortefoljeEnhet)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/{enhetId}/veiledere")
-    public VeiledereResponse hentRessurser(@PathVariable("enhetId") String enhetId) {
-        authService.tilgangTilModia();
-        authService.tilgangTilEnhet(enhetId);
+    public VeiledereResponse hentRessurser(@PathVariable("enhetId") EnhetId enhetId) {
+        authService.sjekkTilgangTilModia();
+        authService.sjekkVeilederTilgangTilEnhet(enhetId);
         return virksomhetEnhetService.hentRessursListe(enhetId);
     }
 
     @GetMapping("/{enhetId}/identer")
-    public List<String> hentIdenter(@PathVariable("enhetId") String enhetId) {
+    public List<String> hentIdenter(@PathVariable("enhetId") EnhetId enhetId) {
+        if (authService.erSystemBruker()) {
+            authService.sjekkTilgangTilOppfolging();
+        } else {
+            authService.sjekkTilgangTilModia();
+        }
         return virksomhetEnhetService.hentIdentListe(enhetId);
     }
 

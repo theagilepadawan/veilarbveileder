@@ -30,17 +30,12 @@ public class SoapConfig {
     public Enhet virksomhetEnhet() {
         return new CXFClient<>(Enhet.class)
                 .address(getRequiredProperty(NORG_VIRKSOMHET_ENHET_URL))
-                .configureStsForSubject(createStsConfig())
+                .configureStsForSystemUser(createStsConfig())
                 .build();
     }
 
     @Bean(VIRKSOMHET_ENHET_HEALTH_CHECK)
-    public HealthCheck virksomhetEnhetHealthCheck() {
-            Enhet virksomhetEnhet = new CXFClient<>(Enhet.class)
-            .address(getRequiredProperty(NORG_VIRKSOMHET_ENHET_URL))
-            .configureStsForSystemUser(createStsConfig())
-            .build();
-
+    public HealthCheck virksomhetEnhetHealthCheck(Enhet virksomhetEnhet) {
             return () -> {
                 try {
                     virksomhetEnhet.ping();

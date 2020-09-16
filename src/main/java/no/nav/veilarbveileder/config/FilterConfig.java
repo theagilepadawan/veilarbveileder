@@ -1,8 +1,8 @@
 package no.nav.veilarbveileder.config;
 
+import no.nav.common.auth.context.UserRole;
 import no.nav.common.auth.oidc.filter.OidcAuthenticationFilter;
 import no.nav.common.auth.oidc.filter.OidcAuthenticatorConfig;
-import no.nav.common.auth.subject.IdentType;
 import no.nav.common.auth.utils.ServiceUserTokenFinder;
 import no.nav.common.auth.utils.UserTokenFinder;
 import no.nav.common.log.LogFilter;
@@ -22,7 +22,8 @@ import static no.nav.common.utils.EnvironmentUtils.requireApplicationName;
 public class FilterConfig {
 
     private final List<String> ALLOWED_SERVICE_USERS = List.of(
-            "srvveilarbfilter"
+            "srvveilarbfilter",
+            "srvveilarbportefolje"
     );
 
     private OidcAuthenticatorConfig openAmServiceUserAuthConfig(EnvironmentProperties properties) {
@@ -30,14 +31,14 @@ public class FilterConfig {
                 .withDiscoveryUrl(properties.getOpenAmDiscoveryUrl())
                 .withClientId(properties.getVeilarbloginOpenAmClientId())
                 .withIdTokenFinder(new ServiceUserTokenFinder())
-                .withIdentType(IdentType.Systemressurs);
+                .withUserRole(UserRole.SYSTEM);
     }
 
     private OidcAuthenticatorConfig naisServiceUserAuthConfig(EnvironmentProperties properties) {
         return new OidcAuthenticatorConfig()
                 .withDiscoveryUrl(properties.getNaisStsDiscoveryUrl())
                 .withClientIds(ALLOWED_SERVICE_USERS)
-                .withIdentType(IdentType.Systemressurs);
+                .withUserRole(UserRole.SYSTEM);
     }
 
     private OidcAuthenticatorConfig openAmAuthConfig(EnvironmentProperties properties) {
@@ -48,7 +49,7 @@ public class FilterConfig {
                 .withRefreshTokenCookieName(REFRESH_TOKEN_COOKIE_NAME)
                 .withIdTokenFinder(new UserTokenFinder())
                 .withRefreshUrl(properties.getOpenAmRefreshUrl())
-                .withIdentType(IdentType.InternBruker);
+                .withUserRole(UserRole.INTERN);
     }
 
     private OidcAuthenticatorConfig azureAdAuthConfig(EnvironmentProperties environmentProperties) {
@@ -56,7 +57,16 @@ public class FilterConfig {
                 .withDiscoveryUrl(environmentProperties.getAadDiscoveryUrl())
                 .withClientId(environmentProperties.getVeilarbloginAadClientId())
                 .withIdTokenCookieName(AZURE_AD_ID_TOKEN_COOKIE_NAME)
-                .withIdentType(IdentType.InternBruker);
+                .withUserRole(UserRole.INTERN);
+    }
+
+    @Bean
+    public FilterRegistrationBean logFilterRegistrationBean() {
+        FilterRegistrationBean<LogFilter> registration = new FilterRegistrationBean<>();
+        registration.setFilter(new LogFilter(requireApplicationName(), isDevelopment().orElse(false)));
+        registration.setOrder(1);
+        registration.addUrlPatterns("/*");
+        return registration;
     }
 
     @Bean
@@ -72,17 +82,8 @@ public class FilterConfig {
         );
 
         registration.setFilter(authenticationFilter);
-        registration.setOrder(1);
-        registration.addUrlPatterns("/api/*");
-        return registration;
-    }
-
-    @Bean
-    public FilterRegistrationBean logFilterRegistrationBean() {
-        FilterRegistrationBean<LogFilter> registration = new FilterRegistrationBean<>();
-        registration.setFilter(new LogFilter(requireApplicationName(), isDevelopment().orElse(false)));
         registration.setOrder(2);
-        registration.addUrlPatterns("/*");
+        registration.addUrlPatterns("/api/*");
         return registration;
     }
 

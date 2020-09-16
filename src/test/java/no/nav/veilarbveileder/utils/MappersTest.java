@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class MappersTest {
 
@@ -28,7 +29,7 @@ public class MappersTest {
 
         VeiledereResponse veiledereResponse = Mappers.ressursResponseTilVeilederResponse(wsHentRessursListeResponse);
 
-        assertThat(veiledereResponse.getEnhet().getEnhetId()).isEqualTo(enhet.getEnhetId());
+        assertThat(veiledereResponse.getEnhet().getEnhetId().get()).isEqualTo(enhet.getEnhetId());
         assertThat(veiledereResponse.getEnhet().getNavn()).isEqualTo(enhet.getNavn());
         assertThat(veiledereResponse.getVeilederListe().get(0).getNavn()).isEqualTo(ressurs.getNavn());
         assertThat(veiledereResponse.getVeilederListe().get(0).getEtternavn()).isEqualTo(ressurs.getEtternavn());
