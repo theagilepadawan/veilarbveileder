@@ -42,11 +42,6 @@ public class AuthService {
 
     public void tilgangTilModia() {
         if (!veilarbPep.harVeilederTilgangTilModia(getInnloggetBrukerToken())) {
-            var token = getInnloggetBrukerToken();
-            log.info("Cant get access til Modia, token: ", token);
-            log.info("Subject from token: " + new NimbusSubjectProvider().getSubjectFromToken(token));
-            log.info("oidcTokenBody: ", AbacUtils.extractOidcTokenBody(token));
-
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
     }
