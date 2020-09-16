@@ -3,7 +3,6 @@ package no.nav.veilarbveileder.service;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.common.abac.Pep;
 import no.nav.common.auth.context.AuthContextHolder;
-import no.nav.common.auth.context.UserRole;
 import no.nav.common.types.identer.EnhetId;
 import no.nav.common.types.identer.NavIdent;
 import no.nav.veilarbveileder.client.LdapClient;
@@ -35,11 +34,17 @@ public class AuthService {
         return AuthContextHolder.getIdTokenString().orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token is missing"));
     }
 
-    public void sjekkErSystemBruker() {
-        if (AuthContextHolder.requireRole() != UserRole.SYSTEM) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Kun systembruker har tilgang");
+    public boolean erSystemBruker() {
+        return AuthContextHolder.erSystemBruker();
+    }
+
+    public void sjekkTilgangTilOppfolging() {
+        // 'harVeilederTilgangTilOppfolging' kan også brukes av systembrukere
+        if (veilarbPep.harVeilederTilgangTilOppfolging(getInnloggetBrukerToken())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ikke tilgang til oppfølging");
         }
     }
+
     public void sjekkTilgangTilModia() {
         if (!veilarbPep.harVeilederTilgangTilModia(getInnloggetBrukerToken())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ikke tilgang til modia");

@@ -60,7 +60,11 @@ public class EnhetController {
 
     @GetMapping("/{enhetId}/identer")
     public List<String> hentIdenter(@PathVariable("enhetId") EnhetId enhetId) {
-        authService.sjekkErSystemBruker();
+        if (authService.erSystemBruker()) {
+            authService.sjekkTilgangTilOppfolging();
+        } else {
+            authService.sjekkTilgangTilModia();
+        }
         return virksomhetEnhetService.hentIdentListe(enhetId);
     }
 
