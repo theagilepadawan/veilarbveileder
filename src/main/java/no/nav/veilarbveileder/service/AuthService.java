@@ -39,8 +39,7 @@ public class AuthService {
     }
 
     public void sjekkTilgangTilOppfolging() {
-        // 'harVeilederTilgangTilOppfolging' kan også brukes av systembrukere
-        if (veilarbPep.harVeilederTilgangTilOppfolging(getInnloggetBrukerToken())) {
+        if (veilarbPep.harTilgangTilOppfolging(getInnloggetBrukerToken())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ikke tilgang til oppfølging");
         }
     }

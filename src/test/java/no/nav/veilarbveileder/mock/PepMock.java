@@ -37,7 +37,7 @@ public class PepMock implements Pep {
     }
 
     @Override
-    public boolean harVeilederTilgangTilOppfolging(String s) {
+    public boolean harTilgangTilOppfolging(String s) {
         return true;
     }
 
