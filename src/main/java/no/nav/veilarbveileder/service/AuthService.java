@@ -39,7 +39,7 @@ public class AuthService {
     }
 
     public void sjekkTilgangTilOppfolging() {
-        if (veilarbPep.harTilgangTilOppfolging(getInnloggetBrukerToken())) {
+        if (!veilarbPep.harTilgangTilOppfolging(getInnloggetBrukerToken())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ikke tilgang til oppfølging");
         }
     }
