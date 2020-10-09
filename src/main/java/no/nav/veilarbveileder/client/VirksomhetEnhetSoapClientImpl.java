@@ -23,7 +23,7 @@ public class VirksomhetEnhetSoapClientImpl implements VirksomhetEnhetSoapClient 
 
     @Override
     @SneakyThrows
-    @Cacheable(CacheConfig.HENT_ENHET_INFO_CACHE_NAME)
+    //@Cacheable(CacheConfig.HENT_ENHET_INFO_CACHE_NAME)
     public WSHentRessursListeResponse hentEnhetInfo(EnhetId enhetId) {
         WSHentRessursListeRequest request = new WSHentRessursListeRequest();
         request.setEnhetId(enhetId.get());
