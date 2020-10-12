@@ -1,6 +1,7 @@
 package no.nav.veilarbveileder.client;
 
 import no.nav.common.health.HealthCheckResult;
+import no.nav.common.types.identer.NavIdent;
 import no.nav.veilarbveileder.config.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -27,27 +28,27 @@ public class LdapClientImpl implements LdapClient {
     private static final String LDAP_PASSWORD = "LDAP_PASSWORD";
 
     @Cacheable(CacheConfig.VEILEDER_ROLLE_CACHE_NAME)
-    public boolean veilederHarRolle(String ident, String rolle) {
+    public boolean veilederHarRolle(NavIdent ident, String rolle) {
         NamingEnumeration<SearchResult> result = sokLDAP(ident);
         return getRoller(result).contains(rolle);
     }
 
     @Override
     public HealthCheckResult checkHealth() {
-        if(veilederHarRolle("dummy", "dummy")){
+        if(veilederHarRolle(NavIdent.of("dummy"), "dummy")){
             return HealthCheckResult.unhealthy("Veileder skal ikke ha dummy rolle");
         }
 
         return HealthCheckResult.healthy();
     }
 
-    private NamingEnumeration<SearchResult> sokLDAP(String ident) {
+    private NamingEnumeration<SearchResult> sokLDAP(NavIdent navIdent) {
         String searchbase = "OU=Users,OU=NAV,OU=BusinessUnits," + getRequiredProperty(LDAP_BASEDN_PROPERTY_NAME);
         SearchControls searchCtrl = new SearchControls();
         searchCtrl.setSearchScope(SearchControls.SUBTREE_SCOPE);
 
         try {
-            return createLdapContext().search(searchbase, String.format("(&(objectClass=user)(CN=%s))", ident), searchCtrl);
+            return createLdapContext().search(searchbase, String.format("(&(objectClass=user)(CN=%s))", navIdent.get()), searchCtrl);
         } catch (NamingException e) {
             throw new RuntimeException(e);
         }

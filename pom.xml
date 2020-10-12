@@ -19,7 +19,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <common.version>2.2020.06.11_14.39-d002eb745d69</common.version>
+        <common.version>2.2020.09.16_14.45-b9f65556dea5</common.version>
         <springfox.version>2.9.2</springfox.version>
     </properties>
 
@@ -73,13 +73,6 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox.version}</version>
-        </dependency>
-
-        <!--  Overskriv gammel avhengighet fra nimbus -->
-        <dependency>
-            <groupId>net.minidev</groupId>
-            <artifactId>json-smart</artifactId>
-            <version>2.3</version>
         </dependency>
 
         <!-- Tjenester -->
@@ -159,6 +152,12 @@
         </dependency>
 
         <!-- test -->
+        <dependency>
+            <groupId>no.nav.common</groupId>
+            <artifactId>test</artifactId>
+            <version>${common.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
