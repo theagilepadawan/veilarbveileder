@@ -24,6 +24,7 @@ jobs:
           restore-keys: ${{ runner.os }}-maven-
       - name: Run maven tests
         run: mvn -B verify
+
   test-build-and-push:
     name: Test, build and push
     runs-on: ubuntu-latest
@@ -50,8 +51,10 @@ jobs:
           echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} --password-stdin
           docker build -t ${IMAGE}:${IMAGE_TAG} .
           docker push ${IMAGE}:${IMAGE_TAG}
-  deploy-q0:
-    name: Deploy application to Q0
+
+
+  deploy-dev:
+    name: Deploy application to dev
     if: github.ref == 'refs/heads/dev'
     needs: test-build-and-push
     runs-on: ubuntu-latest
@@ -63,23 +66,17 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-fss
-          RESOURCE: nais-q.yaml
-          VAR: version=${{ env.IMAGE_TAG }},namespace=q0
-  deploy-q1:
-    name: Deploy application to Q1
-    if: github.ref == 'refs/heads/dev'
-    needs: test-build-and-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Deploy application
-        uses: nais/deploy/actions/deploy@v1
+          RESOURCE: nais-dev.yaml
+          VAR: version=${{ env.IMAGE_TAG }}
+      - name: Create release
+        uses: actions/create-release@v1
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: dev-fss
-          RESOURCE: nais-q.yaml
-          VAR: version=${{ env.IMAGE_TAG }},namespace=q1
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: release/dev@${{ env.IMAGE_TAG }}
+          release_name: Release to dev
+          prerelease: true
+
   deploy-prod:
     name: Deploy application to prod
     if: github.ref == 'refs/heads/master'
@@ -93,26 +90,8 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-fss
-          RESOURCE: nais.yaml
+          RESOURCE: nais-prod.yaml
           VAR: version=${{ env.IMAGE_TAG }}
-  release-dev:
-    name: Create dev release
-    needs: [deploy-q0, deploy-q1]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: release/dev@${{ env.IMAGE_TAG }}
-          release_name: Release to dev
-          prerelease: true
-  release-prod:
-    name: Create prod release
-    needs: deploy-prod
-    runs-on: ubuntu-latest
-    steps:
       - name: Create release
         uses: actions/create-release@v1
         env:
