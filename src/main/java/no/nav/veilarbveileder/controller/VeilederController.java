@@ -41,13 +41,13 @@ public class VeilederController {
 
     @GetMapping("/enheter/{veilederIdent}")
     public IdentOgEnhetliste hentEnheter(@PathVariable("veilederIdent") NavIdent veilederIdent) {
-        if (authService.erSystemBruker()) {
-            authService.sjekkTilgangTilOppfolging();
-            List<PortefoljeEnhet> response = virksomhetEnhetService.hentEnhetListe(veilederIdent);
-            return new IdentOgEnhetliste(veilederIdent, response);
-        } else {
+        if (!authService.erSystemBruker()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ikke tilgang til oppfølging");
         }
+
+        authService.sjekkTilgangTilOppfolging();
+        List<PortefoljeEnhet> response = virksomhetEnhetService.hentEnhetListe(veilederIdent);
+        return new IdentOgEnhetliste(veilederIdent, response);
     }
 
     @GetMapping("/me")
