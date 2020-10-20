@@ -37,6 +37,17 @@ public class VeilederController {
         return new IdentOgEnhetliste(navIdent, response);
     }
 
+    @GetMapping("/enheter/{veilederIdent}")
+    public IdentOgEnhetliste hentEnheter(@PathVariable("veilederIdent") NavIdent veilederIdent) {
+        if (authService.erSystemBruker()) {
+            authService.sjekkTilgangTilOppfolging();
+            List<PortefoljeEnhet> response = virksomhetEnhetService.hentEnhetListe(veilederIdent);
+            return new IdentOgEnhetliste(veilederIdent, response);
+        } else {
+            return new IdentOgEnhetliste(veilederIdent, null);
+        }
+    }
+
     @GetMapping("/me")
     public Veileder hentVeilederData() {
         authService.sjekkTilgangTilModia();
