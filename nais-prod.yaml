@@ -2,8 +2,7 @@ apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
   name: veilarbveileder
-  namespace: {{namespace}}
-  cluster: dev-fss
+  namespace: pto
   labels:
     team: pto
 spec:
@@ -22,8 +21,8 @@ spec:
     enabled: true
     path: veilarbveileder/internal/prometheus
   replicas:
-    min: 1
-    max: 2
+    min: 2
+    max: 4
     cpuThresholdPercentage: 75
   resources:
     limits:
@@ -33,20 +32,20 @@ spec:
       cpu: 500m
       memory: 1024Mi
   ingresses:
-    - https://veilarbveileder-{{namespace}}.nais.preprod.local
-    - https://app-{{namespace}}.adeo.no/veilarbveileder
+    - https://veilarbveileder.nais.adeo.no
+    - https://app.adeo.no/veilarbveileder
   vault:
     enabled: true
   envFrom:
     - configmap: pto-config
   env:
     - name: LDAP_BASEDN
-      value: dc=preprod,dc=local
+      value: dc=adeo,dc=no
     - name: LDAP_USER_BASEDN
-      value: ou=NAV,ou=BusinessUnits,dc=preprod,dc=local
+      value: ou=NAV,ou=BusinessUnits,dc=adeo,dc=no
     - name: LDAP_SERVICEUSER_BASEDN
-      value: ou=ServiceAccounts,dc=preprod,dc=local
+      value: ou=ServiceAccounts,dc=adeo,dc=no
     - name: LDAP_URL
-      value: ldaps://ldapgw.preprod.local
+      value: ldaps://ldapgw.adeo.no
     - name: LDAP_DOMAIN
-      value: PREPROD.LOCAL
+      value: ADEO.NO
