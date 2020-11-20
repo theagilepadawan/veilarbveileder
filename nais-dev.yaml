@@ -2,8 +2,7 @@ apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
   name: veilarbveileder
-  namespace: {{namespace}}
-  cluster: dev-fss
+  namespace: pto
   labels:
     team: pto
 spec:
@@ -33,10 +32,15 @@ spec:
       cpu: 500m
       memory: 1024Mi
   ingresses:
-    - https://veilarbveileder-{{namespace}}.nais.preprod.local
-    - https://app-{{namespace}}.adeo.no/veilarbveileder
+    - https://veilarbveileder-q1.nais.preprod.local
+    - https://app-q1.dev.adeo.no/veilarbveileder
+    - https://app.dev.adeo.no/veilarbveileder
+    - https://app-q1.adeo.no/veilarbveileder
   vault:
     enabled: true
+    paths:
+      - kvPath: /kv/preprod/fss/veilarbveileder/q1
+        mountPath: /var/run/secrets/nais.io/vault
   envFrom:
     - configmap: pto-config
   env:
