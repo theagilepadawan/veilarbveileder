@@ -38,6 +38,9 @@ spec:
     - https://app-q1.adeo.no/veilarbveileder
   vault:
     enabled: true
+    paths:
+      - kvPath: /kv/preprod/fss/veilarbveileder/q1
+        mountPath: /var/run/secrets/nais.io/vault
   envFrom:
     - configmap: pto-config
   env:
