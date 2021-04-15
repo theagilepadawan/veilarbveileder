@@ -39,6 +39,9 @@ spec:
     paths:
       - kvPath: /kv/prod/fss/veilarbveileder/default
         mountPath: /var/run/secrets/nais.io/vault
+  azure:
+    application:
+      enabled: true
   envFrom:
     - configmap: pto-config
   env:
