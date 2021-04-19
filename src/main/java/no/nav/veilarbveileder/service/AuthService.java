@@ -1,41 +1,39 @@
 package no.nav.veilarbveileder.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.common.abac.Pep;
 import no.nav.common.auth.context.AuthContextHolder;
 import no.nav.common.types.identer.EnhetId;
 import no.nav.common.types.identer.NavIdent;
 import no.nav.veilarbveileder.client.LdapClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AuthService {
 
+    private final AuthContextHolder authContextHolder;
+
     private final Pep veilarbPep;
+
     private final LdapClient ldapClient;
 
     public static final String ROLLE_MODIA_ADMIN = "0000-GA-Modia_Admin";
 
-    @Autowired
-    public AuthService(Pep veilarbPep, LdapClient ldapClient) {
-        this.veilarbPep = veilarbPep;
-        this.ldapClient = ldapClient;
-    }
-
     public NavIdent getInnloggetVeilederIdent() {
-        return AuthContextHolder.getNavIdent().orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "NAV ident is missing"));
+        return authContextHolder.getNavIdent().orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "NAV ident is missing"));
     }
 
     public String getInnloggetBrukerToken() {
-        return AuthContextHolder.getIdTokenString().orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token is missing"));
+        return authContextHolder.getIdTokenString().orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token is missing"));
     }
 
     public boolean erSystemBruker() {
-        return AuthContextHolder.erSystemBruker();
+        return authContextHolder.erSystemBruker();
     }
 
     public void sjekkTilgangTilOppfolging() {

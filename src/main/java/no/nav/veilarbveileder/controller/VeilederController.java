@@ -6,7 +6,7 @@ import no.nav.veilarbveileder.domain.PortefoljeEnhet;
 import no.nav.veilarbveileder.domain.Veileder;
 import no.nav.veilarbveileder.domain.VeilederInfo;
 import no.nav.veilarbveileder.service.AuthService;
-import no.nav.veilarbveileder.service.VirksomhetEnhetService;
+import no.nav.veilarbveileder.service.ToggledVeilederOgEnhetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,13 +21,13 @@ import java.util.List;
 @RequestMapping("/api/veileder")
 public class VeilederController {
 
-    private final VirksomhetEnhetService virksomhetEnhetService;
+    private final ToggledVeilederOgEnhetService veilederOgEnhetService;
 
     private final AuthService authService;
 
     @Autowired
-    public VeilederController(VirksomhetEnhetService virksomhetEnhetService, AuthService authService) {
-        this.virksomhetEnhetService = virksomhetEnhetService;
+    public VeilederController(ToggledVeilederOgEnhetService veilederOgEnhetService, AuthService authService) {
+        this.veilederOgEnhetService = veilederOgEnhetService;
         this.authService = authService;
     }
 
@@ -35,7 +35,7 @@ public class VeilederController {
     public IdentOgEnhetliste hentEnheter() {
         authService.sjekkTilgangTilModia();
         NavIdent navIdent = authService.getInnloggetVeilederIdent();
-        List<PortefoljeEnhet> response = virksomhetEnhetService.hentEnhetListe(navIdent);
+        List<PortefoljeEnhet> response = veilederOgEnhetService.hentEnhetListe(navIdent);
         return new IdentOgEnhetliste(navIdent, response);
     }
 
@@ -46,26 +46,26 @@ public class VeilederController {
         }
 
         authService.sjekkTilgangTilOppfolging();
-        List<PortefoljeEnhet> response = virksomhetEnhetService.hentEnhetListe(veilederIdent);
+        List<PortefoljeEnhet> response = veilederOgEnhetService.hentEnhetListe(veilederIdent);
         return new IdentOgEnhetliste(veilederIdent, response);
     }
 
     @GetMapping("/me")
     public Veileder hentVeilederData() {
         authService.sjekkTilgangTilModia();
-        return virksomhetEnhetService.hentVeilederData(authService.getInnloggetVeilederIdent());
+        return veilederOgEnhetService.hentVeilederData(authService.getInnloggetVeilederIdent());
     }
 
     @GetMapping("/v2/me")
     public VeilederInfo hentVeilederInfo() {
         authService.sjekkTilgangTilModia();
-        return virksomhetEnhetService.hentVeilederInfo(authService.getInnloggetVeilederIdent());
+        return veilederOgEnhetService.hentVeilederInfo(authService.getInnloggetVeilederIdent());
     }
 
     @GetMapping("/{ident}")
     public Veileder hentVeilederForIdent(@PathVariable("ident") NavIdent ident) {
         authService.sjekkTilgangTilModia();
-        return virksomhetEnhetService.hentVeilederData(ident);
+        return veilederOgEnhetService.hentVeilederData(ident);
     }
 
 }

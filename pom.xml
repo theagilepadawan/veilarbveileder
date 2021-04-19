@@ -19,7 +19,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <common.version>2.2020.10.13_14.48-80e4c2dc5856</common.version>
+        <common.version>2.2021.04.16_13.43-f264f17a55f5</common.version>
         <springfox.version>2.9.2</springfox.version>
     </properties>
 
@@ -101,6 +101,11 @@
         <dependency>
             <groupId>no.nav.common</groupId>
             <artifactId>util</artifactId>
+            <version>${common.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.common</groupId>
+            <artifactId>feature-toggle</artifactId>
             <version>${common.version}</version>
         </dependency>
         <dependency>
