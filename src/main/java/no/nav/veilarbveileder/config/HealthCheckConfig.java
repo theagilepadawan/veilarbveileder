@@ -1,6 +1,8 @@
 package no.nav.veilarbveileder.config;
 
 import lombok.extern.slf4j.Slf4j;
+import no.nav.common.client.axsys.AxsysClient;
+import no.nav.common.client.nom.NomClient;
 import no.nav.common.client.norg2.Norg2Client;
 import no.nav.common.health.HealthCheck;
 import no.nav.common.health.selftest.SelfTestCheck;
@@ -24,11 +26,15 @@ public class HealthCheckConfig {
     public SelfTestChecks selfTestChecks(
             LdapClient ldapClient,
             Norg2Client norg2Client,
+            NomClient nomClient,
+            AxsysClient axsysClient,
             @Qualifier(VIRKSOMHET_ENHET_HEALTH_CHECK) HealthCheck virksomhetEnhetHealthCheck
     ) {
         List<SelfTestCheck> selfTestChecks = Arrays.asList(
                 new SelfTestCheck("Ldap sjekk", true, ldapClient),
                 new SelfTestCheck("Ping mot norg2 REST API", true, norg2Client),
+                new SelfTestCheck("Ping mot NOM", true, nomClient),
+                new SelfTestCheck("Ping mot Axsys", true, axsysClient),
                 new SelfTestCheck("Ping mot VirksomhetEnhet (NORG)", true, virksomhetEnhetHealthCheck)
         );
 

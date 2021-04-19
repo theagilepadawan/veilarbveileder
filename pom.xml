@@ -19,7 +19,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <common.version>2.2021.04.16_13.43-f264f17a55f5</common.version>
+        <common.version>2.2021.04.19_11.01-a214dc00f05c</common.version>
         <springfox.version>2.9.2</springfox.version>
     </properties>
 
