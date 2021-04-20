@@ -21,6 +21,7 @@ import no.nav.common.sts.ServiceToServiceTokenProvider;
 import no.nav.common.sts.utils.AzureAdServiceTokenProviderBuilder;
 import no.nav.common.utils.Credentials;
 import no.nav.common.utils.EnvironmentUtils;
+import no.nav.common.utils.UrlUtils;
 import no.nav.veilarbveileder.client.LdapClient;
 import no.nav.veilarbveileder.client.LdapClientImpl;
 import no.nav.veilarbveileder.utils.DevNomClient;
@@ -54,9 +55,8 @@ public class ApplicationConfig {
 
     @Bean
     public AxsysClient axsysClient(){
-        String url = (isProduction().orElse(false)) ? "https://axsys.intern.nav.no" : "https://axsys.dev.intern.nav.no";
-        AxsysClientImpl axsysClient = new AxsysClientImpl(url);
-        return new CachedAxsysClient(axsysClient);
+        String url = UrlUtils.createServiceUrl("axsys", "org", false);
+        return new CachedAxsysClient(new AxsysClientImpl(url));
     }
 
     @Bean

@@ -33,8 +33,8 @@ public class DevNomClient implements NomClient {
 
         return new VeilederNavn()
                 .setNavIdent(navIdent)
-                .setFornavn("F" + identNr)
-                .setEtternavn("E" + identNr);
+                .setFornavn("F_" + identNr)
+                .setEtternavn("E_" + identNr);
     }
 
 }

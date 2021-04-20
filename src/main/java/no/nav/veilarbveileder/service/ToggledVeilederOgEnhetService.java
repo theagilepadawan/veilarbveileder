@@ -40,30 +40,30 @@ public class ToggledVeilederOgEnhetService implements VeilederOgEnhetService {
 
     @Override
     public List<PortefoljeEnhet> hentEnhetListe(NavIdent navIdent) {
-        return hentIVirksomhetEnhet().hentEnhetListe(navIdent);
+        return hentVeilederOgEnhetService().hentEnhetListe(navIdent);
     }
 
     @Override
     public Veileder hentVeilederData(NavIdent navIdent) {
-        return hentIVirksomhetEnhet().hentVeilederData(navIdent);
+        return hentVeilederOgEnhetService().hentVeilederData(navIdent);
     }
 
     @Override
     public VeilederInfo hentVeilederInfo(NavIdent navIdent) {
-        return hentIVirksomhetEnhet().hentVeilederInfo(navIdent);
+        return hentVeilederOgEnhetService().hentVeilederInfo(navIdent);
     }
 
     @Override
     public VeiledereResponse hentRessursListe(EnhetId enhetId) {
-        return hentIVirksomhetEnhet().hentRessursListe(enhetId);
+        return hentVeilederOgEnhetService().hentRessursListe(enhetId);
     }
 
     @Override
     public List<String> hentIdentListe(EnhetId enhetId) {
-        return hentIVirksomhetEnhet().hentIdentListe(enhetId);
+        return hentVeilederOgEnhetService().hentIdentListe(enhetId);
     }
 
-    private VeilederOgEnhetService hentIVirksomhetEnhet() {
+    private VeilederOgEnhetService hentVeilederOgEnhetService() {
         if (unleashService.skalIkkeBrukeTjenestebuss()) {
             return virksomhetEnhetServiceV2;
         } else {
