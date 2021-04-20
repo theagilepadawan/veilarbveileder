@@ -1,13 +1,12 @@
 package no.nav.veilarbveileder.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.common.client.norg2.Norg2Client;
 import no.nav.common.types.identer.EnhetId;
 import no.nav.veilarbveileder.domain.PortefoljeEnhet;
 import no.nav.veilarbveileder.domain.VeiledereResponse;
 import no.nav.veilarbveileder.service.AuthService;
-import no.nav.veilarbveileder.service.VirksomhetEnhetService;
-import no.nav.veilarbveileder.utils.Mappers;
+import no.nav.veilarbveileder.service.EnhetService;
+import no.nav.veilarbveileder.service.ToggledVeilederOgEnhetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,31 +22,26 @@ import java.util.List;
 @Slf4j
 public class EnhetController {
 
-    private final VirksomhetEnhetService virksomhetEnhetService;
+    private final ToggledVeilederOgEnhetService veilederOgEnhetService;
 
-    private final Norg2Client norg2Client;
+    private final EnhetService enhetService;
 
     private final AuthService authService;
 
     @Autowired
     public EnhetController(
-            VirksomhetEnhetService virksomhetEnhetService,
-            Norg2Client norg2Client,
+            ToggledVeilederOgEnhetService veilederOgEnhetService,
+            EnhetService enhetService,
             AuthService authService
     ) {
-        this.virksomhetEnhetService = virksomhetEnhetService;
-        this.norg2Client = norg2Client;
+        this.veilederOgEnhetService = veilederOgEnhetService;
+        this.enhetService = enhetService;
         this.authService = authService;
     }
 
     @GetMapping("/{enhetId}/navn")
     public PortefoljeEnhet hentNavn(@PathVariable("enhetId") EnhetId enhetId) {
-        return norg2Client
-                .alleAktiveEnheter()
-                .stream()
-                .filter(enhet -> enhet.getEnhetNr().equals(enhetId.get()))
-                .findFirst()
-                .map(Mappers::tilPortefoljeEnhet)
+        return enhetService.hentEnhet(enhetId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
@@ -55,9 +49,11 @@ public class EnhetController {
     public VeiledereResponse hentRessurser(@PathVariable("enhetId") EnhetId enhetId) {
         authService.sjekkTilgangTilModia();
         authService.sjekkVeilederTilgangTilEnhet(enhetId);
-        return virksomhetEnhetService.hentRessursListe(enhetId);
+
+        return veilederOgEnhetService.hentRessursListe(enhetId);
     }
 
+    // TODO: Bruk List<NavIdent> når tjenestebuss er fjernet
     @GetMapping("/{enhetId}/identer")
     public List<String> hentIdenter(@PathVariable("enhetId") EnhetId enhetId) {
         if (authService.erSystemBruker()) {
@@ -65,7 +61,8 @@ public class EnhetController {
         } else {
             authService.sjekkTilgangTilModia();
         }
-        return virksomhetEnhetService.hentIdentListe(enhetId);
+
+        return veilederOgEnhetService.hentIdentListe(enhetId);
     }
 
 }

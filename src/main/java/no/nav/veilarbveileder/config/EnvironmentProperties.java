@@ -25,4 +25,6 @@ public class EnvironmentProperties {
 
     private String norg2Url;
 
+    private String unleashUrl;
+
 }
