@@ -32,7 +32,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.function.Supplier;
 
-import static no.nav.common.utils.EnvironmentUtils.isProduction;
 import static no.nav.veilarbveileder.utils.ServiceUserUtils.getServiceUserCredentials;
 
 @Slf4j
@@ -98,7 +97,7 @@ public class ApplicationConfig {
         Supplier<String> serviceTokenSupplier = () -> serviceToServiceTokenProvider()
                 .getServiceToken("nom-api", "nom", "prod-gcp");
 
-        return new CachedNomClient(new NomClientImpl("https://nom-api.intern.nav.no/graphql", serviceTokenSupplier));
+        return new CachedNomClient(new NomClientImpl("https://nom-api.intern.nav.no", serviceTokenSupplier));
     }
 
 }
