@@ -13,7 +13,6 @@ import no.nav.veilarbveileder.utils.Mappers;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentEnhetListeResponse;
 import no.nav.virksomhet.tjenester.enhet.meldinger.v1.WSHentRessursListeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,8 +20,7 @@ import java.util.stream.Collectors;
 import static no.nav.veilarbveileder.service.AuthService.ROLLE_MODIA_ADMIN;
 
 @Slf4j
-@Service
-public class VirksomhetEnhetService {
+public class VeilederOgEnhetServiceV1 implements VeilederOgEnhetService {
 
     private final AuthService authService;
 
@@ -31,12 +29,13 @@ public class VirksomhetEnhetService {
     private final VirksomhetEnhetSoapClient virksomhetEnhetSoapClient;
 
     @Autowired
-    public VirksomhetEnhetService(AuthService authService, Norg2Client norg2Client, VirksomhetEnhetSoapClient virksomhetEnhetSoapClient) {
+    public VeilederOgEnhetServiceV1(AuthService authService, Norg2Client norg2Client, VirksomhetEnhetSoapClient virksomhetEnhetSoapClient) {
         this.authService = authService;
         this.norg2Client = norg2Client;
         this.virksomhetEnhetSoapClient = virksomhetEnhetSoapClient;
     }
 
+    @Override
     public List<PortefoljeEnhet> hentEnhetListe(NavIdent navIdent) {
         final boolean harModiaAdminRolle = authService.harModiaAdminRolle(navIdent);
 
@@ -50,11 +49,13 @@ public class VirksomhetEnhetService {
         return response.getEnhetListe().stream().map(Mappers::tilPortefoljeEnhet).collect(Collectors.toList());
     }
 
+    @Override
     public Veileder hentVeilederData(NavIdent navIdent) {
         WSHentEnhetListeResponse response = virksomhetEnhetSoapClient.hentVeilederInfo(navIdent);
         return Mappers.ressursTilVeileder(response.getRessurs());
     }
 
+    @Override
     public VeilederInfo hentVeilederInfo(NavIdent navIdent) {
         final boolean harModiaAdminRolle = authService.harModiaAdminRolle(navIdent);
         WSHentEnhetListeResponse response = virksomhetEnhetSoapClient.hentVeilederInfo(navIdent);
@@ -68,11 +69,13 @@ public class VirksomhetEnhetService {
         return veilederInfo;
     }
 
+    @Override
     public VeiledereResponse hentRessursListe(EnhetId enhetId) {
         WSHentRessursListeResponse response = virksomhetEnhetSoapClient.hentEnhetInfo(enhetId);
         return Mappers.ressursResponseTilVeilederResponse(response);
     }
 
+    @Override
     public List<String> hentIdentListe(EnhetId enhetId) {
         WSHentRessursListeResponse response = virksomhetEnhetSoapClient.hentEnhetInfo(enhetId);
         return Mappers.ressursResponseTilIdentListe(response);
