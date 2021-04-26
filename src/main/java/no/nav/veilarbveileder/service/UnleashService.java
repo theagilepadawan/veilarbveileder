@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UnleashService {
 
-    public final static String DISABLE_TJENESTEBUSS_TJENESTEBUSS_TOGGLE_NAME = "veilarbveileder.disable-tjenestebuss";
+    public final static String TJENESTEBUSS_TJENESTEBUSS_TOGGLE_NAME = "veilarbveileder.enabled-tjenestebuss";
 
     private final UnleashClient unleashClient;
 
-    public boolean skalIkkeBrukeTjenestebuss() {
-        return unleashClient.isEnabled(DISABLE_TJENESTEBUSS_TJENESTEBUSS_TOGGLE_NAME);
+    public boolean skalBrukeTjenestebuss() {
+        return unleashClient.isEnabled(TJENESTEBUSS_TJENESTEBUSS_TOGGLE_NAME);
     }
 
 }

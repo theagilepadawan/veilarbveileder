@@ -64,10 +64,10 @@ public class ToggledVeilederOgEnhetService implements VeilederOgEnhetService {
     }
 
     private VeilederOgEnhetService hentVeilederOgEnhetService() {
-        if (unleashService.skalIkkeBrukeTjenestebuss()) {
-            return virksomhetEnhetServiceV2;
-        } else {
+        if (unleashService.skalBrukeTjenestebuss()) {
             return virksomhetEnhetService;
+        } else {
+            return virksomhetEnhetServiceV2;
         }
     }
 
