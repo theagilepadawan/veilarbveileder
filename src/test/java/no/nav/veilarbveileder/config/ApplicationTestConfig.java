@@ -1,11 +1,12 @@
 package no.nav.veilarbveileder.config;
 
 import no.nav.common.abac.AbacClient;
-import no.nav.common.abac.Pep;
+import no.nav.common.abac.VeilarbPep;
 import no.nav.common.health.HealthCheck;
 import no.nav.common.health.HealthCheckResult;
 import no.nav.veilarbveileder.mock.AbacClientMock;
-import no.nav.veilarbveileder.mock.PepMock;
+import no.nav.veilarbveileder.mock.VeilarbPepMock;
+import no.nav.veilarbveileder.utils.ModiaPep;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,8 +31,13 @@ public class ApplicationTestConfig {
     }
 
     @Bean
-    public Pep veilarbPep(AbacClient abacClient) {
-        return new PepMock(abacClient);
+    public VeilarbPep veilarbPep(AbacClient abacClient) {
+        return new VeilarbPepMock(abacClient);
+    }
+
+    @Bean
+    public ModiaPep modiapep(AbacClient abacClient) {
+        return new ModiaPep(new VeilarbPepMock(abacClient));
     }
 
     @Bean(VIRKSOMHET_ENHET_HEALTH_CHECK)

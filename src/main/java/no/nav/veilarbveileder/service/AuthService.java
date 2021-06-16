@@ -2,11 +2,12 @@ package no.nav.veilarbveileder.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import no.nav.common.abac.Pep;
+import no.nav.common.abac.VeilarbPep;
 import no.nav.common.auth.context.AuthContextHolder;
 import no.nav.common.types.identer.EnhetId;
 import no.nav.common.types.identer.NavIdent;
 import no.nav.veilarbveileder.client.LdapClient;
+import no.nav.veilarbveileder.utils.ModiaPep;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,7 +19,9 @@ public class AuthService {
 
     private final AuthContextHolder authContextHolder;
 
-    private final Pep veilarbPep;
+    private final VeilarbPep veilarbPep;
+
+    private final ModiaPep modiaPep;
 
     private final LdapClient ldapClient;
 
@@ -43,7 +46,7 @@ public class AuthService {
     }
 
     public void sjekkTilgangTilModia() {
-        if (!veilarbPep.harVeilederTilgangTilModia(getInnloggetBrukerToken())) {
+        if (!modiaPep.harVeilederTilgangTilModia(getInnloggetBrukerToken())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ikke tilgang til modia");
         }
     }
