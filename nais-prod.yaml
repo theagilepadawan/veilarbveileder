@@ -55,3 +55,5 @@ spec:
       value: ldaps://ldapgw.adeo.no
     - name: LDAP_DOMAIN
       value: ADEO.NO
+    - name: ABAC_MODIA_URL
+      value: https://abac-modia.intern.nav.no/application/asm-pdp/authorize
