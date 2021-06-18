@@ -14,5 +14,5 @@ public class UnleashService {
 
     public boolean skalIkkeBrukeTjenestebuss() {
         return unleashClient.isEnabled(DISABLE_TJENESTEBUSS_TJENESTEBUSS_TOGGLE_NAME);
-
+    }
 }
