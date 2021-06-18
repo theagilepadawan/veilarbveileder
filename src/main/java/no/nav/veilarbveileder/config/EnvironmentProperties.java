@@ -21,7 +21,9 @@ public class EnvironmentProperties {
 
     private String naisStsDiscoveryUrl;
 
-    private String abacUrl;
+    private String abacVeilarbUrl;
+
+    private String abacModiaUrl;
 
     private String norg2Url;
 

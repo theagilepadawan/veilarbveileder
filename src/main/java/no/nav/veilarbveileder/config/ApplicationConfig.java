@@ -1,7 +1,7 @@
 package no.nav.veilarbveileder.config;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.common.abac.Pep;
+import no.nav.common.abac.VeilarbPep;
 import no.nav.common.abac.VeilarbPepFactory;
 import no.nav.common.abac.audit.SpringAuditRequestInfoSupplier;
 import no.nav.common.auth.context.AuthContextHolder;
@@ -25,6 +25,7 @@ import no.nav.common.utils.UrlUtils;
 import no.nav.veilarbveileder.client.LdapClient;
 import no.nav.veilarbveileder.client.LdapClientImpl;
 import no.nav.veilarbveileder.utils.DevNomClient;
+import no.nav.veilarbveileder.utils.ModiaPep;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,11 +60,21 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public Pep pep(EnvironmentProperties properties, Credentials serviceUserCredentials) {
+    public VeilarbPep veilarbPep(EnvironmentProperties properties, Credentials serviceUserCredentials) {
         return VeilarbPepFactory.get(
-                properties.getAbacUrl(), serviceUserCredentials.username,
+                properties.getAbacVeilarbUrl(), serviceUserCredentials.username,
                 serviceUserCredentials.password, new SpringAuditRequestInfoSupplier()
         );
+    }
+
+    @Bean
+    public ModiaPep modiaPep(EnvironmentProperties properties, Credentials serviceUserCredentials) {
+        var pep = VeilarbPepFactory.get(
+                properties.getAbacModiaUrl(), serviceUserCredentials.username,
+                serviceUserCredentials.password, new SpringAuditRequestInfoSupplier()
+        );
+
+        return new ModiaPep(pep);
     }
 
     @Bean
