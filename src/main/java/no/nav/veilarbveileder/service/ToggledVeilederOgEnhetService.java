@@ -64,7 +64,7 @@ public class ToggledVeilederOgEnhetService implements VeilederOgEnhetService {
     }
 
     private VeilederOgEnhetService hentVeilederOgEnhetService() {
-        if (unleashService.skalBrukeTjenestebuss()) {
+        if (unleashService.brukNom()) {
             return virksomhetEnhetService;
         } else {
             return virksomhetEnhetServiceV2;
