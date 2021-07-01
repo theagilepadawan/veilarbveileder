@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static no.nav.veilarbveileder.utils.NavnUtils.lagNavn;
-import static no.nav.veilarbveileder.utils.NavnUtils.storForbokstav;
 
 @Service
 @RequiredArgsConstructor
@@ -28,15 +26,15 @@ public class VeilederService {
     }
 
     private static Veileder tilVeileder(VeilederNavn veilederNavn) {
-        String fornavn = storForbokstav(veilederNavn.getFornavn());
-        String mellomnavn = storForbokstav(veilederNavn.getMellomnavn());
-        String etternavn = storForbokstav(veilederNavn.getEtternavn());
+        String fornavn = veilederNavn.getFornavn();
+        String etternavn = veilederNavn.getEtternavn();
+        String visningsNavn = veilederNavn.getVisningsNavn();
 
         return new Veileder()
                 .setIdent(veilederNavn.getNavIdent().get())
                 .setFornavn(fornavn)
                 .setEtternavn(etternavn)
-                .setNavn(lagNavn(fornavn, mellomnavn, etternavn));
+                .setNavn(visningsNavn);
     }
 
 }

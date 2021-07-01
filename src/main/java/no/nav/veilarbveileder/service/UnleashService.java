@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UnleashService {
 
-    public final static String DISABLE_TJENESTEBUSS_TJENESTEBUSS_TOGGLE_NAME = "veilarbveileder.disable-tjenestebuss";
+    public final static String BRUK_NOM_TOGGLE = "veilarbveileder.bruk-nom";
 
     private final UnleashClient unleashClient;
 
-    public boolean skalIkkeBrukeTjenestebuss() {
-        return unleashClient.isEnabled(DISABLE_TJENESTEBUSS_TJENESTEBUSS_TOGGLE_NAME);
+    public boolean brukNom() {
+        return unleashClient.isEnabled(BRUK_NOM_TOGGLE);
     }
 }
