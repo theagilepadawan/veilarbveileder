@@ -22,7 +22,7 @@ public class DevNomClientTest {
         assertEquals(ident, veilederNavn.getNavIdent());
         assertEquals("F_123456", veilederNavn.getFornavn());
         assertEquals("E_123456", veilederNavn.getEtternavn());
-        assertNull(veilederNavn.getMellomnavn());
+        assertEquals("E_123456, F_123456", veilederNavn.getVisningsNavn());
     }
 
     @Test
@@ -32,12 +32,14 @@ public class DevNomClientTest {
         VeilederNavn veileder1 = new VeilederNavn()
                 .setNavIdent(NavIdent.of("Z444444"))
                 .setFornavn("F_444444")
-                .setEtternavn("E_444444");
+                .setEtternavn("E_444444")
+                .setVisningsNavn("E_444444, F_444444");
 
         VeilederNavn veileder2 = new VeilederNavn()
                 .setNavIdent(NavIdent.of("Z777777"))
                 .setFornavn("F_777777")
-                .setEtternavn("E_777777");
+                .setEtternavn("E_777777")
+                .setVisningsNavn("E_777777, F_777777");
 
         List<VeilederNavn> veilederNavn = devNomClient.finnNavn(List.of(veileder1.getNavIdent(), veileder2.getNavIdent()));
 
