@@ -15,5 +15,4 @@ public class UnleashService {
     public boolean brukNom() {
         return unleashClient.isEnabled(BRUK_NOM_TOGGLE);
     }
-
 }
