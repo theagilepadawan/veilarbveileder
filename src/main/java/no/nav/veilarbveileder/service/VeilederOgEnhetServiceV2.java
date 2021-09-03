@@ -8,6 +8,7 @@ import no.nav.veilarbveileder.domain.PortefoljeEnhet;
 import no.nav.veilarbveileder.domain.Veileder;
 import no.nav.veilarbveileder.domain.VeilederInfo;
 import no.nav.veilarbveileder.domain.VeiledereResponse;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 import static no.nav.veilarbveileder.service.AuthService.ROLLE_MODIA_ADMIN;
 
 @Slf4j
+@Service
 @RequiredArgsConstructor
 public class VeilederOgEnhetServiceV2 implements VeilederOgEnhetService {
 

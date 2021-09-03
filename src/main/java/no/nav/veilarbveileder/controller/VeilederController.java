@@ -6,7 +6,7 @@ import no.nav.veilarbveileder.domain.PortefoljeEnhet;
 import no.nav.veilarbveileder.domain.Veileder;
 import no.nav.veilarbveileder.domain.VeilederInfo;
 import no.nav.veilarbveileder.service.AuthService;
-import no.nav.veilarbveileder.service.ToggledVeilederOgEnhetService;
+import no.nav.veilarbveileder.service.VeilederOgEnhetServiceV2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +21,12 @@ import java.util.List;
 @RequestMapping("/api/veileder")
 public class VeilederController {
 
-    private final ToggledVeilederOgEnhetService veilederOgEnhetService;
+    private final VeilederOgEnhetServiceV2 veilederOgEnhetService;
 
     private final AuthService authService;
 
     @Autowired
-    public VeilederController(ToggledVeilederOgEnhetService veilederOgEnhetService, AuthService authService) {
+    public VeilederController(VeilederOgEnhetServiceV2 veilederOgEnhetService, AuthService authService) {
         this.veilederOgEnhetService = veilederOgEnhetService;
         this.authService = authService;
     }

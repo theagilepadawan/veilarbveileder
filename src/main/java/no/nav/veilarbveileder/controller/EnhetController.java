@@ -6,7 +6,7 @@ import no.nav.veilarbveileder.domain.PortefoljeEnhet;
 import no.nav.veilarbveileder.domain.VeiledereResponse;
 import no.nav.veilarbveileder.service.AuthService;
 import no.nav.veilarbveileder.service.EnhetService;
-import no.nav.veilarbveileder.service.ToggledVeilederOgEnhetService;
+import no.nav.veilarbveileder.service.VeilederOgEnhetServiceV2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 public class EnhetController {
 
-    private final ToggledVeilederOgEnhetService veilederOgEnhetService;
+    private final VeilederOgEnhetServiceV2 veilederOgEnhetService;
 
     private final EnhetService enhetService;
 
@@ -30,7 +30,7 @@ public class EnhetController {
 
     @Autowired
     public EnhetController(
-            ToggledVeilederOgEnhetService veilederOgEnhetService,
+            VeilederOgEnhetServiceV2 veilederOgEnhetService,
             EnhetService enhetService,
             AuthService authService
     ) {
