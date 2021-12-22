@@ -9,4 +9,4 @@ Spørsmål knyttet til koden eller prosjektet kan stilles ved å opprette en iss
 
 ## For NAV-ansatte
 
-Interne henvendelser kan sendes via Slack i kanalen #pto.
+Interne henvendelser kan sendes via Slack i kanalen #team-obo-poao.
