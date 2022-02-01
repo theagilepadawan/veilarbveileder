@@ -2,6 +2,7 @@ package no.nav.veilarbveileder.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.common.types.identer.EnhetId;
+import no.nav.common.types.identer.NavIdent;
 import no.nav.veilarbveileder.domain.PortefoljeEnhet;
 import no.nav.veilarbveileder.domain.VeiledereResponse;
 import no.nav.veilarbveileder.service.AuthService;
@@ -53,9 +54,8 @@ public class EnhetController {
         return veilederOgEnhetService.hentRessursListe(enhetId);
     }
 
-    // TODO: Bruk List<NavIdent> når tjenestebuss er fjernet
     @GetMapping("/{enhetId}/identer")
-    public List<String> hentIdenter(@PathVariable("enhetId") EnhetId enhetId) {
+    public List<NavIdent> hentIdenter(@PathVariable("enhetId") EnhetId enhetId) {
         if (authService.erSystemBruker()) {
             authService.sjekkTilgangTilOppfolging();
         } else {

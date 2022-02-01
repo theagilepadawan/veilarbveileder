@@ -64,8 +64,8 @@ public class VeilederOgEnhetServiceV2 implements VeilederOgEnhetService {
     }
 
     @Override
-    public List<String> hentIdentListe(EnhetId enhetId) {
-        return enhetService.veilederePaEnhet(enhetId).stream().map(NavIdent::get).collect(Collectors.toList());
+    public List<NavIdent> hentIdentListe(EnhetId enhetId) {
+        return enhetService.veilederePaEnhet(enhetId);
     }
 
 }
