@@ -22,6 +22,6 @@ public interface VeilederOgEnhetService {
 
     VeiledereResponse hentRessursListe(EnhetId enhetId);
 
-    List<String> hentIdentListe(EnhetId enhetId);
+    List<NavIdent> hentIdentListe(EnhetId enhetId);
 
 }
