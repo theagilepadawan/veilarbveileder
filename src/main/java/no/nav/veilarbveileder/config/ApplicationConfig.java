@@ -1,5 +1,7 @@
 package no.nav.veilarbveileder.config;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.common.abac.VeilarbPep;
 import no.nav.common.abac.VeilarbPepFactory;
@@ -8,6 +10,7 @@ import no.nav.common.auth.context.AuthContextHolder;
 import no.nav.common.auth.context.AuthContextHolderThreadLocal;
 import no.nav.common.client.axsys.AxsysClient;
 import no.nav.common.client.axsys.AxsysClientImpl;
+import no.nav.common.client.axsys.AxsysEnhet;
 import no.nav.common.client.axsys.CachedAxsysClient;
 import no.nav.common.client.nom.CachedNomClient;
 import no.nav.common.client.nom.NomClient;
@@ -19,6 +22,8 @@ import no.nav.common.featuretoggle.UnleashClient;
 import no.nav.common.featuretoggle.UnleashClientImpl;
 import no.nav.common.sts.ServiceToServiceTokenProvider;
 import no.nav.common.sts.utils.AzureAdServiceTokenProviderBuilder;
+import no.nav.common.types.identer.EnhetId;
+import no.nav.common.types.identer.NavIdent;
 import no.nav.common.utils.Credentials;
 import no.nav.common.utils.EnvironmentUtils;
 import no.nav.common.utils.UrlUtils;
@@ -31,6 +36,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import static no.nav.veilarbveileder.utils.ServiceUserUtils.getServiceUserCredentials;
@@ -56,7 +63,16 @@ public class ApplicationConfig {
     @Bean
     public AxsysClient axsysClient(){
         String url = UrlUtils.createServiceUrl("axsys", "org", false);
-        return new CachedAxsysClient(new AxsysClientImpl(url));
+        Cache<EnhetId, List<NavIdent>> hentAnsatteCache = Caffeine.newBuilder()
+                .expireAfterWrite(10, TimeUnit.MINUTES)
+                .maximumSize(500)
+                .build();
+        Cache<NavIdent, List<AxsysEnhet>> hentTilgangerCache = Caffeine.newBuilder()
+                .expireAfterWrite(30, TimeUnit.MINUTES)
+                .maximumSize(10_000)
+                .build();
+
+        return new CachedAxsysClient(new AxsysClientImpl(url), hentTilgangerCache, hentAnsatteCache);
     }
 
     @Bean
