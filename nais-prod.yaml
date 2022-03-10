@@ -49,6 +49,7 @@ spec:
           namespace: paw
   envFrom:
     - configmap: pto-config
+    - configmap: loginservice-idporten
   env:
     - name: LDAP_BASEDN
       value: dc=adeo,dc=no
